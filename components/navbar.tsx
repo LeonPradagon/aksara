@@ -1,0 +1,277 @@
+'use client'
+
+import Link from "next/link"
+
+import { useState, useRef, useEffect } from 'react'
+import { Menu, X, Sun, Moon, ChevronDown, Globe } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
+import { useLocale } from '@/contexts/locale-context'
+import { NavLink } from '@/components/nav-link'
+
+interface NavItem {
+  label: string
+  href: string
+  children?: { label: string; href: string }[]
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'About ACRC',
+    href: '/about',
+    children: [
+      { label: 'Who We Are', href: '/about#who-we-are' },
+      { label: 'Vision & Mission', href: '/about#vision-mission' },
+      { label: 'Our Values', href: '/about#values' },
+      { label: 'How We Work', href: '/about#how-we-work' },
+    ],
+  },
+  {
+    label: 'Services',
+    href: '/services',
+    children: [
+      { label: 'Policy Research & Big Data', href: '/services/policy-research' },
+      { label: 'Corporate & Public Consulting', href: '/services/corporate-consulting' },
+      { label: 'Political & Election Consulting', href: '/services/political-consulting' },
+    ],
+  },
+  {
+    label: 'Issues & Sectors',
+    href: '/issues',
+    children: [
+      { label: 'Defence & Security', href: '/issues/defence-security' },
+      { label: 'Politics & Governance', href: '/issues/politics-governance' },
+      { label: 'Economy & Business', href: '/issues/economy-business' },
+      { label: 'Elections & Democracy', href: '/issues/elections-democracy' },
+      { label: 'ESG & Sustainability', href: '/issues/esg-sustainability' },
+    ],
+  },
+  {
+    label: 'Insights',
+    href: '/insights',
+    children: [
+      { label: "ACRC's Concern", href: '/insights/concern' },
+      { label: 'Articles & Analysis', href: '/insights?type=article' },
+      { label: 'Reports & Policy Briefs', href: '/insights?type=report' },
+      { label: 'Events & Presentations', href: '/insights?type=event' },
+    ],
+  },
+  {
+    label: 'Team',
+    href: '/team',
+    children: [
+      { label: 'Leadership', href: '/team#leadership' },
+      { label: 'Researchers & Consultants', href: '/team#researchers' },
+      { label: 'Advisory Board', href: '/team#advisory' },
+    ],
+  },
+  { label: 'Contact', href: '/contact' },
+]
+
+function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  if (!item.children) {
+    return (
+      <NavLink
+        href={item.href}
+        className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary"
+      >
+        {item.label}
+      </NavLink>
+    )
+  }
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <NavLink
+        href={item.href}
+        className={cn(
+          'inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary',
+          isOpen && 'text-primary border-primary'
+        )}
+      >
+        {item.label}
+        <ChevronDown className={cn('w-3 h-3 transition-transform', isOpen && 'rotate-180')} />
+      </NavLink>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-64 bg-card border border-border rounded-lg shadow-lg py-2 z-50">
+          {item.children.map((child) => (
+            <NavLink
+              key={child.href}
+              href={child.href}
+              className="block px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-muted transition-colors"
+              onClick={() => {
+                setIsOpen(false)
+                onClose()
+              }}
+            >
+              {child.label}
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [expandedItem, setExpandedItem] = useState<string | null>(null)
+  const { locale, toggleLocale } = useLocale()
+  const { theme, setTheme } = useTheme()
+
+  const toggleMobileSubmenu = (label: string) => {
+    setExpandedItem(expandedItem === label ? null : label)
+  }
+
+  return (
+    <nav className="sticky top-0 z-50 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <NavLink href="/" className="flex-shrink-0 group">
+            <span className="text-2xl font-serif font-bold text-foreground transition-colors group-hover:text-primary">
+              ACRC
+            </span>
+            <p className="text-xs text-muted-foreground tracking-wide">Navigator of Nusantara's Policy</p>
+          </NavLink>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-0.5">
+            {navItems.map((item) => (
+              <DropdownMenu key={item.href} item={item} onClose={() => {}} />
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            {/* Language Switcher */}
+            <button
+              onClick={toggleLocale}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground rounded hover:bg-muted transition-colors"
+              aria-label="Switch language"
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span>{locale === 'en' ? 'EN' : 'ID'}</span>
+            </button>
+
+            {/* Theme Switcher */}
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="p-2 rounded hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden p-2 rounded hover:bg-muted transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="lg:hidden pb-4 border-t border-border max-h-[calc(100vh-4rem)] overflow-y-auto">
+            {navItems.map((item) => (
+              <div key={item.href}>
+                {item.children ? (
+                  <>
+                    <button
+                      onClick={() => toggleMobileSubmenu(item.label)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground hover:text-primary hover:bg-muted transition-colors"
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={cn(
+                          'w-4 h-4 transition-transform',
+                          expandedItem === item.label && 'rotate-180'
+                        )}
+                      />
+                    </button>
+                    {expandedItem === item.label && (
+                      <div className="bg-muted/50 border-l-2 border-primary ml-4">
+                        <NavLink
+                          href={item.href}
+                          className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Overview
+                        </NavLink>
+                        {item.children.map((child) => (
+                          <NavLink
+                            key={child.href}
+                            href={child.href}
+                            className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {child.label}
+                          </NavLink>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <NavLink
+                    href={item.href}
+                    className="block px-4 py-3 text-sm font-medium text-foreground hover:text-primary hover:bg-muted transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
+              </div>
+            ))}
+
+{/* Mobile Language Switcher */}
+            <div className="px-4 py-3 border-t border-border mt-2">
+              <button
+                onClick={toggleLocale}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Globe className="w-4 h-4" />
+                <span>{locale === 'en' ? 'Switch to Indonesian' : 'Beralih ke Bahasa Inggris'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  )
+}
