@@ -1,38 +1,48 @@
-'use client'
+"use client";
 
-import { ArrowRight, TrendingUp, Users, Globe, Shield, Landmark, Vote, Leaf } from 'lucide-react'
-import { Navbar } from '@/components/navbar'
-import { Footer } from '@/components/footer'
-import { ArticleCard, SectorCard } from '@/components/cards'
-import { NavLink } from '@/components/nav-link'
+import {
+  ArrowRight,
+  TrendingUp,
+  Users,
+  Globe,
+  Shield,
+  Landmark,
+  Vote,
+  Leaf,
+} from "lucide-react";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { ArticleCard, SectorCard } from "@/components/cards";
+import { NavLink } from "@/components/nav-link";
+import { TestimonialsSection } from "@/components/testimonials-section";
 
 const issuesWeWorkOn = [
   {
-    title: 'Defence & Security',
-    href: '/issues/defence-security',
+    title: "Defence & Security",
+    href: "/issues/defence-security",
     icon: <Shield className="w-5 h-5" />,
   },
   {
-    title: 'Politics & Governance',
-    href: '/issues/politics-governance',
+    title: "Politics & Governance",
+    href: "/issues/politics-governance",
     icon: <Landmark className="w-5 h-5" />,
   },
   {
-    title: 'Economy & Business',
-    href: '/issues/economy-business',
+    title: "Economy & Business",
+    href: "/issues/economy-business",
     icon: <TrendingUp className="w-5 h-5" />,
   },
   {
-    title: 'Elections & Democracy',
-    href: '/issues/elections-democracy',
+    title: "Elections & Democracy",
+    href: "/issues/elections-democracy",
     icon: <Vote className="w-5 h-5" />,
   },
   {
-    title: 'ESG & Sustainability',
-    href: '/issues/esg-sustainability',
+    title: "ESG & Sustainability",
+    href: "/issues/esg-sustainability",
     icon: <Leaf className="w-5 h-5" />,
   },
-]
+];
 
 export default function HomePage() {
   return (
@@ -50,7 +60,11 @@ export default function HomePage() {
               Navigator of Nusantara's Policy Direction
             </h1>
             <p className="text-xl text-muted-foreground mb-10 leading-relaxed max-w-3xl">
-              ACRC is a Jakarta-based research and consulting firm that helps government, state-owned enterprises, and private sector leaders understand Indonesia's strategic environment – and turn that understanding into sound policies, business strategies, and political decisions.
+              ACRC is a Jakarta-based research and consulting firm that helps
+              government, state-owned enterprises, and private sector leaders
+              understand Indonesia's strategic environment – and turn that
+              understanding into sound policies, business strategies, and
+              political decisions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <NavLink
@@ -75,52 +89,65 @@ export default function HomePage() {
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-12">
-            <h2 className="font-serif text-5xl font-bold text-foreground mb-6">ACRC's Concern</h2>
+            <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
+              ACRC's Concern
+            </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Before we act, we must understand. These are the anomalies and critical questions that keep us awake – and that should concern every decision-maker in Indonesia.
+              Before we act, we must understand. These are the anomalies and
+              critical questions that keep us awake – and that should concern
+              every decision-maker in Indonesia.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { 
-                category: 'Defence & Security',
-                question: 'Why does Indonesia spend less than 1% of GDP on defence while regional tensions escalate?',
-                stat: '0.8%',
-                statLabel: 'of GDP on defence'
+              {
+                category: "Defence & Security",
+                question:
+                  "Why does Indonesia spend less than 1% of GDP on defence while regional tensions escalate?",
+                stat: "0.8%",
+                statLabel: "of GDP on defence",
               },
-              { 
-                category: 'Politics & Governance',
-                question: 'How can the new capital project succeed when past mega-projects have struggled with coordination?',
-                stat: '40+',
-                statLabel: 'ministries involved'
+              {
+                category: "Politics & Governance",
+                question:
+                  "How can the new capital project succeed when past mega-projects have struggled with coordination?",
+                stat: "40+",
+                statLabel: "ministries involved",
               },
-              { 
-                category: 'Economy & Business',
-                question: 'Why do regulatory inconsistencies continue to deter foreign investment despite reform promises?',
-                stat: '72',
-                statLabel: 'overlapping regulations'
+              {
+                category: "Economy & Business",
+                question:
+                  "Why do regulatory inconsistencies continue to deter foreign investment despite reform promises?",
+                stat: "72",
+                statLabel: "overlapping regulations",
               },
-              { 
-                category: 'Elections & Democracy',
-                question: 'What happens to democratic norms when voter turnout masks declining public trust in institutions?',
-                stat: '81%',
-                statLabel: 'turnout, 45% trust'
+              {
+                category: "Elections & Democracy",
+                question:
+                  "What happens to democratic norms when voter turnout masks declining public trust in institutions?",
+                stat: "81%",
+                statLabel: "turnout, 45% trust",
               },
-              { 
-                category: 'ESG & Sustainability',
-                question: 'Can Indonesia meet its net-zero pledge while coal still dominates the energy mix?',
-                stat: '60%',
-                statLabel: 'energy from coal'
+              {
+                category: "ESG & Sustainability",
+                question:
+                  "Can Indonesia meet its net-zero pledge while coal still dominates the energy mix?",
+                stat: "60%",
+                statLabel: "energy from coal",
               },
-              { 
-                category: 'Digital Economy',
-                question: 'Is Indonesia\'s digital economy regulation enabling innovation or stifling local unicorns?',
-                stat: '11',
-                statLabel: 'unicorns at risk'
+              {
+                category: "Digital Economy",
+                question:
+                  "Is Indonesia's digital economy regulation enabling innovation or stifling local unicorns?",
+                stat: "11",
+                statLabel: "unicorns at risk",
               },
             ].map((item, i) => (
-              <div key={i} className="p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all group">
+              <div
+                key={i}
+                className="p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all group"
+              >
                 <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-4">
                   {item.category}
                 </span>
@@ -128,8 +155,12 @@ export default function HomePage() {
                   {item.question}
                 </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-serif font-bold text-primary">{item.stat}</span>
-                  <span className="text-sm text-muted-foreground">{item.statLabel}</span>
+                  <span className="text-3xl font-serif font-bold text-primary">
+                    {item.stat}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {item.statLabel}
+                  </span>
                 </div>
               </div>
             ))}
@@ -150,10 +181,16 @@ export default function HomePage() {
       {/* Who We Are */}
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif text-5xl font-bold text-foreground mb-8">Who We Are</h2>
+          <h2 className="font-serif text-5xl font-bold text-foreground mb-8">
+            Who We Are
+          </h2>
           <div className="max-w-4xl">
             <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
-              ACRC brings together researchers and consultants with backgrounds in defence, politics, law, economics, and communications. Based on Jl. Tebet Barat II No.5, South Jakarta, we combine academic discipline with a practical understanding of how bureaucracy and business actually work in Indonesia.
+              ACRC brings together researchers and consultants with backgrounds
+              in defence, politics, law, economics, and communications. Based on
+              Jl. Tebet Barat II No.5, South Jakarta, we combine academic
+              discipline with a practical understanding of how bureaucracy and
+              business actually work in Indonesia.
             </p>
             <NavLink
               href="/about"
@@ -166,13 +203,65 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Three Core Pillars */}
+      <section className="py-16 md:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-serif text-5xl font-bold text-foreground mb-12">
+            Three Core Pillars
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                <TrendingUp className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-4">
+                Policy Research & Big Data
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Evidence-based analysis of regulations, public opinion, and
+                internal data to answer critical policy questions.
+              </p>
+            </div>
+            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                <Users className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-4">
+                Corporate & Public Consulting
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Government relations, risk & opportunity management, strategic
+                planning, and regulatory compliance advisory.
+              </p>
+            </div>
+            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
+                <Globe className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-4">
+                Political & Election Consulting
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Campaign strategy, voter research, and candidate narrative
+                development grounded in realistic promises and coherent
+                messaging.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Issues We Work On */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h2 className="font-serif text-5xl font-bold text-foreground mb-4">Issues We Work On</h2>
+            <h2 className="font-serif text-5xl font-bold text-foreground mb-4">
+              Issues We Work On
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Our research and consulting covers five strategic sectors central to Indonesia's future.
+              Our research and consulting covers five strategic sectors central
+              to Indonesia's future.
             </p>
           </div>
 
@@ -206,50 +295,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Three Core Pillars */}
-      <section className="py-16 md:py-24 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-serif text-5xl font-bold text-foreground mb-12">Three Core Pillars</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                <TrendingUp className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-foreground mb-4">Policy Research & Big Data</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Evidence-based analysis of regulations, public opinion, and internal data to answer critical policy questions.
-              </p>
-            </div>
-            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                <Users className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-foreground mb-4">Corporate & Public Consulting</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Government relations, risk & opportunity management, strategic planning, and regulatory compliance advisory.
-              </p>
-            </div>
-            <div className="p-8 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                <Globe className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-foreground mb-4">Political & Election Consulting</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Campaign strategy, voter research, and candidate narrative development grounded in realistic promises and coherent messaging.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Key Issues & Sectors */}
-      <section className="py-16 md:py-24 border-b border-border">
+      {/* <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="font-serif text-5xl font-bold text-foreground">Issues & Sectors</h2>
-              <p className="text-muted-foreground mt-3 text-lg">Strategic focus areas</p>
+              <h2 className="font-serif text-5xl font-bold text-foreground">
+                Issues & Sectors
+              </h2>
+              <p className="text-muted-foreground mt-3 text-lg">
+                Strategic focus areas
+              </p>
             </div>
             <NavLink
               href="/issues"
@@ -297,15 +353,19 @@ export default function HomePage() {
             </NavLink>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Latest Insights */}
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="font-serif text-5xl font-bold text-foreground">Latest Insights</h2>
-              <p className="text-muted-foreground mt-3 text-lg">Research, analysis & policy briefs</p>
+              <h2 className="font-serif text-5xl font-bold text-foreground">
+                Latest Insights
+              </h2>
+              <p className="text-muted-foreground mt-3 text-lg">
+                Research, analysis & policy briefs
+              </p>
             </div>
             <NavLink
               href="/insights"
@@ -353,90 +413,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Public Comments Section */}
-      <section className="py-16 md:py-24 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
-            <h2 className="font-serif text-5xl font-bold text-foreground mb-4">What People Say</h2>
-            <p className="text-lg text-muted-foreground">
-              Feedback and comments from our readers and stakeholders.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Dr. Andi Wijaya',
-                organization: 'University of Indonesia',
-                comment: 'ACRC\'s research on defence policy provides invaluable insights for academic discourse. Their methodological rigor and practical recommendations bridge the gap between theory and policy implementation.',
-                date: 'Jan 25, 2025',
-              },
-              {
-                name: 'Sari Purnama',
-                organization: 'Ministry of Trade',
-                comment: 'The economic analysis provided by ACRC has been instrumental in our policy formulation process. Their data-driven approach offers clarity on complex regulatory challenges.',
-                date: 'Jan 22, 2025',
-              },
-              {
-                name: 'Bambang Hartono',
-                organization: 'PT Nusantara Energy',
-                comment: 'Working with ACRC on ESG strategy has transformed our approach to sustainability. Their understanding of Indonesia\'s regulatory landscape is unmatched.',
-                date: 'Jan 18, 2025',
-              },
-              {
-                name: 'Prof. Dewi Kartika',
-                organization: 'LIPI',
-                comment: 'ACRC consistently produces high-quality research that contributes meaningfully to Indonesia\'s policy debates. Their independence and analytical depth are commendable.',
-                date: 'Jan 15, 2025',
-              },
-              {
-                name: 'Rizki Pratama',
-                organization: 'Jakarta Post',
-                comment: 'As a journalist covering policy issues, ACRC\'s insights and analysis are always reliable sources. Their experts provide balanced and well-researched perspectives.',
-                date: 'Jan 12, 2025',
-              },
-              {
-                name: 'Maya Indira',
-                organization: 'World Bank Indonesia',
-                comment: 'ACRC\'s governance research has been valuable for our development programs. Their practical recommendations align well with on-the-ground realities.',
-                date: 'Jan 10, 2025',
-              },
-            ].map((comment, i) => (
-              <div key={i} className="p-6 rounded-lg border border-border bg-card hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <span className="font-serif font-bold text-primary">
-                      {comment.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">{comment.name}</h4>
-                    <p className="text-sm text-muted-foreground">{comment.organization}</p>
-                  </div>
-                </div>
-                <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
-                  "{comment.comment}"
-                </p>
-                <p className="text-xs text-muted-foreground">{comment.date}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Disclaimer */}
-          <div className="mt-8 p-4 bg-muted rounded-lg">
-            <p className="text-xs text-muted-foreground text-center">
-              <strong>Disclaimer:</strong> Comments and testimonials displayed on this page represent the personal views of the individuals and do not necessarily reflect the official position of ACRC.
-            </p>
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection />
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-5xl font-bold text-foreground mb-6">Ready to Shape Indonesia's Future?</h2>
+          <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
+            Ready to Shape Indonesia's Future?
+          </h2>
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-            Connect with ACRC to discuss your research, policy, or strategic consulting needs.
+            Connect with ACRC to discuss your research, policy, or strategic
+            consulting needs.
           </p>
           <NavLink
             href="/contact"
@@ -450,5 +437,5 @@ export default function HomePage() {
 
       <Footer />
     </div>
-  )
+  );
 }
