@@ -50,7 +50,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="py-8 md:py-12 border-b border-border">
+      {/* <section className="py-8 md:py-12 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <p className="text-lg text-primary font-semibold mb-4">
@@ -81,6 +81,54 @@ export default function HomePage() {
                 Schedule a Conversation
               </NavLink>
             </div>
+          </div>
+        </div>
+      </section> */}
+
+      <section className="py-8 md:py-12 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-lg text-primary font-semibold mb-4">
+                Aksara Cakra Research and Consulting (ACRC)
+              </p>
+
+              <h1 className="font-serif text-5xl md:text-6xl font-bold text-foreground mb-8 leading-tight">
+                Navigator of Nusantara's Policy Direction
+              </h1>
+
+              <p className="text-xl text-muted-foreground mb-10 leading-relaxed max-w-3xl">
+                ACRC is a Jakarta-based research and consulting firm that helps
+                government, state-owned enterprises, and private sector leaders
+                understand Indonesia's strategic environment – and turn that
+                understanding into sound policies, business strategies, and
+                political decisions.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <NavLink
+                  href="/services"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background font-semibold rounded hover:opacity-90 transition-opacity"
+                >
+                  Explore Our Services
+                  <ArrowRight className="w-4 h-4" />
+                </NavLink>
+
+                <NavLink
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-foreground text-foreground font-semibold rounded hover:bg-muted transition-colors"
+                >
+                  Schedule a Conversation
+                </NavLink>
+              </div>
+            </div>
+
+            <div
+              className="w-full aspect-[3/2] rounded-lg border border-border bg-cover bg-center"
+              style={{
+                backgroundImage: "url('/picture/home.jpeg')",
+              }}
+            />
           </div>
         </div>
       </section>
