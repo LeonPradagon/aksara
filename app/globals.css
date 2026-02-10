@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -11,13 +11,13 @@
   --card-foreground: oklch(0.15 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.15 0 0);
-  --primary: oklch(0.22 0.04 244);
+  --primary: #01172c;
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.22 0.04 244);
-  --muted: oklch(0.90 0 0);
+  --muted: oklch(0.9 0 0);
   --muted-foreground: oklch(0.55 0 0);
-  --accent: oklch(0.40 0.12 24);
+  --accent: oklch(0.4 0.12 24);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.62 0.22 29);
   --destructive-foreground: oklch(0.98 0 0);
@@ -25,16 +25,16 @@
   --input: oklch(0.95 0 0);
   --ring: oklch(0.22 0.04 244);
   --chart-1: oklch(0.22 0.04 244);
-  --chart-2: oklch(0.40 0.12 24);
+  --chart-2: oklch(0.4 0.12 24);
   --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.70 0 0);
-  --chart-5: oklch(0.80 0 0);
+  --chart-4: oklch(0.7 0 0);
+  --chart-5: oklch(0.8 0 0);
   --radius: 0.5rem;
   --sidebar: oklch(0.98 0 0);
   --sidebar-foreground: oklch(0.15 0 0);
   --sidebar-primary: oklch(0.22 0.04 244);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.40 0.12 24);
+  --sidebar-accent: oklch(0.4 0.12 24);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.92 0 0);
   --sidebar-ring: oklch(0.22 0.04 244);
@@ -42,9 +42,9 @@
 
 .dark {
   /* Dark mode - Institutional research aesthetic */
-  --background: oklch(0.12 0 0);
+  --background: #01172c;
   --foreground: oklch(0.95 0 0);
-  --card: oklch(0.15 0 0);
+  --card: #0b253a;
   --card-foreground: oklch(0.95 0 0);
   --popover: oklch(0.15 0 0);
   --popover-foreground: oklch(0.95 0 0);
@@ -52,34 +52,34 @@
   --primary-foreground: oklch(0.12 0 0);
   --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.28 0 0);
-  --muted-foreground: oklch(0.70 0 0);
-  --accent: oklch(0.60 0.15 24);
+  --muted: #1e3a5f;
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.6 0.15 24);
   --accent-foreground: oklch(0.12 0 0);
-  --destructive: oklch(0.70 0.25 29);
+  --destructive: oklch(0.7 0.25 29);
   --destructive-foreground: oklch(0.12 0 0);
   --border: oklch(0.25 0 0);
-  --input: oklch(0.20 0 0);
+  --input: oklch(0.2 0 0);
   --ring: oklch(0.75 0.08 244);
   --chart-1: oklch(0.75 0.08 244);
-  --chart-2: oklch(0.60 0.15 24);
-  --chart-3: oklch(0.70 0 0);
+  --chart-2: oklch(0.6 0.15 24);
+  --chart-3: oklch(0.7 0 0);
   --chart-4: oklch(0.55 0 0);
   --chart-5: oklch(0.45 0 0);
   --sidebar: oklch(0.12 0 0);
   --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.75 0.08 244);
   --sidebar-primary-foreground: oklch(0.12 0 0);
-  --sidebar-accent: oklch(0.60 0.15 24);
+  --sidebar-accent: oklch(0.6 0.15 24);
   --sidebar-accent-foreground: oklch(0.12 0 0);
   --sidebar-border: oklch(0.25 0 0);
   --sidebar-ring: oklch(0.75 0.08 244);
 }
 
 @theme inline {
-  --font-sans: 'system-ui', 'Geist', 'Geist Fallback', sans-serif;
-  --font-serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --font-sans: "system-ui", "Geist", "Geist Fallback", sans-serif;
+  --font-serif: "Georgia", "Cambria", "Times New Roman", serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -125,33 +125,37 @@
   body {
     @apply bg-background text-foreground;
   }
-  
+
   /* Editorial Typography */
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     @apply font-serif font-bold tracking-tight;
   }
-  
+
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
   }
-  
+
   h2 {
     @apply text-3xl md:text-4xl leading-tight;
   }
-  
+
   h3 {
     @apply text-2xl md:text-3xl leading-relaxed;
   }
-  
-  h4, h5, h6 {
+
+  h4,
+  h5,
+  h6 {
     @apply font-semibold text-foreground;
   }
-  
+
   /* Body text with generous line height */
   p {
     @apply leading-relaxed text-base;
   }
-  
+
   /* Links */
   a {
     @apply text-primary hover:text-primary/80 transition-colors;
@@ -163,12 +167,12 @@
   .hero-section {
     @apply py-16 md:py-24 lg:py-32 px-4 md:px-8;
   }
-  
+
   /* Generous whitespace container */
   .content-container {
     @apply max-w-5xl mx-auto px-4 md:px-8 py-12 md:py-16;
   }
-  
+
   /* Publication card base */
   .publication-card {
     @apply bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow;

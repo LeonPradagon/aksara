@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     "business",
   ],
   icons: {
-    icon: "/icons8-next.js-32.png",
-    apple: "/icons8-next.js-32.png",
+    icon: "/picture/ACRC.png",
+    apple: "/picture/ACRC.png",
   },
   openGraph: {
     title: "ACRC | Navigator of Nusantara's Policy Direction",
@@ -44,7 +44,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f8f6f0" },
-    { media: "(prefers-color-scheme: dark)", color: "#1f1d1a" },
+    { media: "(prefers-color-scheme: dark)", color: "#01172c" },
   ],
   userScalable: true,
 };
@@ -59,7 +59,7 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LocaleProvider>{children}</LocaleProvider>
           <Analytics />
         </ThemeProvider>

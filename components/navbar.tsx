@@ -1,92 +1,107 @@
-'use client'
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
 
-import { useState, useRef, useEffect } from 'react'
-import { Menu, X, Sun, Moon, ChevronDown, Globe } from 'lucide-react'
-import { useTheme } from 'next-themes'
-import { cn } from '@/lib/utils'
-import { useLocale } from '@/contexts/locale-context'
-import { NavLink } from '@/components/nav-link'
+import { useState, useRef, useEffect } from "react";
+import { Menu, X, Sun, Moon, ChevronDown, Globe } from "lucide-react";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+import { useLocale } from "@/contexts/locale-context";
+import { NavLink } from "@/components/nav-link";
 
 interface NavItem {
-  label: string
-  href: string
-  children?: { label: string; href: string }[]
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
 }
 
 const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
+  { label: "Home", href: "/" },
   {
-    label: 'About ACRC',
-    href: '/about',
+    label: "About ACRC",
+    href: "/about",
     children: [
-      { label: 'Who We Are', href: '/about#who-we-are' },
-      { label: 'Vision & Mission', href: '/about#vision-mission' },
-      { label: 'Our Values', href: '/about#values' },
-      { label: 'How We Work', href: '/about#how-we-work' },
+      { label: "Who We Are", href: "/about#who-we-are" },
+      { label: "Vision & Mission", href: "/about#vision-mission" },
+      { label: "Our Values", href: "/about#values" },
+      { label: "How We Work", href: "/about#how-we-work" },
     ],
   },
   {
-    label: 'Services',
-    href: '/services',
+    label: "Services",
+    href: "/services",
     children: [
-      { label: 'Policy Research & Big Data', href: '/services/policy-research' },
-      { label: 'Corporate & Public Consulting', href: '/services/corporate-consulting' },
-      { label: 'Political & Election Consulting', href: '/services/political-consulting' },
+      {
+        label: "Policy Research & Big Data",
+        href: "/services/policy-research",
+      },
+      {
+        label: "Corporate & Public Consulting",
+        href: "/services/corporate-consulting",
+      },
+      {
+        label: "Political & Election Consulting",
+        href: "/services/political-consulting",
+      },
     ],
   },
   {
-    label: 'Issues & Sectors',
-    href: '/issues',
+    label: "Issues & Sectors",
+    href: "/issues",
     children: [
-      { label: 'Defence & Security', href: '/issues/defence-security' },
-      { label: 'Politics & Governance', href: '/issues/politics-governance' },
-      { label: 'Economy & Business', href: '/issues/economy-business' },
-      { label: 'Elections & Democracy', href: '/issues/elections-democracy' },
-      { label: 'ESG & Sustainability', href: '/issues/esg-sustainability' },
+      { label: "Defence & Security", href: "/issues/defence-security" },
+      { label: "Politics & Governance", href: "/issues/politics-governance" },
+      { label: "Economy & Business", href: "/issues/economy-business" },
+      { label: "Elections & Democracy", href: "/issues/elections-democracy" },
+      { label: "ESG & Sustainability", href: "/issues/esg-sustainability" },
     ],
   },
   {
-    label: 'Insights',
-    href: '/insights',
+    label: "Insights",
+    href: "/insights",
     children: [
-      { label: "ACRC's Concern", href: '/insights/concern' },
-      { label: 'Articles & Analysis', href: '/insights?type=article' },
-      { label: 'Reports & Policy Briefs', href: '/insights?type=report' },
-      { label: 'Events & Presentations', href: '/insights?type=event' },
+      { label: "ACRC's Concern", href: "/insights/concern" },
+      { label: "Articles & Analysis", href: "/insights?type=article" },
+      { label: "Reports & Policy Briefs", href: "/insights?type=report" },
+      { label: "Events & Presentations", href: "/insights?type=event" },
     ],
   },
   {
-    label: 'Team',
-    href: '/team',
+    label: "Team",
+    href: "/team",
     children: [
-      { label: 'Leadership', href: '/team#leadership' },
-      { label: 'Researchers & Consultants', href: '/team#researchers' },
-      { label: 'Advisory Board', href: '/team#advisory' },
+      { label: "Leadership", href: "/team#leadership" },
+      { label: "Researchers & Consultants", href: "/team#researchers" },
+      { label: "Advisory Board", href: "/team#advisory" },
     ],
   },
-  { label: 'Contact', href: '/contact' },
-]
+  { label: "Contact", href: "/contact" },
+];
 
-function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+function DropdownMenu({
+  item,
+  onClose,
+}: {
+  item: NavItem;
+  onClose: () => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setIsOpen(true)
-  }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 150)
-  }
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+  };
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [])
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   if (!item.children) {
     return (
@@ -96,7 +111,7 @@ function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void })
       >
         {item.label}
       </NavLink>
-    )
+    );
   }
 
   return (
@@ -108,12 +123,14 @@ function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void })
       <NavLink
         href={item.href}
         className={cn(
-          'inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary',
-          isOpen && 'text-primary border-primary'
+          "inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary",
+          isOpen && "text-primary border-primary",
         )}
       >
         {item.label}
-        <ChevronDown className={cn('w-3 h-3 transition-transform', isOpen && 'rotate-180')} />
+        <ChevronDown
+          className={cn("w-3 h-3 transition-transform", isOpen && "rotate-180")}
+        />
       </NavLink>
 
       {isOpen && (
@@ -124,8 +141,8 @@ function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void })
               href={child.href}
               className="block px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-muted transition-colors"
               onClick={() => {
-                setIsOpen(false)
-                onClose()
+                setIsOpen(false);
+                onClose();
               }}
             >
               {child.label}
@@ -134,29 +151,45 @@ function DropdownMenu({ item, onClose }: { item: NavItem; onClose: () => void })
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [expandedItem, setExpandedItem] = useState<string | null>(null)
-  const { locale, toggleLocale } = useLocale()
-  const { theme, setTheme } = useTheme()
+  const [isOpen, setIsOpen] = useState(false);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false); // FIX 1: Add mounted state
+  const { locale, toggleLocale } = useLocale();
+  const { theme, setTheme } = useTheme();
+
+  // FIX 2: Set mounted to true only after component is mounted on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleMobileSubmenu = (label: string) => {
-    setExpandedItem(expandedItem === label ? null : label)
-  }
+    setExpandedItem(expandedItem === label ? null : label);
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <NavLink href="/" className="flex-shrink-0 group">
-            <span className="text-2xl font-serif font-bold text-foreground transition-colors group-hover:text-primary">
-              ACRC
-            </span>
-            <p className="text-xs text-muted-foreground tracking-wide">Navigator of Nusantara's Policy</p>
+          <NavLink
+            href="/"
+            className="flex-shrink-0 group flex items-center gap-3"
+          >
+            <img
+              src="/picture/ACRC.png"
+              alt="ACRC Logo"
+              className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+            />
+
+            <div>
+              {/* <p className="text-xs text-muted-foreground tracking-wide">
+                Navigator of Nusantara's Policy
+              </p> */}
+            </div>
           </NavLink>
 
           {/* Desktop Menu */}
@@ -175,19 +208,25 @@ export function Navbar() {
               aria-label="Switch language"
             >
               <Globe className="w-3.5 h-3.5" />
-              <span>{locale === 'en' ? 'EN' : 'ID'}</span>
+              <span>{locale === "en" ? "EN" : "ID"}</span>
             </button>
 
             {/* Theme Switcher */}
             <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 rounded hover:bg-muted transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4" />
+              {/* FIX 3: Conditionally render icons based on mounted state */}
+              {mounted ? (
+                theme === "dark" ? (
+                  <Sun className="w-4 h-4" />
+                ) : (
+                  <Moon className="w-4 h-4" />
+                )
               ) : (
-                <Moon className="w-4 h-4" />
+                // Placeholder to prevent layout shift
+                <div className="w-4 h-4" />
               )}
             </button>
 
@@ -220,8 +259,8 @@ export function Navbar() {
                       <span>{item.label}</span>
                       <ChevronDown
                         className={cn(
-                          'w-4 h-4 transition-transform',
-                          expandedItem === item.label && 'rotate-180'
+                          "w-4 h-4 transition-transform",
+                          expandedItem === item.label && "rotate-180",
                         )}
                       />
                     </button>
@@ -259,19 +298,23 @@ export function Navbar() {
               </div>
             ))}
 
-{/* Mobile Language Switcher */}
+            {/* Mobile Language Switcher */}
             <div className="px-4 py-3 border-t border-border mt-2">
               <button
                 onClick={toggleLocale}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Globe className="w-4 h-4" />
-                <span>{locale === 'en' ? 'Switch to Indonesian' : 'Beralih ke Bahasa Inggris'}</span>
+                <span>
+                  {locale === "en"
+                    ? "Switch to Indonesian"
+                    : "Beralih ke Bahasa Inggris"}
+                </span>
               </button>
             </div>
           </div>
         )}
       </div>
     </nav>
-  )
+  );
 }

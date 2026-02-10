@@ -108,7 +108,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <NavLink
                   href="/services"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background font-semibold rounded hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
                 >
                   Explore Our Services
                   <ArrowRight className="w-4 h-4" />
@@ -236,7 +236,7 @@ export default function HomePage() {
             <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
               ACRC brings together researchers and consultants with backgrounds
               in defence, politics, law, economics, and communications. Based on
-              Jl. Tebet Barat II No.5, South Jakarta, we combine academic
+              Jl. Tebet Barat Dalam II No.5, South Jakarta, we combine academic
               discipline with a practical understanding of how bureaucracy and
               business actually work in Indonesia.
             </p>
@@ -475,7 +475,7 @@ export default function HomePage() {
           </p>
           <NavLink
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background font-semibold rounded hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
           >
             Get In Touch
             <ArrowRight className="w-4 h-4" />

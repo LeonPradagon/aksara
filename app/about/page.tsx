@@ -1,11 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { ArrowRight, Check } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Shield,
+} from "lucide-react";
 
 export default function AboutPage() {
+  const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -34,30 +42,43 @@ export default function AboutPage() {
                 Who We Are
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Aksara Cakra Research and Consulting (ACRC) is a research and
-                consulting firm based in South Jakarta, Indonesia. We help
-                decision-makers in government, state-owned enterprises, and the
-                private sector understand their strategic environment and
-                translate it into orderly, realistic plans.
+                Established in early 2025 by a multidisciplinary team of
+                professionals, Aksara Cakra Research and Consulting (ACRC) is
+                aiming to supports decision makers in government and the private
+                sector. ACRC provides reliable, comprehensive information and
+                analysis to explain how geopolitical, geostrategic, and
+                geoeconomic developments shape business decisions and public
+                policy. This work enables clear assessments of risks and
+                opportunities so that policies and strategies are grounded in
+                evidence.
               </p>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                We work as an independent thought partner: mapping risks and
-                opportunities, interpreting regulations, reading data, and
-                presenting options that senior leaders can actually use.
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                ACRC applies multiple, well-tested approaches to help
+                policymakers and executives assess risk and opportunity. Our
+                work is grounded in a deep understanding of geopolitical,
+                geostrategic, and geoeconomic dynamics, which frames how we
+                analyze issues and engage with clients. We serve a broad range
+                of partners, including government agencies, elected officials,
+                investors, and corporate leaders.
               </p>
-              <div className="space-y-4">
-                {[
-                  "Multidisciplinary expertise across sectors",
-                  "Data-driven research methodologies",
-                  "Deep government and policy relationships",
-                  "Practical, implementable recommendations",
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-                    <span className="text-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                We recognize that today’s environment is marked by volatility
+                and uncertainty, creating both threats and openings for business
+                and investment. ACRC is committed to helping clients make sense
+                of shifting social, political, and economic conditions. We
+                provide clear, evidence-based information and analysis so
+                stakeholders can navigate complexity and make more informed
+                decisions.
+              </p>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                We support governments, state-owned enterprises, private firms,
+                and individual leaders in making evidence-based decisions and
+                managing key stakeholders effectively. ACRC delivers analysis
+                that is independent, nonpartisan, and insulated from personal or
+                group interests. We are also committed to cultivating
+                Indonesia’s next generation of leaders by developing lawful,
+                well-structured winning strategies.
+              </p>
             </div>
             {/* <div className="bg-muted rounded-lg p-10 border border-border h-full flex items-center justify-center min-h-80">
               <div className="text-center">
@@ -143,32 +164,37 @@ export default function AboutPage() {
             Our Values
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                title: "Intellectual Integrity",
+                title: "Navigating Disruption",
                 description:
-                  "Our conclusions follow the data, not the other way around. Methods and sources are clearly explained.",
+                  "At Aksara Cakra Research and Consulting, our mission is to equip clients with practical tools and clear insights for a world where geopolitical, geostrategic, and geoeconomic shifts frequently create disruption. We aim to be a trusted research and consulting partner for organizations and leaders who view disruption not only as a challenge but as an opportunity to create value and improve outcomes.",
               },
               {
-                title: "Independence & Non-Partisanship",
+                title: "Disciplined Curiosity",
                 description:
-                  "We are not tied to any political group or business faction. This allows us to focus on long-term public interest.",
+                  "At our core is a disciplined curiosity about human behavior and complexity, which drives continuous inquiry and analysis. We pair that curiosity with independence and methodological rigor to uphold the highest standards of quality. Our insights help decision-makers clearly grasp how geopolitical, geostrategic, and geoeconomic shifts shape markets and political dynamics—and what those shifts mean for their choices.",
               },
               {
-                title: "Confidentiality & Data Ethics",
+                title: "Integrity & Creativity",
                 description:
-                  "Client documents and respondent data are handled with strict confidentiality and used only for agreed purposes.",
+                  "We ground our work in integrity with data, intellectual bravery, and practical creativity. We pursue results alongside our clients and treat missteps as lessons to strengthen quality and productivity. Our value lies in pairing rigorous analysis with timely, usable guidance.",
               },
               {
-                title: "Respect for Bureaucratic Etiquette",
+                title: "Non-negotiable Rigor",
                 description:
-                  "We treat procedures, hierarchies, and official protocols as an integral part of good governance, not as mere formality.",
+                  "Rigor is nonnegotiable. ACRC examines every angle, tests each detail, and verifies all sources. We aim to uncover the facts and the underlying narrative of each event. We review information carefully, remove what is immaterial, and deliver insights that can drive better outcomes. We uphold strict confidentiality and integrity in all contexts, including difficult or sensitive settings.",
               },
               {
-                title: "Diligence in Detail",
+                title: "Strict Research Ethics",
                 description:
-                  "We read regulations down to the annexes, and we re-check numbers down to their assumptions.",
+                  "Above all, we uphold strict research ethics. We protect respondent identities, process personal data only when necessary, disclose any potential conflicts of interest, and refrain from drawing conclusions when the evidence is insufficient.",
+              },
+              {
+                title: "Public Trust",
+                description:
+                  "We place public trust above any single project. When uncertainty exists, we state it plainly and outline next steps to gather additional evidence, rather than claim certainty that the data cannot support.",
               },
             ].map((value, i) => (
               <div
@@ -187,7 +213,192 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* How We Work */}
+      {/* Organizational Structure */}
+      <section
+        id="structure"
+        className="py-16 md:py-24 border-b border-border scroll-mt-20"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-serif text-5xl font-bold text-foreground mb-12">
+            Organizational Structure
+          </h2>
+          <div className="prose prose-lg dark:prose-invert max-w-none mb-12">
+            <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+              ACRC is organized around two core pillars: the Research Division
+              and the Consulting Division.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-foreground mb-4">
+                  Research Division
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Led by a Director of Research (DoR), this division produces
+                  auditable, timely, and policy-oriented research. It comprises:
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                    <span>
+                      <strong className="text-foreground">
+                        Security, Defense, and International Relations
+                      </strong>
+                      : Geopolitics, defense posture, and maritime security.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                    <span>
+                      <strong className="text-foreground">
+                        Politics, Public Policy, and Social Affairs
+                      </strong>
+                      : Political dynamics, policy governance, and social
+                      issues.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                    <span>
+                      <strong className="text-foreground">Economics</strong>:
+                      Macroeconomic trends, fiscal policy, industry, and trade.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-foreground mb-4">
+                  Consulting Division
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Led by a Director of Consulting (DoC), this division converts
+                  research into measurable strategies. Key departments include:
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "Public Policy & Government Relations",
+                    "Risk & Opportunity Management",
+                    "Legal & Regulatory Compliance Advisory",
+                    "Communications & Public Affairs",
+                    "Political Consulting & Campaign Services",
+                    "ESG & Sustainability",
+                    "Economic & Sectoral Advisory",
+                  ].map((dept, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                      <span className="text-foreground">{dept}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Research Instruments */}
+      <section
+        id="instruments"
+        className="py-16 md:py-24 border-b border-border bg-muted/30 scroll-mt-20"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
+            Our Research Instruments
+          </h2>
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mb-12">
+            Beyond diverse scientific approaches, we employ big data as a
+            disciplined process to help clients make informed, fast, and
+            less-risky decisions. We turn fragmented datasets—sales records,
+            traffic flows, geospatial info—into a dependable knowledge base.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {[
+              {
+                title: "Clearer Visibility",
+                desc: "Track demand across multiple signals (sales, visits, search behavior) to optimize staffing, inventory, and layout.",
+              },
+              {
+                title: "Precise Targeting",
+                desc: "Build practical segments based on transaction patterns to improve response rates and reduce acquisition costs.",
+              },
+              {
+                title: "Early Warning",
+                desc: "Monitor key indicators with set thresholds to detect demand drops or supply disruptions early.",
+              },
+              {
+                title: "Realistic Budgeting",
+                desc: "Use simple, auditable forecasting models for sales and logistics based on seasonality and local patterns.",
+              },
+              {
+                title: "Fair Evaluation",
+                desc: "Compare intervention areas with control groups to prove impact and justify promotional or public spending.",
+              },
+            ].map((benefit, i) => (
+              <div
+                key={i}
+                className="p-6 rounded-lg bg-background border border-border shadow-sm"
+              >
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <span className="font-serif font-bold text-primary">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="font-bold text-lg text-foreground mb-2">
+                  {benefit.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {benefit.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-background rounded-2xl p-8 md:p-12 border border-border">
+            <h3 className="font-serif text-3xl font-bold text-foreground mb-8 text-center">
+              Our Data Principles
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                {
+                  title: "Governance",
+                  desc: "Clear ownership, access rules, and change records.",
+                },
+                {
+                  title: "Confidentiality",
+                  desc: "Minimizing personal data and storing identity keys separately.",
+                },
+                {
+                  title: "Traceability",
+                  desc: "Logs recording data origin, update time, and processing steps.",
+                },
+                {
+                  title: "Simplicity",
+                  desc: "Simple reports with a few indicators that truly matter.",
+                },
+              ].map((principle, i) => (
+                <div key={i} className="text-center">
+                  <div className="w-12 h-12 mx-auto rounded-full bg-muted flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-foreground" />
+                  </div>
+                  <h4 className="font-bold text-foreground mb-2">
+                    {principle.title}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {principle.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-muted-foreground mt-8 max-w-2xl mx-auto">
+              "Data is a trust, not a commodity. We place ethics at the center
+              of our work."
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="how-we-work" className="py-16 md:py-24 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-serif text-5xl font-bold text-foreground mb-12">
