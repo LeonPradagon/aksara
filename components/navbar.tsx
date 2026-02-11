@@ -180,7 +180,7 @@ export function Navbar() {
             className="flex-shrink-0 group flex items-center gap-3"
           >
             <img
-              src="/picture/ACRC.png"
+              src="/picture/Aksara Cakra.png"
               alt="ACRC Logo"
               className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
             />

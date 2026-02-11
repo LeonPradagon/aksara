@@ -173,7 +173,7 @@ export default function EconomyBusinessPage() {
 
             <Link
               href="/issues"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-foreground text-foreground font-semibold rounded hover:bg-muted transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold rounded hover:bg-primary/5 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Issues

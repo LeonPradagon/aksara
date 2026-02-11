@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     "business",
   ],
   icons: {
-    icon: "/picture/ACRC.png",
-    apple: "/picture/ACRC.png",
+    icon: "/picture/Aksara Cakra.png",
+    apple: "/picture/Aksara Cakra.png",
   },
   openGraph: {
     title: "ACRC | Navigator of Nusantara's Policy Direction",
@@ -59,7 +59,7 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <LocaleProvider>{children}</LocaleProvider>
           <Analytics />
         </ThemeProvider>

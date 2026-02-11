@@ -51,7 +51,7 @@ export function Footer() {
   const { locale, setLocale } = useLocale();
 
   return (
-    <footer className="bg-[#01172C] text-white border-t border-neutral-800">
+    <footer className="bg-primary dark:bg-[#01172C] text-white border-t border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
@@ -62,13 +62,13 @@ export function Footer() {
                 ACRC
               </span>
             </NavLink>
-            <p className="text-xs text-neutral-400 leading-relaxed mb-4">
+            <p className="text-xs text-white/80 leading-relaxed mb-4">
               Aksara Cakra Research and Consulting
               <br />
               Navigator of Nusantara's Policy Direction
             </p>
             {/* Address */}
-            <div className="flex items-start gap-2 text-xs text-neutral-400">
+            <div className="flex items-start gap-2 text-xs text-white/80">
               <MapPin className="w-3 h-3 mt-0.5 flex-shrink-0" />
               <span>
                 Jl. Tebet Barat Dalam II No.5
@@ -94,7 +94,7 @@ export function Footer() {
                   <li key={item.href}>
                     <NavLink
                       href={item.href}
-                      className="text-xs text-neutral-400 hover:text-white transition-colors"
+                      className="text-xs text-white/80 hover:text-white transition-colors"
                     >
                       {item.label}
                     </NavLink>
@@ -112,20 +112,20 @@ export function Footer() {
             {/* Secondary Links - Careers, Privacy Policy, Address & Contact */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
               <span
-                className="text-neutral-600 cursor-not-allowed"
+                className="text-white/60 cursor-not-allowed"
                 title="Coming soon"
               >
                 Careers
               </span>
               <NavLink
                 href="/privacy-policy"
-                className="text-neutral-400 hover:text-white transition-colors"
+                className="text-white/80 hover:text-white transition-colors"
               >
                 Privacy Policy
               </NavLink>
               <NavLink
                 href="/contact"
-                className="text-neutral-400 hover:text-white transition-colors"
+                className="text-white/80 hover:text-white transition-colors"
               >
                 Address & Contact
               </NavLink>
@@ -138,7 +138,7 @@ export function Footer() {
                 className={`px-2 py-1 rounded transition-colors ${
                   locale === "id"
                     ? "text-neutral-900 bg-white"
-                    : "text-neutral-400 hover:text-white"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
                 ID
@@ -149,7 +149,7 @@ export function Footer() {
                 className={`px-2 py-1 rounded transition-colors ${
                   locale === "en"
                     ? "text-neutral-900 bg-white"
-                    : "text-neutral-400 hover:text-white"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
                 EN
@@ -158,7 +158,7 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <p className="text-xs text-neutral-500 mt-4">
+          <p className="text-xs text-white/60 mt-4">
             © {currentYear} Aksara Cakra Research and Consulting. All rights
             reserved.
           </p>
