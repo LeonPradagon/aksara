@@ -55,7 +55,7 @@ In addition to his role as an Executive Director, Adri will contribute to resear
     {
       name: "Dr. Shafwatul Bary",
       title: "Research Associate",
-      photo: "/tim/picture2.jpg",
+      photo: "/tim/Picture2.jpg",
       bio: `Dr. Shafwatul Bary (Tuangku Imam El-Imrany), S.I.Q., S.Ag., M.A., is a scholar and educator with strong expertise in Qur’anic studies, Islamic hermeneutics, and classical Islamic texts. He joins our team as an Associate Research, bringing a rare combination of academic rigor, deep pesantren-based scholarship, and practical experience in public intellectual work. He is also affiliated with Pondok Pesantren Nurul Yaqin Ringan-ringan, West Sumatra, where he serves in multiple capacities, including Deputy Leader of the pesantren and Director of Ma’had Aly Nurul Yaqin. Alongside these leadership duties, he is active as a teacher of kitab kuning (classical Islamic texts), reflecting a long-standing commitment to traditional Islamic learning and the discipline of close textual reading.
 
 Shafwatul’s academic background spans both Islamic higher education and contemporary humanities methods. He completed undergraduate studies at STAIPIQ West Sumatera, earned his Master’s degree at UIN Sunan Kalijaga Yogyakarta, and his doctoral degree at UIN Imam Bonjol, Padang. This trajectory places him in a strong position to connect classical scholarship with modern academic debates, especially on how interpretation is formed, transmitted, and contested in real social settings.
@@ -67,7 +67,7 @@ Shafwatul Bary’s research interests make him especially valuable for projects 
     {
       name: "Dr. Alfiandri",
       title: "Research Associate",
-      photo: "/tim/picture3.jpg",
+      photo: "/tim/Picture3.jpg",
       bio: `Dr. Alfiandri, S.Sos., M.Si. is a public administration scholar and practitioner whose work sits at the intersection of governance, public policy, and maritime-oriented institutional development. He joins our team as a Research Associate, bringing more than a decade of experience across academia, government advisory roles, and applied research, particularly in the context of Indonesia’s maritime provinces and border-facing governance challenges.
 
 Dr. Alfiandri completed his Doctorate (S3) in Administrative Science at Universitas Indonesia, graduating in 2023. He previously earned a Master’s degree in Administrative Science with a concentration in Human Resource Administration and Development from Universitas Riau (2009), and his undergraduate degree in Public Administration from Universitas Islam Riau (2004). This academic pathway has equipped him with a strong grounding in institutional analysis, governance design, and the practical realities of public sector capacity building—skills that translate naturally into research and consulting work.
@@ -79,7 +79,7 @@ In our team, Dr. Alfiandri will support research and analytical outputs related 
     {
       name: "Dr. Ady Muzwardi",
       title: "Research Associate",
-      photo: "/tim/picture4.jpg",
+      photo: "/tim/Picture4.jpg",
       bio: `Dr. Ady Muzwardi is a scholar and applied policy professional whose work focuses on governance, investment and regional development, and maritime-border dynamics in Indonesia. He joins our team as a Research Associate, contributing a mix of academic depth and hands-on consulting experience—particularly in the Riau Islands and Indonesia’s strategic border and free-trade zones.
 
 Dr. Ady holds a PhD in International Relations from Universitas Padjadjaran (completed in 2023). He previously earned a Master’s degree in Government Affairs and Administration (Universitas Muhammadiyah Yogyakarta, 2015) and a Bachelor’s degree in International Relations (Universitas Muhammadiyah Yogyakarta, 2005). This academic foundation equips him to connect political and institutional analysis with practical development questions, including how investment policy, infrastructure planning, and local governance shape outcomes on the ground.
@@ -93,7 +93,7 @@ In our team, Dr. Ady will support research outputs that require clear institutio
     {
       name: "Dr. Toto Sugiarto",
       title: "Research Associate",
-      photo: "/tim/picture5.png",
+      photo: "/tim/Picture5.png",
       bio: `Dr. Toto Sugiarto, M.Hum is a political and social researcher with a rare combination of philosophical depth, long experience in electoral governance work, and two decades of applied political research and survey leadership. He joins our team as a Research Associate, strengthening our capacity to produce analysis that is conceptually solid, empirically careful, and written in a way that remains readable for public and policy audiences.
 
 Toto completed his doctoral degree in Philosophy at the University of Indonesia (2023), with a dissertation on Pancasila socio-democracy. He previously earned an M.Hum. in Philosophy from STF Driyarkara (2006), writing on Immanuel Kant’s ideas of self-interest and universal morality under the supervision of Prof. Dr. Franz Magnis-Suseno. Earlier, he trained in Informatics Engineering (S.Kom., 1999) with a thesis on TCP/IP networks. This background matters in practice: it gives him strong conceptual tools for interpreting Indonesian democracy and state ideology, while also making him comfortable with the technical and data-facing side of modern research.
@@ -111,7 +111,7 @@ Within our team, Toto will focus on research related to democracy, elections, po
     {
       name: "Virdika Rizky Utama",
       title: "Research Associate",
-      photo: "/tim/picture6.png",
+      photo: "/tim/Picture6.png",
       bio: `Virdika Rizky Utama, M.A. joins our team as a Research Associate, bringing a strong track record in political analysis and international relations research. With experience spanning academia, think-tank research, and journalism, he is well placed to support rigorous research projects that require both sharp analysis and clear communication.
 
 Virdika earned an M.A. in Political Science from Shanghai Jiao Tong University (taught fully in English), where his master’s thesis examined Indonesia’s multilateral religious diplomacy through a case study of Nahdlatul Ulama (NU). He completed his undergraduate degree in History Education at the State University of Jakarta, writing a thesis on the role of intellectual groups in Indonesia’s democracy movement in the 1990s. This combination of training gives him a useful perspective: he is comfortable reading politics through history, while also working with contemporary policy debates and international affairs.
@@ -129,7 +129,7 @@ As part of our research team, Virdika will contribute to projects that sit at th
     {
       name: "FX Yoga Duwarto",
       title: "Research Associate",
-      photo: "/tim/picture7.jpg",
+      photo: "/tim/Picture7.jpg",
       bio: `FX Yoga Duwarto is a senior technology professional and policy researcher with more than 35 years of experience spanning Information Technology, electronic engineering, radio communications, and complex systems integration. He joins our team as a Research Associate, bringing a rare combination of deep technical grounding and a strong track record in writing and research on public and energy policy.
 
 Yoga’s career is rooted in building and managing large, mission-critical systems across industries where reliability and operational continuity matter. Over a 25-year tenure at PT Delta Djakarta Tbk, he served as IT Manager and led the development of IT infrastructure for a new factory in Bekasi. This work included integrating industrial PLC-based machinery systems across core production processes, from brewery operations through packaging, an environment where IT must connect seamlessly with industrial control systems and factory operations.
@@ -147,7 +147,7 @@ In our team, Yoga will contribute especially to research and analysis related to
     {
       name: "Yandi Hermawandi",
       title: "Research Associate",
-      photo: "/tim/picture8.jpg",
+      photo: "/tim/Picture8.jpg",
       bio: `Yandi Hermawandi, M.A. is a political economy analyst, lecturer, and public commentator with long experience researching Indonesia’s political dynamics, state–society relations, and the communication strategies that shape public debate. He joins our team as a Research Associate, bringing a strong blend of academic grounding, policy-facing experience, and an established record of writing and media engagement.
 
 Yandi earned his Master’s degree in Political Economy from Universitas Nasional (2009–2012) and completed his undergraduate training in International Relations at Universitas Paramadina (2003–2007). His educational path also includes formative years in Islamic boarding school environments—both Gontor Darussalam and Persatuan Islam 99 Garut—which helped build the discipline of careful reading, structured argument, and public speaking that later became central to his professional work.
@@ -163,7 +163,7 @@ Within our team, Yandi will contribute to research projects that require clear p
     {
       name: "Arif Rahmat",
       title: "Research Associate",
-      photo: "/tim/picture9.png",
+      photo: "/tim/Picture9.png",
       bio: `Arif Rahmat, S.H., M.H. is a lawyer and legal researcher whose work spans criminal law, civil litigation, constitutional issues, and corporate legal practice. He joins our team as a Research Associate, bringing a practical understanding of how legal risks emerge in real disputes, how institutions respond under pressure, and how to translate complex case material into clear, usable analysis for decision-makers.
 
 Arif has built his professional foundation inside law firms, working on matters that require both careful reasoning and steady execution. Since October 2022, he has served as an Advocate, handling tasks such as investigation, mediation, negotiation, and advocacy, including representing clients in court proceedings. This experience gives him a grounded feel for procedure, evidence, and the “human side” of disputes—how conflicts escalate, how parties negotiate, and what actually moves a case toward resolution.
