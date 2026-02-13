@@ -24,38 +24,40 @@ import {
   Briefcase,
 } from "lucide-react";
 
+import { useLocale } from "@/contexts/locale-context";
+
 export default function ServicesPage() {
+  const { t } = useLocale();
+
   const researchDepts = [
     {
       id: "defense-security",
-      title: "1. Department of Defense, Security, and International Relations",
+      title: t("services.research.defense_security.title"),
       icon: <Shield className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            Indonesia is an archipelagic state with vital sea lanes, long
-            borders, and rich natural resources. Defense and security are
-            inseparable from economic management. We track shifts in the
-            regional strategic landscape, monitor partner-country policies, and
-            assess defense trade implications.
-          </p>
+          <p>{t("services.research.defense_security.desc")}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <div>
-              <h4 className="font-semibold mb-2">Key Focus Areas:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.defense_security.focus_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Regional strategic landscape monitoring</li>
-                <li>Defense modernization & industrial capacity</li>
-                <li>Maritime security (North Natuna Sea, Malacca Strait)</li>
-                <li>International partnerships & diplomacy</li>
+                <li>{t("services.research.defense_security.focus_list.0")}</li>
+                <li>{t("services.research.defense_security.focus_list.1")}</li>
+                <li>{t("services.research.defense_security.focus_list.2")}</li>
+                <li>{t("services.research.defense_security.focus_list.3")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Key Outputs:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.defense_security.output_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Policy briefs & risk outlooks</li>
-                <li>Partnership matrices</li>
-                <li>Sector-specific risk maps</li>
-                <li>SOPs for ports & industrial zones</li>
+                <li>{t("services.research.defense_security.output_list.0")}</li>
+                <li>{t("services.research.defense_security.output_list.1")}</li>
+                <li>{t("services.research.defense_security.output_list.2")}</li>
+                <li>{t("services.research.defense_security.output_list.3")}</li>
               </ul>
             </div>
           </div>
@@ -64,32 +66,32 @@ export default function ServicesPage() {
     },
     {
       id: "politics-policy",
-      title: "2. Department of Political Studies, Policy, and Social Issues",
+      title: t("services.research.politics_policy.title"),
       icon: <FileText className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We monitor politics and policy governance at national and regional
-            levels. Our role is to organize knowledge about Indonesia’s diverse
-            political landscape and translate it into actionable policy options.
-          </p>
+          <p>{t("services.research.politics_policy.desc")}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <div>
-              <h4 className="font-semibold mb-2">Key Focus Areas:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.politics_policy.focus_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Policy analysis & Regulatory Impact Assessment (RIA)</li>
-                <li>Political Economy Analysis (PEA)</li>
-                <li>Program planning & evaluation (M&E)</li>
-                <li>Social listening & public opinion</li>
+                <li>{t("services.research.politics_policy.focus_list.0")}</li>
+                <li>{t("services.research.politics_policy.focus_list.1")}</li>
+                <li>{t("services.research.politics_policy.focus_list.2")}</li>
+                <li>{t("services.research.politics_policy.focus_list.3")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Key Outputs:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.politics_policy.output_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Policy briefs & actor maps</li>
-                <li>Public consultation drafts</li>
-                <li>Program evaluation reports</li>
-                <li>Interactive indicator dashboards</li>
+                <li>{t("services.research.politics_policy.output_list.0")}</li>
+                <li>{t("services.research.politics_policy.output_list.1")}</li>
+                <li>{t("services.research.politics_policy.output_list.2")}</li>
+                <li>{t("services.research.politics_policy.output_list.3")}</li>
               </ul>
             </div>
           </div>
@@ -98,32 +100,32 @@ export default function ServicesPage() {
     },
     {
       id: "economics",
-      title: "3. Department of Economic Studies",
+      title: t("services.research.economics.title"),
       icon: <TrendingUp className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We link academic inquiry with practical client needs, answering key
-            economic questions using auditable methods. We design rigorous
-            studies so decisions are grounded in evidence.
-          </p>
+          <p>{t("services.research.economics.desc")}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <div>
-              <h4 className="font-semibold mb-2">Key Focus Areas:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.economics.focus_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Macroeconomic trends & fiscal policy</li>
-                <li>Sectoral analysis (Manufacturing, Energy, Digital)</li>
-                <li>Cost-benefit analysis</li>
-                <li>Investment climate assessment</li>
+                <li>{t("services.research.economics.focus_list.0")}</li>
+                <li>{t("services.research.economics.focus_list.1")}</li>
+                <li>{t("services.research.economics.focus_list.2")}</li>
+                <li>{t("services.research.economics.focus_list.3")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Key Outputs:</h4>
+              <h4 className="font-semibold mb-2">
+                {t("services.research.economics.output_title")}
+              </h4>
               <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                <li>Sector outlooks & fiscal notes</li>
-                <li>Supply-chain analyses</li>
-                <li>Regional investment maps</li>
-                <li>Impact measurement reports</li>
+                <li>{t("services.research.economics.output_list.0")}</li>
+                <li>{t("services.research.economics.output_list.1")}</li>
+                <li>{t("services.research.economics.output_list.2")}</li>
+                <li>{t("services.research.economics.output_list.3")}</li>
               </ul>
             </div>
           </div>
@@ -135,122 +137,123 @@ export default function ServicesPage() {
   const consultingDepts = [
     {
       id: "gov-relations",
-      title: "1. Government Relations",
+      title: t("services.consulting.gov_relations.title"),
       icon: <Building2 className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We serve as an early warning system and official bridge aligning
-            business strategies with national priorities. We help clients build
-            credibility and trust with policymakers.
-          </p>
+          <p>{t("services.consulting.gov_relations.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Policy intelligence & regulatory monitoring</li>
-            <li>Social license to operate strategies</li>
-            <li>Stakeholder engagement & partnership building</li>
-            <li>Issue & crisis management</li>
-            <li>Regulatory risk registers & war rooms</li>
+            <li>{t("services.consulting.gov_relations.list.0")}</li>
+            <li>{t("services.consulting.gov_relations.list.1")}</li>
+            <li>{t("services.consulting.gov_relations.list.2")}</li>
+            <li>{t("services.consulting.gov_relations.list.3")}</li>
+            <li>{t("services.consulting.gov_relations.list.4")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "risk-opportunity",
-      title: "2. Risk and Opportunity Management",
+      title: t("services.consulting.risk_opportunity.title"),
       icon: <AlertTriangle className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We help clients navigate the intersection of politics and business,
-            turning risk management from a defensive activity into a strategic
-            capability.
-          </p>
+          <p>{t("services.consulting.risk_opportunity.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Integrated risk & opportunity maps</li>
-            <li>Market-entry due diligence</li>
-            <li>Compliance & licensing roadmaps</li>
-            <li>100-day actionable recommendation plans</li>
+            <li>{t("services.consulting.risk_opportunity.list.0")}</li>
+            <li>{t("services.consulting.risk_opportunity.list.1")}</li>
+            <li>{t("services.consulting.risk_opportunity.list.2")}</li>
+            <li>{t("services.consulting.risk_opportunity.list.3")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "strategic-planning",
-      title: "3. Strategic Planning Development",
+      title: t("services.consulting.strategic_planning.title"),
       icon: <TrendingUp className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We integrate insights to help clients prioritize and interpret
-            emerging global and domestic trends. We are partners in
-            implementation, ensuring ideas deliver tangible results.
-          </p>
+          <p>{t("services.consulting.strategic_planning.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Market sizing & competitor analysis</li>
-            <li>Scenario planning</li>
-            <li>Partnership negotiation frameworks</li>
-            <li>Investment roadmaps</li>
+            <li>{t("services.consulting.strategic_planning.list.0")}</li>
+            <li>{t("services.consulting.strategic_planning.list.1")}</li>
+            <li>{t("services.consulting.strategic_planning.list.2")}</li>
+            <li>{t("services.consulting.strategic_planning.list.3")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "legal-compliance",
-      title: "4. Legal Assistance and Regulatory Compliance",
+      title: t("services.consulting.legal_compliance.title"),
       icon: <Scale className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We treat legal assistance as essential groundwork. We intervene
-            early to design compliance roadmaps that keep organizations on
-            track.
-          </p>
+          <p>{t("services.consulting.legal_compliance.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Obligation maps (OSS, SNI, TKDN, etc.)</li>
-            <li>SOP design & alignment</li>
-            <li>Contract review & drafting</li>
-            <li>Audit support & dispute resolution</li>
+            <li>{t("services.consulting.legal_compliance.list.0")}</li>
+            <li>{t("services.consulting.legal_compliance.list.1")}</li>
+            <li>{t("services.consulting.legal_compliance.list.2")}</li>
+            <li>{t("services.consulting.legal_compliance.list.3")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "political-consulting",
-      title: "5. Political Consulting Services",
+      title: t("services.consulting.political_consulting.title"),
       icon: <Vote className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We help governments, parties, and leaders make the right decisions.
-            We combine policy analysis, stakeholder mapping, and strategic
-            communication.
-          </p>
+          <p>{t("services.consulting.political_consulting.desc")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
             <div>
-              <strong className="block text-sm mb-1">Campaign Strategy</strong>
+              <strong className="block text-sm mb-1">
+                {t(
+                  "services.consulting.political_consulting.campaign_strategy.title",
+                )}
+              </strong>
               <p className="text-xs text-muted-foreground">
-                Data-driven positioning, message architecture, and field
-                organization.
-              </p>
-            </div>
-            <div>
-              <strong className="block text-sm mb-1">Survey & Research</strong>
-              <p className="text-xs text-muted-foreground">
-                Rigorous public opinion studies and performance evaluations.
+                {t(
+                  "services.consulting.political_consulting.campaign_strategy.desc",
+                )}
               </p>
             </div>
             <div>
               <strong className="block text-sm mb-1">
-                Campaign Management
+                {t(
+                  "services.consulting.political_consulting.survey_research.title",
+                )}
               </strong>
               <p className="text-xs text-muted-foreground">
-                End-to-end management from strategy to election day operations.
+                {t(
+                  "services.consulting.political_consulting.survey_research.desc",
+                )}
               </p>
             </div>
             <div>
-              <strong className="block text-sm mb-1">Personal Branding</strong>
+              <strong className="block text-sm mb-1">
+                {t(
+                  "services.consulting.political_consulting.campaign_management.title",
+                )}
+              </strong>
               <p className="text-xs text-muted-foreground">
-                Authentic narrative building and reputation management.
+                {t(
+                  "services.consulting.political_consulting.campaign_management.desc",
+                )}
+              </p>
+            </div>
+            <div>
+              <strong className="block text-sm mb-1">
+                {t(
+                  "services.consulting.political_consulting.personal_branding.title",
+                )}
+              </strong>
+              <p className="text-xs text-muted-foreground">
+                {t(
+                  "services.consulting.political_consulting.personal_branding.desc",
+                )}
               </p>
             </div>
           </div>
@@ -259,55 +262,46 @@ export default function ServicesPage() {
     },
     {
       id: "communications",
-      title: "6. Management of Political Communication",
+      title: t("services.consulting.communications.title"),
       icon: <Megaphone className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We design and manage every element of communication so leaders
-            appear reliable, grounded, and trustworthy.
-          </p>
+          <p>{t("services.consulting.communications.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Message architecture development</li>
-            <li>Speech writing & Q&A preparation</li>
-            <li>Media relations & digital engagement</li>
-            <li>Crisis communication & clarification</li>
+            <li>{t("services.consulting.communications.list.0")}</li>
+            <li>{t("services.consulting.communications.list.1")}</li>
+            <li>{t("services.consulting.communications.list.2")}</li>
+            <li>{t("services.consulting.communications.list.3")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "esg",
-      title: "7. ESG & Sustainability (Consulting)",
+      title: t("services.consulting.esg.title"),
       icon: <Leaf className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We help clients align sustainability goals with national policy,
-            treating ESG as a strategic investment.
-          </p>
+          <p>{t("services.consulting.esg.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Environmental-social compliance maps</li>
-            <li>Decarbonization initiative support</li>
-            <li>Community partnership programs</li>
+            <li>{t("services.consulting.esg.list.0")}</li>
+            <li>{t("services.consulting.esg.list.1")}</li>
+            <li>{t("services.consulting.esg.list.2")}</li>
           </ul>
         </div>
       ),
     },
     {
       id: "economic-advisory",
-      title: "8. Economic & Sectoral Advisory",
+      title: t("services.consulting.economic_advisory.title"),
       icon: <Briefcase className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p>
-            We conduct market-entry studies, sector analyses, and investment
-            planning to support measurable business growth.
-          </p>
+          <p>{t("services.consulting.economic_advisory.desc")}</p>
           <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li>Market entry studies</li>
-            <li>Local content (TKDN) assessments</li>
-            <li>Partnership strategies</li>
+            <li>{t("services.consulting.economic_advisory.list.0")}</li>
+            <li>{t("services.consulting.economic_advisory.list.1")}</li>
+            <li>{t("services.consulting.economic_advisory.list.2")}</li>
           </ul>
         </div>
       ),
@@ -322,13 +316,10 @@ export default function ServicesPage() {
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-serif text-6xl md:text-7xl font-bold text-foreground mb-6">
-            Our Services
+            {t("services.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-4xl leading-relaxed">
-            ACRC offers integrated services: policy research, data analytics,
-            corporate consulting, and political consulting. All share the same
-            foundation: respect for facts, for the law, and for Indonesia's
-            institutional realities.
+            {t("services.subtitle")}
           </p>
         </div>
       </section>
@@ -343,13 +334,13 @@ export default function ServicesPage() {
                   value="research"
                   className="px-8 py-3 rounded-full text-lg data-[state=active]:bg-background data-[state=active]:shadow-sm"
                 >
-                  Research Division
+                  {t("services.tabs.research")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="consulting"
                   className="px-8 py-3 rounded-full text-lg data-[state=active]:bg-background data-[state=active]:shadow-sm"
                 >
-                  Consulting Division
+                  {t("services.tabs.consulting")}
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -360,11 +351,10 @@ export default function ServicesPage() {
             >
               <div className="max-w-3xl mx-auto text-center mb-12">
                 <h2 className="font-serif text-4xl font-bold mb-4">
-                  Research Division
+                  {t("services.research.title")}
                 </h2>
                 <p className="text-muted-foreground text-lg">
-                  Our center for knowledge creation, delivering auditable,
-                  timely, and policy-oriented research for immediate client use.
+                  {t("services.research.desc")}
                 </p>
               </div>
 
@@ -403,12 +393,10 @@ export default function ServicesPage() {
             >
               <div className="max-w-3xl mx-auto text-center mb-12">
                 <h2 className="font-serif text-4xl font-bold mb-4">
-                  Consulting Division
+                  {t("services.consulting.title")}
                 </h2>
                 <p className="text-muted-foreground text-lg">
-                  Converting research findings into measurable strategies,
-                  programs, and execution plans for corporate and political
-                  clients.
+                  {t("services.consulting.desc")}
                 </p>
               </div>
 
@@ -448,17 +436,16 @@ export default function ServicesPage() {
       <section className="py-16 md:py-24 border-t border-border bg-muted/30">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Let's Discuss Your Needs
+            {t("services.cta.title")}
           </h2>
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-            Contact ACRC to explore how our research and consulting services can
-            support your strategic objectives.
+            {t("services.cta.desc")}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
           >
-            Get In Touch
+            {t("services.cta.btn")}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

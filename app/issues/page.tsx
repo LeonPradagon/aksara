@@ -12,8 +12,11 @@ import {
   Vote,
   Leaf,
 } from "lucide-react";
+import { useLocale } from "@/contexts/locale-context";
 
 export default function IssuesPage() {
+  const { t } = useLocale();
+
   // ================================
   // FEATURE FLAGS
   // ================================
@@ -22,68 +25,83 @@ export default function IssuesPage() {
   const sectors = [
     {
       id: "defence-security",
-      title: "Defence & Security",
+      title: t("issues_page.sectors.defence_security.title"),
       icon: <Shield className="w-8 h-8" />,
-      description:
-        "ACRC provides analysis on Indonesia's defence and security challenges, supporting informed decision-making for government and institutional stakeholders.",
+      description: t("issues_page.sectors.defence_security.desc"),
       topics: [
-        "Defence modernisation and capability development",
-        "Maritime and border security",
-        "Development of the domestic defence industry",
+        t("issues_page.sectors.defence_security.topics.0"),
+        t("issues_page.sectors.defence_security.topics.1"),
+        t("issues_page.sectors.defence_security.topics.2"),
       ],
+      link: "issues_page.sectors.defence_security.link",
       href: "/issues/defence-security",
     },
     {
       id: "politics-governance",
-      title: "Politics & Governance",
+      title: t("issues_page.sectors.politics_governance.title"),
       icon: <Landmark className="w-8 h-8" />,
-      description:
-        "In-depth research on Indonesia's political landscape and governance systems, examining institutional effectiveness and public administration.",
+      description: t("issues_page.sectors.politics_governance.desc"),
       topics: [
-        "National and local political dynamics",
-        "Policy-making and administrative capacity",
-        "Quality of public service delivery",
+        t("issues_page.sectors.politics_governance.topics.0"),
+        t("issues_page.sectors.politics_governance.topics.1"),
+        t("issues_page.sectors.politics_governance.topics.2"),
       ],
+      link: "issues_page.sectors.politics_governance.link",
       href: "/issues/politics-governance",
     },
     {
       id: "economy-business",
-      title: "Economy & Business",
+      title: t("issues_page.sectors.economy_business.title"),
       icon: <TrendingUp className="w-8 h-8" />,
-      description:
-        "Analysis of economic trends, regulatory environments, and business conditions shaping Indonesia's growth trajectory and investment climate.",
+      description: t("issues_page.sectors.economy_business.desc"),
       topics: [
-        "Macroeconomic trends and fiscal policy",
-        "Investment climate constraints",
-        "Sectoral and regional development opportunities",
+        t("issues_page.sectors.economy_business.topics.0"),
+        t("issues_page.sectors.economy_business.topics.1"),
+        t("issues_page.sectors.economy_business.topics.2"),
       ],
+      link: "issues_page.sectors.economy_business.link",
       href: "/issues/economy-business",
     },
     {
       id: "elections-democracy",
-      title: "Elections & Democracy",
+      title: t("issues_page.sectors.elections_democracy.title"),
       icon: <Vote className="w-8 h-8" />,
-      description:
-        "Research on electoral processes, democratic participation, and the conduct of elections at all levels of government in Indonesia.",
+      description: t("issues_page.sectors.elections_democracy.desc"),
       topics: [
-        "Voter behaviour and public opinion",
-        "Campaign strategies and political communication",
-        "Party governance and internal dynamics",
+        t("issues_page.sectors.elections_democracy.topics.0"),
+        t("issues_page.sectors.elections_democracy.topics.1"),
+        t("issues_page.sectors.elections_democracy.topics.2"),
       ],
+      link: "issues_page.sectors.elections_democracy.link",
       href: "/issues/elections-democracy",
     },
     {
       id: "esg-sustainability",
-      title: "ESG & Sustainability",
+      title: t("issues_page.sectors.esg_sustainability.title"),
       icon: <Leaf className="w-8 h-8" />,
-      description:
-        "Advisory on environmental, social, and governance considerations for projects, investments, and corporate strategies in Indonesia.",
+      description: t("issues_page.sectors.esg_sustainability.desc"),
       topics: [
-        "Social and environmental impacts of projects",
-        "ESG standards and compliance",
-        "Engagement with local communities and stakeholders",
+        t("issues_page.sectors.esg_sustainability.topics.0"),
+        t("issues_page.sectors.esg_sustainability.topics.1"),
+        t("issues_page.sectors.esg_sustainability.topics.2"),
       ],
+      link: "issues_page.sectors.esg_sustainability.link",
       href: "/issues/esg-sustainability",
+    },
+  ];
+
+  const methods = [
+    {
+      title: t("issues_page.cross_cutting.methods.0.title"),
+      description: t("issues_page.cross_cutting.methods.0.desc"),
+    },
+    {
+      title: t("issues_page.cross_cutting.methods.1.title"),
+      description: t("issues_page.cross_cutting.methods.1.desc"),
+    },
+    {
+      title: t("issues_page.cross_cutting.methods.2.title"),
+      description: t("issues_page.cross_cutting.methods.2.desc"),
     },
   ];
 
@@ -95,12 +113,10 @@ export default function IssuesPage() {
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-serif text-6xl md:text-7xl font-bold text-foreground mb-6">
-            Issues & Sectors We Work On
+            {t("issues_page.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-4xl leading-relaxed">
-            Through our Insights, ACRC shares concise analyses, articles, and
-            summaries of our work to help clients and the wider public
-            understand key developments affecting Indonesia.
+            {t("issues_page.subtitle")}
           </p>
         </div>
       </section>
@@ -134,14 +150,14 @@ export default function IssuesPage() {
                   href={sector.href}
                   className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
                 >
-                  Explore {sector.title}
+                  {t(sector.link)}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
 
               <div className="bg-card border border-border rounded-lg p-8">
                 <h3 className="font-semibold text-foreground mb-6">
-                  Key Focus Areas
+                  {t("issues_page.focus_areas")}
                 </h3>
                 <ul className="space-y-4">
                   {sector.topics.map((topic) => (
@@ -166,32 +182,14 @@ export default function IssuesPage() {
         <section className="py-16 md:py-24 border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
-              Cross-Cutting Analytical Methods
+              {t("issues_page.cross_cutting.title")}
             </h2>
             <p className="text-lg text-muted-foreground mb-12 max-w-3xl leading-relaxed">
-              While our focus areas are distinct, ACRC applies consistent
-              analytical frameworks across all sectors to ensure rigour and
-              comparability.
+              {t("issues_page.cross_cutting.desc")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Institutional Analysis",
-                  description:
-                    "Examining government agencies, regulatory bodies, and organisational structures that shape policy implementation.",
-                },
-                {
-                  title: "Stakeholder Mapping",
-                  description:
-                    "Identifying key actors, their interests, influence networks, and the political economy dynamics of decision-making.",
-                },
-                {
-                  title: "Data-Driven Research",
-                  description:
-                    "Combining quantitative analysis with qualitative insights to produce evidence-based findings and recommendations.",
-                },
-              ].map((method, i) => (
+              {methods.map((method, i) => (
                 <div
                   key={method.title}
                   className="p-6 rounded-lg border border-border bg-card"
@@ -266,17 +264,16 @@ export default function IssuesPage() {
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Need Sector-Specific Analysis?
+            {t("issues_page.cta.title")}
           </h2>
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-            ACRC can provide targeted research and consulting on issues critical
-            to your strategic interests.
+            {t("issues_page.cta.desc")}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
           >
-            Request Analysis
+            {t("issues_page.cta.btn")}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

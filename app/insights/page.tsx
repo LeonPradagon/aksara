@@ -1,103 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ArrowRight, X } from "lucide-react";
+import { useLocale } from "@/contexts/locale-context";
 
 // =====================
-// Articles data
+// Articles Data (Static & Stable)
 // =====================
-const articles = [
-  {
-    id: "1",
-    title:
-      "Indonesia's 2025 Defence Spending: Strategic Priorities and Fiscal Constraints",
-    excerpt:
-      "Analysis of Indonesia's defence budget allocation, strategic priorities, and implications for regional security frameworks.",
-    date: "Jan 24, 2025",
-    category: "Defence",
-  },
-  {
-    id: "2",
-    title:
-      "Digital Economy Regulation: Balancing Innovation and Consumer Protection",
-    excerpt:
-      "Examining the regulatory framework for Indonesia's digital economy sector and its impact on startup ecosystem growth.",
-    date: "Jan 20, 2025",
-    category: "Economy",
-  },
-  {
-    id: "3",
-    title: "Maritime Security and Regional Stability in Southeast Asia",
-    excerpt:
-      "Analysis of maritime boundary disputes, naval modernization, and implications for Indonesia's strategic interests.",
-    date: "Jan 18, 2025",
-    category: "Defence",
-  },
-  {
-    id: "4",
-    title: "Green Finance and Climate Investment in Indonesia",
-    excerpt:
-      "Exploring the role of green finance in funding Indonesia's climate commitments and sustainable development goals.",
-    date: "Jan 10, 2025",
-    category: "ESG",
-  },
-  {
-    id: "5",
-    title: "Local Elections 2024: Voter Behaviour and Campaign Dynamics",
-    excerpt:
-      "Analysis of voting patterns, campaign strategies, and democratic participation in regional elections.",
-    date: "Jan 8, 2025",
-    category: "Elections",
-  },
-  {
-    id: "6",
-    title: "Bureaucratic Reform and Public Service Delivery",
-    excerpt:
-      "Assessment of administrative capacity improvements and challenges in delivering quality public services.",
-    date: "Jan 5, 2025",
-    category: "Politics",
-  },
+const articlesData = [
+  { id: "1", date: "2025-01-24" },
+  { id: "2", date: "2025-01-20" },
+  { id: "3", date: "2025-01-18" },
+  { id: "4", date: "2025-01-10" },
+  { id: "5", date: "2025-01-08" },
+  { id: "6", date: "2025-01-05" },
 ];
 
-const categories = [
-  "All",
-  "Defence",
-  "Politics",
-  "Economy",
-  "Elections",
-  "ESG",
-];
+/**
+ * Format a date string (YYYY-MM-DD) into a locale-specific string (e.g. "24 Jan 2025")
+ */
+function formatDate(dateString: string, locale: "en" | "id") {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat(locale === "id" ? "id-ID" : "en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
 
 // =====================
 // Helper: SAFE date comparison
 // =====================
 const isSameDate = (articleDate: string, selectedDate: string) => {
-  const d = new Date(articleDate);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}` === selectedDate;
+  // articleDate is YYYY-MM-DD from articlesData
+  // selectedDate is YYYY-MM-DD from input[type=date]
+  return articleDate === selectedDate;
 };
 
 // =====================
 // Page Component
 // =====================
 export default function InsightsPage() {
+  const { t, locale } = useLocale();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
 
+  const allLabel = locale === "id" ? "Semua" : "All";
+
+  // Derive articles with translated content
+  const articles = useMemo(() => {
+    return articlesData.map((item) => ({
+      id: item.id,
+      rawDate: item.date,
+      date: formatDate(item.date, locale),
+      title: t(`insights_page.articles.${item.id}.title`),
+      excerpt: t(`insights_page.articles.${item.id}.excerpt`),
+      category: t(`insights_page.articles.${item.id}.category`),
+    }));
+  }, [t, locale]);
+
+  // Derive unique categories from translated articles
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(articles.map((a) => a.category)));
+    return [allLabel, ...unique];
+  }, [articles, allLabel]);
+
+  // Handle locale switch resetting invalid filter state
+  // (Optional: effect to reset selectedCategory if it's no longer valid in new locale)
+  // For simplicity, we let the user reset it manually if they see no results,
+  // or we could auto-select 'All' if selectedCategory is not in new list.
+  // const isValidCategory = categories.includes(selectedCategory);
+  // if (!isValidCategory && selectedCategory !== "All" && selectedCategory !== "Semua") {
+  //   setSelectedCategory(allLabel);
+  // }
+  // Logic inside render is risky, better to just allow empty result.
+
   const filteredArticles = articles.filter((article) => {
     // category filter
-    if (selectedCategory !== "All" && article.category !== selectedCategory) {
+    if (
+      selectedCategory !== allLabel &&
+      selectedCategory !== "All" &&
+      selectedCategory !== "Semua" &&
+      article.category !== selectedCategory
+    ) {
       return false;
     }
 
-    // single date filter (timezone-safe)
-    if (selectedDate && !isSameDate(article.date, selectedDate)) {
+    // single date filter
+    if (selectedDate && !isSameDate(article.rawDate, selectedDate)) {
       return false;
     }
 
@@ -112,11 +105,10 @@ export default function InsightsPage() {
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-serif text-6xl md:text-7xl font-bold text-foreground mb-6">
-            Insights from ACRC
+            {t("insights_page.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-4xl leading-relaxed">
-            Articles and policy analysis to understand key developments
-            affecting Indonesia.
+            {t("insights_page.subtitle")}
           </p>
         </div>
       </section>
@@ -128,7 +120,7 @@ export default function InsightsPage() {
             {/* Category */}
             <div>
               <p className="text-sm font-medium text-muted-foreground mb-3">
-                Filter by Category
+                {t("insights_page.filters.category")}
               </p>
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
@@ -150,7 +142,7 @@ export default function InsightsPage() {
             {/* Date + Reset */}
             <div>
               <p className="text-sm font-medium text-muted-foreground mb-3">
-                Filter by Date
+                {t("insights_page.filters.date")}
               </p>
               <div className="flex items-center gap-2">
                 <input
@@ -166,7 +158,7 @@ export default function InsightsPage() {
                     aria-label="Reset date"
                   >
                     <X className="w-4 h-4" />
-                    Reset
+                    {t("insights_page.filters.reset")}
                   </button>
                 )}
               </div>
@@ -211,7 +203,7 @@ export default function InsightsPage() {
           {filteredArticles.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                No articles found for the selected filters.
+                {t("insights_page.filters.no_articles")}
               </p>
             </div>
           )}

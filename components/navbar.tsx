@@ -15,68 +15,7 @@ interface NavItem {
   children?: { label: string; href: string }[];
 }
 
-const navItems: NavItem[] = [
-  { label: "Home", href: "/" },
-  {
-    label: "About ACRC",
-    href: "/about",
-    children: [
-      { label: "Who We Are", href: "/about#who-we-are" },
-      { label: "Vision & Mission", href: "/about#vision-mission" },
-      { label: "Our Values", href: "/about#values" },
-      { label: "How We Work", href: "/about#how-we-work" },
-    ],
-  },
-  {
-    label: "Services",
-    href: "/services",
-    children: [
-      {
-        label: "Policy Research & Big Data",
-        href: "/services/policy-research",
-      },
-      {
-        label: "Corporate & Public Consulting",
-        href: "/services/corporate-consulting",
-      },
-      {
-        label: "Political & Election Consulting",
-        href: "/services/political-consulting",
-      },
-    ],
-  },
-  {
-    label: "Issues & Sectors",
-    href: "/issues",
-    children: [
-      { label: "Defence & Security", href: "/issues/defence-security" },
-      { label: "Politics & Governance", href: "/issues/politics-governance" },
-      { label: "Economy & Business", href: "/issues/economy-business" },
-      { label: "Elections & Democracy", href: "/issues/elections-democracy" },
-      { label: "ESG & Sustainability", href: "/issues/esg-sustainability" },
-    ],
-  },
-  {
-    label: "Insights",
-    href: "/insights",
-    children: [
-      { label: "ACRC's Concern", href: "/insights/concern" },
-      { label: "Articles & Analysis", href: "/insights?type=article" },
-      { label: "Reports & Policy Briefs", href: "/insights?type=report" },
-      { label: "Events & Presentations", href: "/insights?type=event" },
-    ],
-  },
-  {
-    label: "Team",
-    href: "/team",
-    children: [
-      { label: "Leadership", href: "/team#leadership" },
-      { label: "Researchers & Consultants", href: "/team#researchers" },
-      { label: "Advisory Board", href: "/team#advisory" },
-    ],
-  },
-  { label: "Contact", href: "/contact" },
-];
+// navItems moved inside Navbar component to access translation
 
 function DropdownMenu({
   item,
@@ -158,8 +97,77 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false); // FIX 1: Add mounted state
-  const { locale, toggleLocale } = useLocale();
+  const { locale, toggleLocale, t } = useLocale();
   const { theme, setTheme } = useTheme();
+
+  const navItems: NavItem[] = [
+    { label: t("nav.home"), href: "/" },
+    {
+      label: t("nav.about"),
+      href: "/about",
+      children: [
+        { label: t("nav.about_who"), href: "/about#who-we-are" },
+        { label: t("nav.about_vision"), href: "/about#vision-mission" },
+        { label: t("nav.about_values"), href: "/about#values" },
+        { label: t("nav.about_how"), href: "/about#how-we-work" },
+      ],
+    },
+    {
+      label: t("nav.services"),
+      href: "/services",
+      children: [
+        {
+          label: t("nav.services_policy"),
+          href: "/services/policy-research",
+        },
+        {
+          label: t("nav.services_corporate"),
+          href: "/services/corporate-consulting",
+        },
+        {
+          label: t("nav.services_political"),
+          href: "/services/political-consulting",
+        },
+      ],
+    },
+    {
+      label: t("nav.issues"),
+      href: "/issues",
+      children: [
+        { label: t("nav.issues_defence"), href: "/issues/defence-security" },
+        {
+          label: t("nav.issues_politics"),
+          href: "/issues/politics-governance",
+        },
+        { label: t("nav.issues_economy"), href: "/issues/economy-business" },
+        {
+          label: t("nav.issues_elections"),
+          href: "/issues/elections-democracy",
+        },
+        { label: t("nav.issues_esg"), href: "/issues/esg-sustainability" },
+      ],
+    },
+    {
+      label: t("nav.insights"),
+      href: "/insights",
+      children: [
+        { label: t("nav.insights_concern"), href: "/insights/concern" },
+        { label: t("nav.insights_articles"), href: "/insights?type=article" },
+        { label: t("nav.insights_reports"), href: "/insights?type=report" },
+        { label: t("nav.insights_events"), href: "/insights?type=event" },
+      ],
+    },
+    {
+      label: t("nav.team"),
+      href: "/team",
+      children: [
+        { label: t("nav.team_leadership"), href: "/team#leadership" },
+        { label: t("nav.team_researchers"), href: "/team#researchers" },
+        { label: t("nav.team_advisory"), href: "/team#advisory" },
+      ],
+    },
+    { label: t("nav.contact"), href: "/contact" },
+  ];
 
   // FIX 2: Set mounted to true only after component is mounted on client
   useEffect(() => {
@@ -305,11 +313,7 @@ export function Navbar() {
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Globe className="w-4 h-4" />
-                <span>
-                  {locale === "en"
-                    ? "Switch to Indonesian"
-                    : "Beralih ke Bahasa Inggris"}
-                </span>
+                <span>{t("nav.switch_lang")}</span>
               </button>
             </div>
           </div>

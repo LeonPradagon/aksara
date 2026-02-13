@@ -4,51 +4,51 @@ import { MapPin } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
 import { NavLink } from "@/components/nav-link";
 
-// Footer navigation items matching navbar structure
-const footerNavItems = [
-  {
-    label: "About",
-    href: "/about",
-    children: [
-      { label: "Who We Are", href: "/about#who-we-are" },
-      { label: "Vision & Mission", href: "/about#vision-mission" },
-      { label: "Our Values", href: "/about#values" },
-      { label: "How We Work", href: "/about#how-we-work" },
-    ],
-  },
-  {
-    label: "Services",
-    href: "/services",
-    children: [
-      {
-        label: "Policy Research & Big Data",
-        href: "/services#policy-research",
-      },
-      {
-        label: "Corporate & Public Consulting",
-        href: "/services#corporate-consulting",
-      },
-      {
-        label: "Political & Election Consulting",
-        href: "/services#political-consulting",
-      },
-    ],
-  },
-  {
-    label: "Insights",
-    href: "/insights",
-    children: [
-      { label: "ACRC's Concern", href: "/insights/concern" },
-      { label: "Articles & Analysis", href: "/insights?type=article" },
-      { label: "Reports & Policy Briefs", href: "/insights?type=report" },
-      { label: "Events & Presentations", href: "/insights?type=event" },
-    ],
-  },
-];
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const { locale, setLocale } = useLocale();
+  const { locale, setLocale, t } = useLocale();
+
+  // Footer navigation items matching navbar structure
+  const footerNavItems = [
+    {
+      label: t("nav.about"),
+      href: "/about",
+      children: [
+        { label: t("nav.about_who"), href: "/about#who-we-are" },
+        { label: t("nav.about_vision"), href: "/about#vision-mission" },
+        { label: t("nav.about_values"), href: "/about#values" },
+        { label: t("nav.about_how"), href: "/about#how-we-work" },
+      ],
+    },
+    {
+      label: t("nav.services"),
+      href: "/services",
+      children: [
+        {
+          label: t("nav.services_policy"),
+          href: "/services#policy-research",
+        },
+        {
+          label: t("nav.services_corporate"),
+          href: "/services#corporate-consulting",
+        },
+        {
+          label: t("nav.services_political"),
+          href: "/services#political-consulting",
+        },
+      ],
+    },
+    {
+      label: t("nav.insights"),
+      href: "/insights",
+      children: [
+        { label: t("nav.insights_concern"), href: "/insights/concern" },
+        { label: t("nav.insights_articles"), href: "/insights?type=article" },
+        { label: t("nav.insights_reports"), href: "/insights?type=report" },
+        { label: t("nav.insights_events"), href: "/insights?type=event" },
+      ],
+    },
+  ];
 
   return (
     <footer className="bg-primary dark:bg-[#01172C] text-white border-t border-neutral-800">
@@ -65,7 +65,7 @@ export function Footer() {
             <p className="text-xs text-white/80 leading-relaxed mb-4">
               Aksara Cakra Research and Consulting
               <br />
-              Navigator of Nusantara's Policy Direction
+              {t("footer.desc")}
             </p>
             {/* Address */}
             <div className="flex items-start gap-2 text-xs text-white/80">
@@ -113,21 +113,21 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
               <span
                 className="text-white/60 cursor-not-allowed"
-                title="Coming soon"
+                title={t("footer.coming_soon")}
               >
-                Careers
+                {t("footer.careers")}
               </span>
               <NavLink
                 href="/privacy-policy"
                 className="text-white/80 hover:text-white transition-colors"
               >
-                Privacy Policy
+                {t("footer.privacy")}
               </NavLink>
               <NavLink
                 href="/contact"
                 className="text-white/80 hover:text-white transition-colors"
               >
-                Address & Contact
+                {t("footer.address_contact")}
               </NavLink>
             </div>
 
@@ -159,8 +159,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-xs text-white/60 mt-4">
-            © {currentYear} Aksara Cakra Research and Consulting. All rights
-            reserved.
+            © {currentYear} {t("footer.rights")}
           </p>
         </div>
       </div>
