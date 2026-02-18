@@ -429,6 +429,15 @@ export default function ServicesPage() {
               </div>
             </TabsContent>
           </Tabs>
+          <div className="mt-12 text-center">
+            <Link
+              href="/about/structure"
+              className="inline-flex items-center gap-2 text-primary font-medium hover:underline hover:underline-offset-4 transition-all"
+            >
+              {t("about.structure_btn")}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

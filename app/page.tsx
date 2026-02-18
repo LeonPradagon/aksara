@@ -448,7 +448,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">

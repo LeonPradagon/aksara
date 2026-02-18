@@ -139,7 +139,8 @@ export const translations = {
       hero_btn_contact: "Schedule a Conversation",
       concern_title: "ACRC's Concern",
       concern_desc:
-        "Before we act, we must understand. These are the anomalies and critical questions that keep us awake – and that should concern every decision-maker in Indonesia.",
+        // "Before we act, we must understand. These are the anomalies and critical questions that keep us awake – and that should concern every decision-maker in Indonesia.",
+        "ACRC Concern is a platform for researchers and analysts to raise timely questions, flag emerging risks, and highlight issues that deserve closer public attention. It focuses on developments that may be overlooked in day-to-day debate—across domestic politics, social issues, the economy, defense and security, and regional dynamics. The goal is not to offer the final word, but to open a wider conversation and encourage deeper inquiry. Each piece is grounded in available evidence, but also points to what remains uncertain, contested, or insufficiently studied—inviting readers, practitioners, and fellow researchers to test claims, add data, and pursue follow-up work. The views expressed are those of the author(s) alone and do not necessarily reflect the official position of ACRC or any institution with which the author(s) are affiliated.",
       concern_btn: "Explore All Our Concerns",
       who_title: "Who We Are",
       who_desc:
@@ -272,7 +273,7 @@ export const translations = {
         },
       ],
       structure_title: "Organizational Structure",
-      structure_btn: "Learn More about organizational structure",
+      structure_btn: "Learn More",
       structure_intro:
         "ACRC is organized around two core pillars: the Research Division and the Consulting Division.",
       research_div_title: "Research Division",
@@ -389,7 +390,7 @@ export const translations = {
           "The Research Division of Aksara Cakra Research and Consulting (ACRC) functions as our center for knowledge creation, delivering analysis for policymakers, businesses, public institutions, civil society, and international partners. Our outputs are not decorative reports; they are practical materials designed to be applied, tested, and refined. To ensure depth and relevance, the division is organized into three interconnected departments. Below, we outline the scope of work, principal outputs, and benefits associated with each department.",
         defense: {
           title:
-            "1. Department of Defense, Security, and International Relations Studies",
+            "Department of Defense, Security, and International Relations Studies",
           para1:
             "Indonesia is an archipelagic state with vital sea lanes, long borders, rich natural resources, and densely populated coasts. As a result, defense and security are inseparable from economic management and public governance. Traditional concerns—territorial sovereignty, force readiness, and the posture of the Indonesian National Armed Forces (TNI)—coexist with non-traditional risks such as illegal fishing, smuggling, natural disasters, cybersecurity threats, disinformation, and supply-chain fragility. Regional relationships, ASEAN obligations, and broader great-power dynamics further shape this environment. Sound choices require calm, evidence-based judgment rather than reactions to short-term pressures.",
           para2:
@@ -408,8 +409,7 @@ export const translations = {
             "The Defense, Security & International Relations Department serves as a steady advisor in sensitive domains. We organize evidence so that client strategies align with national interests, are executed safely, and earn stakeholder confidence. With disciplined methods, clear risk mapping, practical options, and thorough documentation, decisions can be taken without haste and implementation proceeds smoothly. In an archipelagic nation as vast as Indonesia, this orderliness is a strategic asset. Our role is to help clients put that asset to work.",
         },
         politics: {
-          title:
-            "2. Department of Political Studies, Policy, and Social Issues",
+          title: "Department of Political Studies, Policy, and Social Issues",
           para1:
             "This department monitors the dynamics of politics and policy governance at both national and regional levels. Its focus is on how policies are drafted, communicated, and implemented, and on how the public evaluates their effects. For ministries, regional governments, and parliamentary bodies, we prepare concise analyses of policy texts, estimate realistic fiscal impacts, and design orderly public-engagement plans. For political parties, civil society groups, and media organizations, we provide clear issue briefings supported by stakeholder maps and practical, low-confusion next steps.",
           para2:
@@ -430,7 +430,7 @@ export const translations = {
             "The Department of Politics, Policy, and Domestic Social Issues at ACRC helps turn sound intentions into measurable outcomes. We combine policy analysis, political economy, program evaluation, and mixed-methods research with the administrative etiquette required in Indonesia. From ministerial conference rooms to village halls, we ensure decisions rest on adequate evidence, follow proper procedures, and use language the public can understand.",
         },
         economics: {
-          title: "3. Department of Economic Studies",
+          title: "Department of Economic Studies",
           para1:
             "The Department of Economics at Aksara Cakra Research and Consulting (ACRC) links academic inquiry with practical client needs. Its central task is to answer key economic questions using methods that can be audited, data that are well managed, and reasoning that can be retested. We design rigorous studies so that business decisions, public policies, and social programs are grounded in evidence rather than conjecture.",
           para2:
@@ -448,11 +448,11 @@ export const translations = {
       consulting: {
         title: "Consultant Division",
         corporate: {
-          title: "1. Consultancy Services for Corporate/Private Sectors",
+          title: "Consultancy Services for Corporate/Private Sectors",
           intro:
             "Understanding how geopolitical, geostrategic, and geoeconomic shifts affect business and daily life is our core mission. Aksara Cakra Research and Consulting (ACRC) delivers comprehensive, integrated risk solutions for markets and public life, and we partner with organizations that want to manage emerging risks and opportunities responsibly.",
           gov_relations: {
-            title: "1.1. Government Relations",
+            title: "Government Relations",
             para1:
               "ACRC is supported by a strong, well-connected team with an extensive network across all levels of government—from national ministries to district administrations throughout Indonesia. In today's environment, Government Relations is no longer a secondary or support function; it serves as an early warning system, a policy compass, and an official bridge that aligns business strategies with national priorities.",
             para2:
@@ -477,7 +477,7 @@ export const translations = {
               "At the operational level, ACRC has the expertise to fully integrate government relations into the corporate decision-making cycle through structured and measurable mechanisms. We provide monthly policy sensing briefs, quarterly regulatory risk registers, and when needed, activate regulatory war rooms to ensure coordinated responses.",
           },
           risk_mgmt: {
-            title: "1.2. Risk and Opportunity Management",
+            title: "Risk and Opportunity Management",
             para1:
               "When policymakers and business leaders make critical choices—whether to expand operations, reduce costs, allocate future investments, or enter and exit markets—a clear understanding of the geopolitical and business landscape becomes a decisive factor in determining the success or failure of their strategies.",
             para2:
@@ -494,7 +494,7 @@ export const translations = {
               "We emphasize measurable results. ACRC's Risk and Opportunity Management performance is evaluated using tangible benchmarks—shorter permit processing times, fewer audit findings, reduced project delays, and lower costs of quality failures. On the opportunity side, we measure additional margins from procurement efficiencies and successfully obtained tax incentives.",
           },
           strategic_planning: {
-            title: "1.3. Strategic Planning Development",
+            title: "Strategic Planning Development",
             para1:
               "ACRC builds close, enduring partnerships with its clients, integrating insights from diverse analytical approaches directly into their strategic planning and operational processes. This includes everything from scenario planning—linking external dynamics to real-world implications—to market sizing and the incorporation of political and regulatory contexts into quantified business opportunities.",
             para2:
@@ -505,7 +505,7 @@ export const translations = {
               "ACRC also guides investors along an auditable roadmap—a structure that fully complies with local regulations and is supported by a trustworthy local team. We identify and manage potential regulatory, licensing, and social risks from the outset, ensuring that profit projections remain conservative but achievable.",
           },
           legal: {
-            title: "1.4. Legal Assistance and Regulatory Compliance",
+            title: "Legal Assistance and Regulatory Compliance",
             para1:
               "At ACRC, we treat legal assistance and regulatory compliance as essential groundwork—tidying up before the business begins to grow. In our experience, companies in Indonesia thrive when they maintain complete permits, clear contracts, and constructive relationships with regulators.",
             para2:
@@ -521,7 +521,7 @@ export const translations = {
           intro:
             "The Consulting Division at Aksara Cakra Research and Consulting (ACRC) operates with a clear purpose: to help governments, political parties, and political leaders make the right decisions—at the right time and in the right way. We combine policy analysis, stakeholder mapping, issue management, and strategic public communication to achieve this.",
           campaign_strategy: {
-            title: "2.1. Campaign Strategy",
+            title: "Campaign Strategy",
             para1:
               "At ACRC, we believe that campaign strategy begins with trust—not theatrics. Winning the confidence of citizens is more important than momentary attention. In Indonesia, political contests unfold within a complex framework of strict electoral regulations, diverse local cultures, and genuine public expectations for better livelihoods.",
             para2:
@@ -534,7 +534,7 @@ export const translations = {
               "Ultimately, ACRC's Political Consulting approach balances strategy with integrity. We help candidates campaign with clarity, communicate with civility, and govern with credibility. In a nation as vast and diverse as Indonesia, political success depends not on spectacle, but on structure.",
           },
           survey: {
-            title: "2.2. Survey",
+            title: "Survey",
             para1:
               "At ACRC, we understand that public opinion is shaped less by rhetoric and more by lived experience—by how citizens navigate daily life, the quality of public services they encounter, and how leaders communicate their decisions. For this reason, our survey and research services go far beyond gathering numbers.",
             para2:
@@ -545,7 +545,7 @@ export const translations = {
               "We strictly maintain neutrality and data security, especially when working with multiple parties in the same region. Our operations follow strict confidentiality protocols and separate project teams to prevent conflicts of interest.",
           },
           campaign_mgmt: {
-            title: "2.3. Campaign Management",
+            title: "Campaign Management",
             para1:
               "In Indonesia, political campaigns unfold amid vast cultural diversity, strict electoral regulations, and citizens' growing expectations for better public services. ACRC's role is not merely to set the stage for these contests—we manage the entire campaign process from start to finish.",
             para2:
@@ -556,7 +556,7 @@ export const translations = {
               "After the vote, ACRC assists in drafting official statements, calming volunteers, and managing dispute resolution through lawful procedures. If the candidate wins, we prepare a 100-day governance roadmap. At ACRC, we believe political honor lies not only in victory, but in integrity.",
           },
           personal_branding: {
-            title: "2.4. Candidate Personal Branding",
+            title: "Candidate Personal Branding",
             para1:
               "At ACRC, we believe a candidate's brand begins with trust. People vote for those they believe in—not because of flashy visuals, but because they sense consistency between a person's words, character, and actions. Our role is to shape and preserve that consistency.",
             para2:
@@ -567,7 +567,7 @@ export const translations = {
               "We maintain strict ethical guidelines for campaign teams—covering etiquette, impartiality, and social assistance protocols. Each week, ACRC monitors political and public discourse—tracking government actions, local issues, and emerging controversies. Ultimately, political branding is not surface decoration—it is character refinement.",
           },
           communication: {
-            title: "2.5. Management of Political Communication",
+            title: "Management of Political Communication",
             para1:
               "At ACRC, we begin from a simple premise: voters judge candidates through their daily realities—how they live, what they experience, and how clearly leaders explain their choices. Good communication, therefore, is not about eloquence alone. It is about clarity, civility, and consistency over time.",
             para2:
@@ -1019,7 +1019,8 @@ export const translations = {
       hero_btn_contact: "Jadwalkan Percakapan",
       concern_title: "Perhatian ACRC",
       concern_desc:
-        "Sebelum bertindak, kita harus memahami. Ini adalah anomali dan pertanyaan kritis yang membuat kami terjaga – dan yang seharusnya menjadi perhatian setiap pengambil keputusan di Indonesia.",
+        // "Sebelum bertindak, kita harus memahami. Ini adalah anomali dan pertanyaan kritis yang membuat kami terjaga – dan yang seharusnya menjadi perhatian setiap pengambil keputusan di Indonesia.",
+        "ACRC Concern adalah platform bagi peneliti dan analis untuk mengajukan pertanyaan yang relevan, mengidentifikasi risiko yang muncul, dan menyoroti isu-isu yang layak mendapat perhatian publik yang lebih luas. Platform ini berfokus pada perkembangan yang mungkin terlewatkan dalam perdebatan sehari-hari—meliputi politik dalam negeri, isu sosial, ekonomi, pertahanan dan keamanan, serta dinamika regional. Tujuannya bukan untuk memberikan jawaban akhir, melainkan untuk membuka percakapan yang lebih luas dan mendorong penyelidikan yang lebih mendalam. Setiap artikel didasarkan pada bukti yang tersedia, tetapi juga menyoroti hal-hal yang masih tidak pasti, diperdebatkan, atau kurang diteliti—mengundang pembaca, praktisi, dan peneliti lain untuk menguji klaim, menambahkan data, dan melanjutkan penelitian lebih lanjut. Pendapat yang diungkapkan adalah pendapat penulis(an) saja dan tidak necessarily mencerminkan posisi resmi ACRC atau institusi mana pun di mana penulis(an) tersebut berafiliasi.",
       concern_btn: "Jelajahi Semua Perhatian Kami",
       who_title: "Siapa Kami",
       who_desc:

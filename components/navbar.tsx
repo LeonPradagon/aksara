@@ -163,7 +163,7 @@ export function Navbar() {
       children: [
         { label: t("nav.team_leadership"), href: "/team#leadership" },
         { label: t("nav.team_researchers"), href: "/team#researchers" },
-        { label: t("nav.team_advisory"), href: "/team#advisory" },
+        // { label: t("nav.team_advisory"), href: "/team#advisory" },
       ],
     },
     { label: t("nav.contact"), href: "/contact" },
@@ -181,16 +181,21 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <NavLink
             href="/"
             className="flex-shrink-0 group flex items-center gap-3"
           >
+            {/* Logic: Cek apakah sudah mounted & tema apa yang aktif */}
             <img
-              src="/picture/Aksara Cakra.png"
+              src={
+                mounted && theme === "dark"
+                  ? "/picture/Logo ACRC 3.png"
+                  : "/picture/Logo ACRC 1.png"
+              }
               alt="ACRC Logo"
-              className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+              className="h-15 w-auto transition-transform duration-300 group-hover:scale-105"
             />
 
             <div>
