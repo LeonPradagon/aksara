@@ -70,11 +70,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-lg text-primary font-semibold mb-4">
+              <p className="text-3xl md:text-4xl text-primary font-bold mb-4">
                 Aksara Cakra Research and Consulting (ACRC)
               </p>
 
-              <h1 className="font-serif text-5xl md:text-6xl font-bold text-foreground mb-8 leading-tight">
+              <h1 className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-8 leading-tight">
                 {t("home.hero_title")}
               </h1>
 
