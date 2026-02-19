@@ -7,21 +7,8 @@ import { Footer } from "@/components/footer";
 import { ArrowRight, X } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
 
-// =====================
-// Articles Data (Static & Stable)
-// =====================
-const articlesData = [
-  { id: "1", date: "2025-01-24" },
-  { id: "2", date: "2025-01-20" },
-  { id: "3", date: "2025-01-18" },
-  { id: "4", date: "2025-01-10" },
-  { id: "5", date: "2025-01-08" },
-  { id: "6", date: "2025-01-05" },
-];
+import { articlesData } from "@/lib/articles";
 
-/**
- * Format a date string (YYYY-MM-DD) into a locale-specific string (e.g. "24 Jan 2025")
- */
 function formatDate(dateString: string, locale: "en" | "id") {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat(locale === "id" ? "id-ID" : "en-GB", {
@@ -31,18 +18,10 @@ function formatDate(dateString: string, locale: "en" | "id") {
   }).format(date);
 }
 
-// =====================
-// Helper: SAFE date comparison
-// =====================
 const isSameDate = (articleDate: string, selectedDate: string) => {
-  // articleDate is YYYY-MM-DD from articlesData
-  // selectedDate is YYYY-MM-DD from input[type=date]
   return articleDate === selectedDate;
 };
 
-// =====================
-// Page Component
-// =====================
 export default function InsightsPage() {
   const { t, locale } = useLocale();
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -56,9 +35,9 @@ export default function InsightsPage() {
       id: item.id,
       rawDate: item.date,
       date: formatDate(item.date, locale),
-      title: t(`insights_page.articles.${item.id}.title`),
-      excerpt: t(`insights_page.articles.${item.id}.excerpt`),
-      category: t(`insights_page.articles.${item.id}.category`),
+      title: t(`articles.${item.id}.title`),
+      excerpt: t(`articles.${item.id}.excerpt`),
+      category: t(`articles.${item.id}.category`),
     }));
   }, [t, locale]);
 
@@ -101,7 +80,6 @@ export default function InsightsPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* ================= Hero ================= */}
       <section className="py-16 md:py-24 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="font-serif text-6xl md:text-7xl font-bold text-foreground mb-6">

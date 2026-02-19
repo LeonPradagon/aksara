@@ -24,12 +24,57 @@ export const translations = {
       insights_articles: "Articles & Analysis",
       insights_reports: "Reports & Policy Briefs",
       insights_events: "Events & Presentations",
+      articles: {
+        "1": {
+          title:
+            "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
+          excerpt:
+            "Strategic analysis of Bakamla's future force posture, examining opportunities, constraints, and market realities.",
+          category: "Defence & Security",
+        },
+        "2": {
+          title:
+            "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test (Part 2)",
+          excerpt:
+            "Continued analysis of Bakamla's strategic development and force posture towards 2045.",
+          category: "Economy & Business",
+        },
+        "3": {
+          title: "National Strategy for Cyber-Physical Systems (CPS) Security",
+          excerpt:
+            "Indonesia's dependence on cyber-physical systems (CPS) is increasing rapidly. This paper examines CPS security from a public policy perspective, focusing on instrument design, cross-sector coordination, and compliance incentives.",
+          category: "Politics & Governance",
+        },
+      },
       team: "Team",
       team_leadership: "Leadership",
       team_researchers: "Researchers & Consultants",
       team_advisory: "Advisory Board",
       contact: "Contact",
       switch_lang: "Switch to Indonesian",
+    },
+    articles: {
+      "1": {
+        title:
+          "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
+        excerpt:
+          "Strategic analysis of Bakamla's future force posture, examining opportunities, constraints, and market realities.",
+        category: "Defence & Security",
+      },
+      "2": {
+        title:
+          "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test (Part 2)",
+        excerpt:
+          "Continued analysis of Bakamla's strategic development and force posture towards 2045.",
+        category: "Economy & Business",
+      },
+      "3": {
+        title:
+          "Indonesia's dependence on cyber-physical systems (CPS) is increasing rapidly. This paper examines CPS security from a public policy perspective, focusing on instrument design, cross-sector coordination, and compliance incentives.",
+        excerpt:
+          "Ketergantungan Indonesia terhadap cyber-physical systems (CPS)—sistem yang menghubungkan komputasi, jaringan, sensor, dan aktuator untuk memonitor serta mengendalikan proses fisik—meningkat pesat seiring program digitalisasi infrastruktur dan layanan publik yang digalakkan oleh pemerintahan Joko Widodo selama sepuluh tahun berkuasa. Konsekuensinya, keamanan CPS tidak lagi dapat dipahami sebagai sekadar isu teknis, melainkan sebagai isu strategi nasional dan kebijakan publik yang harus diurus oleh pemerintahan Prabowo saat ini. Ketahanan CPS dari berbagai serangan perlu dikaji dari perspektif public policy dengan fokus pada persoalan desain instrumen, koordinasi lintas-sektor, kapasitas implementasi, serta insentif kepatuhan. Dengan metode kajian kualitatif berbasis studi kasus komparatif dan analisis dokumen kebijakan, artikel ini mencoba mengekstraksi pelajaran dari insiden global pada infrastruktur kritis. Kajian ini mengambil contoh kasus penangkapan Presiden Venezuela, pemadaman listrik di Ukraina, dan kasus Oldsmar (Florida). Kasus-kasus tersebut kemudian ditautkan ke dalam konteks Indonesia melalui kasus gangguan Pusat Data Nasional (PDNS) 2024 serta kerangka regulasi pelindungan Infrastruktur Informasi Vital (IIV) dan Infrastruktur Informasi Fisik Vital (IIFV). Hasil analisis menunjukkan tiga sumber utama kerentanan: (1) strategic underestimation atas peran serangan CPS; (2) kesenjangan desain kebijakan dari norma umum menuju baseline operational technology (OT) dan perlindungan industrial control systems (ICS) yang dapat diaudit; serta (3) kesenjangan implementasi berupa fragmentasi kewenangan, kapasitas SDM yang terbatas, dan lemahnya tata kelola pemulihan pasca serangan.",
+        category: "Politics & Governance",
+      },
     },
     contact: {
       title: "Contact ACRC",
@@ -904,6 +949,29 @@ export const translations = {
       insights_articles: "Artikel & Analisis",
       insights_reports: "Laporan & Ringkasan Kebijakan",
       insights_events: "Acara & Presentasi",
+      articles: {
+        "1": {
+          title:
+            "Postur Kekuatan Bakamla 2045: Peluang, Kendala, dan Uji Pasar Nyata",
+          excerpt:
+            "Analisis strategis mengenai postur kekuatan masa depan Bakamla, mengkaji peluang, kendala, dan realitas pasar.",
+          category: "Pertahanan & Keamanan",
+        },
+        "2": {
+          title:
+            "Postur Kekuatan Bakamla 2045: Peluang, Kendala, dan Uji Pasar Nyata (Bagian 2)",
+          excerpt:
+            "Analisis lanjutan mengenai pengembangan strategis dan postur kekuatan Bakamla menuju 2045.",
+          category: "Ekonomi & Bisnis",
+        },
+        "3": {
+          title:
+            "Strategi Nasional untuk Keamanan Cyber-Physical Systems (CPS)",
+          excerpt:
+            "Ketergantungan Indonesia terhadap cyber-physical systems (CPS) meningkat pesat. Artikel ini mengkaji ketahanan CPS dari perspektif kebijakan publik, fokus pada desain instrumen, koordinasi lintas-sektor, dan insentif kepatuhan.",
+          category: "Politik & Pemerintahan",
+        },
+      },
       team: "Tim",
       team_leadership: "Kepemimpinan",
       team_researchers: "Peneliti & Konsultan",
