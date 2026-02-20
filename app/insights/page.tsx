@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -47,15 +47,10 @@ export default function InsightsPage() {
     return [allLabel, ...unique];
   }, [articles, allLabel]);
 
-  // Handle locale switch resetting invalid filter state
-  // (Optional: effect to reset selectedCategory if it's no longer valid in new locale)
-  // For simplicity, we let the user reset it manually if they see no results,
-  // or we could auto-select 'All' if selectedCategory is not in new list.
-  // const isValidCategory = categories.includes(selectedCategory);
-  // if (!isValidCategory && selectedCategory !== "All" && selectedCategory !== "Semua") {
-  //   setSelectedCategory(allLabel);
-  // }
-  // Logic inside render is risky, better to just allow empty result.
+  // Reset selected category when locale changes to avoid mismatched filters
+  useEffect(() => {
+    setSelectedCategory(allLabel);
+  }, [locale, allLabel]);
 
   const filteredArticles = articles.filter((article) => {
     // category filter

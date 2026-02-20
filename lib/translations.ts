@@ -875,7 +875,7 @@ export const translations = {
       },
     },
     insights_page: {
-      title: "Insights from ACRC",
+      title: "Publication from ACRC",
       subtitle:
         "Articles and policy analysis to understand key developments affecting Indonesia.",
       filters: {
@@ -949,35 +949,35 @@ export const translations = {
       insights_articles: "Artikel & Analisis",
       insights_reports: "Laporan & Ringkasan Kebijakan",
       insights_events: "Acara & Presentasi",
-      articles: {
-        "1": {
-          title:
-            "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
-          excerpt:
-            "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
-          category: "Pertahanan & Keamanan",
-        },
-        "2": {
-          title:
-            "When Counterterrorism Meets the Reform-Era Boundary: Rethinking the Draft Perpres on TNI Involvement",
-          excerpt:
-            "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
-          category: "Pertahanan & Keamanan",
-        },
-        "3": {
-          title:
-            "Strategi Nasional untuk Keamanan Cyber-Physical Systems (CPS)",
-          excerpt:
-            "Ketergantungan Indonesia terhadap cyber-physical systems (CPS) meningkat pesat. Artikel ini mengkaji ketahanan CPS dari perspektif kebijakan publik, fokus pada desain instrumen, koordinasi lintas-sektor, dan insentif kepatuhan.",
-          category: "Politik & Pemerintahan",
-        },
-      },
+
       team: "Tim",
       team_leadership: "Kepemimpinan",
       team_researchers: "Peneliti & Konsultan",
       team_advisory: "Dewan Penasihat",
       contact: "Hubungi",
       switch_lang: "Beralih ke Bahasa Inggris",
+    },
+    articles: {
+      "1": {
+        title:
+          "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
+        excerpt:
+          "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
+        category: "Pertahanan & Keamanan",
+      },
+      "2": {
+        title:
+          "When Counterterrorism Meets the Reform-Era Boundary: Rethinking the Draft Perpres on TNI Involvement",
+        excerpt:
+          "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
+        category: "Pertahanan & Keamanan",
+      },
+      "3": {
+        title: "Strategi Nasional untuk Keamanan Cyber-Physical Systems (CPS)",
+        excerpt:
+          "Ketergantungan Indonesia terhadap cyber-physical systems (CPS) meningkat pesat. Artikel ini mengkaji ketahanan CPS dari perspektif kebijakan publik, fokus pada desain instrumen, koordinasi lintas-sektor, dan insentif kepatuhan.",
+        category: "Politik & Pemerintahan",
+      },
     },
     contact: {
       title: "Hubungi ACRC",
@@ -1777,7 +1777,7 @@ export const translations = {
       },
     },
     insights_page: {
-      title: "Wawasan dari ACRC",
+      title: "Publikasi dari ACRC",
       subtitle:
         "Artikel dan analisis kebijakan untuk memahami perkembangan utama yang memengaruhi Indonesia.",
       filters: {
@@ -1785,46 +1785,6 @@ export const translations = {
         date: "Filter berdasarkan Tanggal",
         reset: "Atur Ulang",
         no_articles: "Tidak ada artikel ditemukan untuk filter yang dipilih.",
-      },
-      articles: {
-        "1": {
-          title:
-            "Belanja Pertahanan Indonesia 2025: Prioritas Strategis dan Kendala Fiskal",
-          excerpt:
-            "Analisis alokasi anggaran pertahanan Indonesia, prioritas strategis, dan implikasi bagi kerangka kerja keamanan regional.",
-          category: "Pertahanan",
-        },
-        "2": {
-          title:
-            "Regulasi Ekonomi Digital: Menyeimbangkan Inovasi dan Perlindungan Konsumen",
-          excerpt:
-            "Memeriksa kerangka kerja regulasi untuk sektor ekonomi digital Indonesia dan dampaknya terhadap pertumbuhan ekosistem startup.",
-          category: "Ekonomi",
-        },
-        "3": {
-          title: "Keamanan Maritim dan Stabilitas Regional di Asia Tenggara",
-          excerpt:
-            "Analisis sengketa batas maritim, modernisasi angkatan laut, dan implikasi bagi kepentingan strategis Indonesia.",
-          category: "Pertahanan",
-        },
-        "4": {
-          title: "Keuangan Hijau dan Investasi Iklim di Indonesia",
-          excerpt:
-            "Mengeksplorasi peran keuangan hijau dalam mendanai komitmen iklim Indonesia dan tujuan pembangunan berkelanjutan.",
-          category: "ESG",
-        },
-        "5": {
-          title: "Pilkada 2024: Perilaku Pemilih dan Dinamika Kampanye",
-          excerpt:
-            "Analisis pola pemilih, strategi kampanye, dan partisipasi demokrasi dalam pemilihan kepala daerah.",
-          category: "Pemilu",
-        },
-        "6": {
-          title: "Reformasi Birokrasi dan Pelayanan Publik",
-          excerpt:
-            "Penilaian perbaikan kapasitas administratif dan tantangan dalam memberikan pelayanan publik yang berkualitas.",
-          category: "Politik",
-        },
       },
     },
   },
