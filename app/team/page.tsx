@@ -112,7 +112,7 @@ export default function TeamPage() {
       </section>
 
       {/* CEO */}
-      <section className="py-24 border-b">
+      <section id="leadership" className="py-24 border-b">
         <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-14 items-center">
           <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
             <Image
@@ -142,7 +142,7 @@ export default function TeamPage() {
       </section>
 
       {/* ASSOCIATES */}
-      <section className="py-24 bg-muted/30">
+      <section id="researchers" className="py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="font-serif text-4xl font-bold mb-12">
             {t("team.associate_title")}
