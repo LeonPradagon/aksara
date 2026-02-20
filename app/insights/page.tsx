@@ -168,7 +168,7 @@ export default function InsightsPage() {
                     <h3 className="font-serif text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                       {article.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed line-clamp-3">
                       {article.excerpt}
                     </p>
                   </div>

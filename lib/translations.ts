@@ -58,15 +58,15 @@ export const translations = {
         title:
           "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
         excerpt:
-          "Strategic analysis of Bakamla's future force posture, examining opportunities, constraints, and market realities.",
+          "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
         category: "Defence & Security",
       },
       "2": {
         title:
-          "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test (Part 2)",
+          "When Counterterrorism Meets the Reform-Era Boundary: Rethinking the Draft Perpres on TNI Involvement",
         excerpt:
-          "Continued analysis of Bakamla's strategic development and force posture towards 2045.",
-        category: "Economy & Business",
+          "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
+        category: "Defence & Security",
       },
       "3": {
         title:
@@ -952,17 +952,17 @@ export const translations = {
       articles: {
         "1": {
           title:
-            "Postur Kekuatan Bakamla 2045: Peluang, Kendala, dan Uji Pasar Nyata",
+            "Bakamla’s 2045 Force Posture: Opportunities, Constraints, and the Real Market Test",
           excerpt:
-            "Analisis strategis mengenai postur kekuatan masa depan Bakamla, mengkaji peluang, kendala, dan realitas pasar.",
+            "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
           category: "Pertahanan & Keamanan",
         },
         "2": {
           title:
-            "Postur Kekuatan Bakamla 2045: Peluang, Kendala, dan Uji Pasar Nyata (Bagian 2)",
+            "When Counterterrorism Meets the Reform-Era Boundary: Rethinking the Draft Perpres on TNI Involvement",
           excerpt:
-            "Analisis lanjutan mengenai pengembangan strategis dan postur kekuatan Bakamla menuju 2045.",
-          category: "Ekonomi & Bisnis",
+            "Indonesia does not need persuasion that terrorism is a serious and persistent security problem. Episodes of violence, disrupted plots, and the long social consequences of fear and trauma have repeatedly placed public pressure on the state to respond quickly and decisively. In such contexts, proposals to mobilize all available state capabilities, including military capabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in counterterrorism is not merely operational. It is inseparable from the country’s post-1998 institutional settlement, which sought to demarcate “defense” from “domestic security,” embed civilian supremacy, and strengthen accountability mechanisms after decades in which coercive authority was frequently concentrated and weakly supervised. The leaked draft Presidential Regulation (Perpres) concerning the involvement of the Indonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a familiar but unresolved dilemma: how to enhance state effectiveness against extraordinary threats without eroding the rule-of-law foundations and democratic safeguards established during the reform era. In this debate, the central issue is not the legitimacy of counterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the institutional division of labor, the legal basis for the deployment of armed force in civilian space, the clarity of thresholds for military engagement, and the robustness of oversight and accountability mechanisms",
+          category: "Pertahanan & Keamanan",
         },
         "3": {
           title:

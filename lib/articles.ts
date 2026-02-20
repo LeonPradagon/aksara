@@ -9,7 +9,7 @@ export const articlesData = [
     id: "2",
     pdfFile: "ACRC Concern No. 01-17022026.pdf",
     date: "2026-02-17",
-    categoryKey: "economy",
+    categoryKey: "defence",
   },
   {
     id: "3",
