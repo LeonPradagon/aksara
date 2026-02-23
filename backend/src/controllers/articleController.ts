@@ -32,11 +32,12 @@ export const getArticleBySlug = async (req: Request, res: Response) => {
 
 export const createArticle = async (req: AuthRequest, res: Response) => {
   const { slug, title, content, excerpt, category, published } = req.body;
+  const pdf_url = req.file ? `/uploads/pdfs/${req.file.filename}` : null;
 
   try {
     const result = await query(
-      "INSERT INTO articles (slug, title, content, excerpt, category, published) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [slug, title, content, excerpt, category, published || false],
+      "INSERT INTO articles (slug, title, content, excerpt, category, published, pdf_url) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [slug, title, content, excerpt, category, published || false, pdf_url],
     );
 
     res.status(201).json(result.rows[0]);
@@ -50,10 +51,15 @@ export const updateArticle = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const { slug, title, content, excerpt, category, published } = req.body;
 
+  let pdf_url = req.body.pdf_url; // keep existing if no new upload
+  if (req.file) {
+    pdf_url = `/uploads/pdfs/${req.file.filename}`;
+  }
+
   try {
     const result = await query(
-      "UPDATE articles SET slug = $1, title = $2, content = $3, excerpt = $4, category = $5, published = $6, updated_at = NOW() WHERE id = $7 RETURNING *",
-      [slug, title, content, excerpt, category, published, id],
+      "UPDATE articles SET slug = $1, title = $2, content = $3, excerpt = $4, category = $5, published = $6, pdf_url = COALESCE($7, pdf_url), updated_at = NOW() WHERE id = $8 RETURNING *",
+      [slug, title, content, excerpt, category, published, pdf_url, id],
     );
 
     if (result.rowCount === 0) {
