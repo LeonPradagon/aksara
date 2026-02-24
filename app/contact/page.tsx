@@ -8,6 +8,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
+import Swal from "sweetalert2";
 
 export default function ContactPage() {
   const { t } = useLocale();
@@ -19,7 +20,7 @@ export default function ContactPage() {
     inquiryType: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -30,19 +31,62 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send data to a backend
-    setSubmitted(true);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      organization: "",
-      inquiryType: "",
-      message: "",
+    setSubmitting(true);
+
+    // Show loading alert
+    Swal.fire({
+      title: "Sending...",
+      text: "Please wait while we process your message.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
-    setTimeout(() => setSubmitted(false), 5000);
+
+    try {
+      const response = await fetch("http://localhost:5342/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
+      // Close loading and show success
+      Swal.fire({
+        title: "Success!",
+        text: t("contact.success_message"),
+        icon: "success",
+        confirmButtonColor: "#01172C",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        organization: "",
+        inquiryType: "",
+        message: "",
+      });
+    } catch (err: any) {
+      console.error(err);
+      // Close loading and show error
+      Swal.fire({
+        title: "Error!",
+        text: err.message || "Something went wrong. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#01172C",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -315,17 +359,12 @@ export default function ContactPage() {
                     </p>
                   </div>
 
-                  {submitted && (
-                    <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-green-800 dark:text-green-200 text-sm">
-                      {t("contact.success_message")}
-                    </div>
-                  )}
-
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {t("contact.submit_btn")}
+                    {submitting ? "Sending..." : t("contact.submit_btn")}
                     <Send className="w-4 h-4" />
                   </button>
                 </div>
