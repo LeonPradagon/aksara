@@ -1,13 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "changeme";
-
 export interface AuthRequest extends Request {
-  user?: {
-    id: string;
-    role: string;
-  };
+  user?: any;
 }
 
 export const authenticate = (
@@ -15,17 +10,14 @@ export const authenticate = (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "No token, authorization denied" });
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as {
-      id: string;
-      role: string;
-    };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
     req.user = decoded;
     next();
   } catch (error) {
@@ -36,7 +28,7 @@ export const authenticate = (
 export const authorize = (roles: string[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user || !roles.includes(req.user.role)) {
-      return res.status(403).json({ message: "Access denied" });
+      return res.status(403).json({ message: "User not authorized" });
     }
     next();
   };

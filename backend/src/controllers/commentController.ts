@@ -2,19 +2,23 @@ import { Request, Response } from "express";
 import { query } from "../config/db";
 import { AuthRequest } from "../middlewares/authMiddleware";
 
-export const getCommentsByArticle = async (req: Request, res: Response) => {
-  const { articleId } = req.query;
-  if (!articleId) {
-    return res.status(400).json({ message: "articleId is required" });
-  }
-
+export const getAllComments = async (req: Request, res: Response) => {
   try {
     const result = await query(
-      `SELECT c.*, u.name as author_name 
-       FROM comments c 
-       JOIN users u ON c.user_id = u.id 
-       WHERE c.article_id = $1 
-       ORDER BY c.created_at ASC`,
+      "SELECT c.*, a.title as article_title FROM comments c LEFT JOIN articles a ON c.article_id = a.id ORDER BY created_at DESC",
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getArticleComments = async (req: Request, res: Response) => {
+  const { articleId } = req.params;
+  try {
+    const result = await query(
+      "SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC",
       [articleId],
     );
     res.json(result.rows);
@@ -24,20 +28,15 @@ export const getCommentsByArticle = async (req: Request, res: Response) => {
   }
 };
 
-export const postComment = async (req: AuthRequest, res: Response) => {
-  const { content, articleId, parentId } = req.body;
-  const userId = req.user?.id;
-
-  if (!userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+export const createComment = async (req: AuthRequest, res: Response) => {
+  const { article_id, author_name, content } = req.body;
+  const user_id = req.user?.id || null;
 
   try {
     const result = await query(
-      "INSERT INTO comments (content, article_id, user_id, parent_id) VALUES ($1, $2, $3, $4) RETURNING *",
-      [content, articleId, userId, parentId || null],
+      "INSERT INTO comments (article_id, user_id, author_name, content) VALUES ($1, $2, $3, $4) RETURNING *",
+      [article_id, user_id, author_name, content],
     );
-
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
@@ -47,27 +46,14 @@ export const postComment = async (req: AuthRequest, res: Response) => {
 
 export const deleteComment = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const userId = req.user?.id;
-  const userRole = req.user?.role;
-
   try {
-    // Check if comment exists and if the user is the author or admin
-    const commentRes = await query("SELECT * FROM comments WHERE id = $1", [
-      id,
-    ]);
-    if (commentRes.rowCount === 0) {
+    const result = await query(
+      "DELETE FROM comments WHERE id = $1 RETURNING *",
+      [id],
+    );
+    if (result.rowCount === 0) {
       return res.status(404).json({ message: "Comment not found" });
     }
-
-    const comment = commentRes.rows[0];
-
-    if (comment.user_id !== userId && userRole !== "ADMIN") {
-      return res
-        .status(403)
-        .json({ message: "Not authorized to delete this comment" });
-    }
-
-    await query("DELETE FROM comments WHERE id = $1", [id]);
     res.json({ message: "Comment deleted" });
   } catch (error) {
     console.error(error);

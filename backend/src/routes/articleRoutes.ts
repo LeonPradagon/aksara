@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   getAllArticles,
-  getArticleBySlug,
+  getArticle,
   createArticle,
   updateArticle,
   deleteArticle,
@@ -12,7 +12,7 @@ import { uploadPdf } from "../middlewares/uploadMiddleware";
 const router = Router();
 
 router.get("/", getAllArticles);
-router.get("/:slug", getArticleBySlug);
+router.get("/:idOrSlug", getArticle);
 
 // Admin-only routes
 router.post(

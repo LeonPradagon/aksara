@@ -1,15 +1,17 @@
 import { Router } from "express";
 import {
-  getCommentsByArticle,
-  postComment,
+  getAllComments,
+  getArticleComments,
+  createComment,
   deleteComment,
 } from "../controllers/commentController";
-import { authenticate } from "../middlewares/authMiddleware";
+import { authenticate, authorize } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/", getCommentsByArticle);
-router.post("/", authenticate, postComment);
-router.delete("/:id", authenticate, deleteComment);
+router.get("/", getAllComments);
+router.get("/article/:articleId", getArticleComments);
+router.post("/", createComment);
+router.delete("/:id", authenticate, authorize(["ADMIN"]), deleteComment);
 
 export default router;

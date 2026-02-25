@@ -4,10 +4,18 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, X, Loader2, FileText } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
+import api from "@/lib/api";
 
-import { articlesData } from "@/lib/articles";
+interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  created_at: string;
+  author: string;
+}
 
 function formatDate(dateString: string, locale: "en" | "id") {
   const date = new Date(dateString);
@@ -18,58 +26,64 @@ function formatDate(dateString: string, locale: "en" | "id") {
   }).format(date);
 }
 
-const isSameDate = (articleDate: string, selectedDate: string) => {
-  return articleDate === selectedDate;
-};
-
 export default function InsightsPage() {
   const { t, locale } = useLocale();
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
 
   const allLabel = locale === "id" ? "Semua" : "All";
 
-  // Derive articles with translated content
-  const articles = useMemo(() => {
-    return articlesData.map((item) => ({
-      id: item.id,
-      rawDate: item.date,
-      date: formatDate(item.date, locale),
-      title: t(`articles.${item.id}.title`),
-      excerpt: t(`articles.${item.id}.excerpt`),
-      category: t(`articles.${item.id}.category`),
-    }));
-  }, [t, locale]);
+  useEffect(() => {
+    fetchArticles();
+  }, []);
 
-  // Derive unique categories from translated articles
+  const fetchArticles = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/articles");
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset selected category when locale changes
+  useEffect(() => {
+    setSelectedCategory(allLabel);
+  }, [locale, allLabel]);
+
   const categories = useMemo(() => {
     const unique = Array.from(new Set(articles.map((a) => a.category)));
     return [allLabel, ...unique];
   }, [articles, allLabel]);
 
-  // Reset selected category when locale changes to avoid mismatched filters
-  useEffect(() => {
-    setSelectedCategory(allLabel);
-  }, [locale, allLabel]);
+  const filteredArticles = useMemo(() => {
+    return articles.filter((article) => {
+      // category filter
+      if (
+        selectedCategory !== allLabel &&
+        selectedCategory !== "All" &&
+        selectedCategory !== "Semua" &&
+        article.category !== selectedCategory
+      ) {
+        return false;
+      }
 
-  const filteredArticles = articles.filter((article) => {
-    // category filter
-    if (
-      selectedCategory !== allLabel &&
-      selectedCategory !== "All" &&
-      selectedCategory !== "Semua" &&
-      article.category !== selectedCategory
-    ) {
-      return false;
-    }
+      // date filter
+      if (selectedDate) {
+        const articleDate = new Date(article.created_at)
+          .toISOString()
+          .split("T")[0];
+        if (articleDate !== selectedDate) return false;
+      }
 
-    // single date filter
-    if (selectedDate && !isSameDate(article.rawDate, selectedDate)) {
-      return false;
-    }
-
-    return true;
-  });
+      return true;
+    });
+  }, [articles, selectedCategory, selectedDate, allLabel]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -143,41 +157,51 @@ export default function InsightsPage() {
       {/* ================= Articles ================= */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-6">
-            {filteredArticles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/insights/${article.id}`}
-                className="block p-6 rounded-lg border border-border bg-card hover:shadow-md hover:border-primary/30 transition-all group"
-              >
-                <div className="flex flex-col md:flex-row md:justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="px-2.5 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded">
-                        {article.category}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {article.date}
-                      </span>
-                    </div>
-                    <h3 className="font-serif text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      {article.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed line-clamp-3">
-                      {article.excerpt}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" />
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {filteredArticles.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">
-                {t("insights_page.filters.no_articles")}
+          {loading ? (
+            <div className="py-20 flex flex-col items-center justify-center text-muted-foreground">
+              <Loader2 className="w-12 h-12 animate-spin mb-4 text-primary" />
+              <p className="text-lg font-medium">
+                {t("insights_page.loading") || "Loading publications..."}
               </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {filteredArticles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/insights/${article.id}`}
+                  className="block p-6 rounded-lg border border-border bg-card hover:shadow-md hover:border-primary/30 transition-all group"
+                >
+                  <div className="flex flex-col md:flex-row md:justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="px-2.5 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded">
+                          {article.category}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {formatDate(article.created_at, locale)}
+                        </span>
+                      </div>
+                      <h3 className="font-serif text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                        {article.title}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                        {article.excerpt}
+                      </p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors mt-1" />
+                  </div>
+                </Link>
+              ))}
+
+              {filteredArticles.length === 0 && (
+                <div className="text-center py-12 flex flex-col items-center">
+                  <FileText className="w-16 h-16 text-muted-foreground opacity-20 mb-4" />
+                  <p className="text-muted-foreground">
+                    {t("insights_page.filters.no_articles")}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

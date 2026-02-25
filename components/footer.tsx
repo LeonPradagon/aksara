@@ -157,10 +157,18 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Copyright */}
-          <p className="text-xs text-white/60 mt-4">
-            © {currentYear} {t("footer.rights")}
-          </p>
+          {/* Copyright & Admin Link */}
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-xs text-white/60">
+              © {currentYear} {t("footer.rights")}
+            </p>
+            <NavLink
+              href="/admin"
+              className="text-[10px] text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest font-bold"
+            >
+              Admin Access
+            </NavLink>
+          </div>
         </div>
       </div>
     </footer>

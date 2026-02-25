@@ -1,77 +1,59 @@
 import { Request, Response } from "express";
-import nodemailer from "nodemailer";
 import { query } from "../config/db";
+import { AuthRequest } from "../middlewares/authMiddleware";
+import { sendEmail, getContactTemplate } from "../utils/sendEmail";
 
-export const sendContactMessage = async (req: Request, res: Response) => {
-  const { name, email, organization, phone, inquiryType, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res
-      .status(400)
-      .json({ message: "Name, email, and message are required" });
-  }
-
+export const getAllInquiries = async (req: AuthRequest, res: Response) => {
   try {
-    console.log("Saving contact inquiry to DB...");
-    // 1. Save to Database
-    await query(
-      "INSERT INTO contact_inquiries (name, email, subject, message) VALUES ($1, $2, $3, $4)",
-      [name, email, inquiryType || "General Inquiry", message],
+    const result = await query(
+      "SELECT * FROM contact_inquiries ORDER BY created_at DESC",
     );
-    console.log("Inquiry saved to DB.");
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-    console.log("Configuring email transporter...");
-    // 2. Setup Nodemailer
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_PORT === "465", // true for 465, false for other ports
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+export const createInquiry = async (req: Request, res: Response) => {
+  const {
+    name,
+    email,
+    organization,
+    phone,
+    inquiryType,
+    message,
+    subject: reqSubject,
+  } = req.body;
+  const subject = reqSubject || inquiryType; // Use custom subject if provided, otherwise default to inquiryType
+  try {
+    const result = await query(
+      "INSERT INTO contact_inquiries (name, email, organization, phone, inquiry_type, subject, message) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [name, email, organization, phone, inquiryType, subject, message],
+    );
+    res.status(201).json(result.rows[0]);
 
-    // 3. Email Content
-    const mailOptions = {
-      from: process.env.SMTP_USER, // Using authenticated user as 'from' for best compatibility
-      to: process.env.CONTACT_EMAIL,
-      replyTo: email,
-      subject: `New Contact Inquiry: ${inquiryType || "General"}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Organization: ${organization || "N/A"}
-        Phone: ${phone || "N/A"}
-        Inquiry Type: ${inquiryType}
-        
-        Message:
-        ${message}
-      `,
-      html: `
-        <h3>New Contact Inquiry</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Organization:</strong> ${organization || "N/A"}</p>
-        <p><strong>Phone:</strong> ${phone || "N/A"}</p>
-        <p><strong>Inquiry Type:</strong> ${inquiryType}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `,
-    };
-
-    console.log("Sending email...");
-    // 4. Send Email
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.");
-
-    res.status(200).json({ message: "Message sent successfully!" });
-  } catch (error: any) {
-    console.error("Contact Form Detailed Error:", error);
-    res.status(500).json({
-      message:
-        "Failed to send message. Please check your console/logs for details.",
-      error: process.env.NODE_ENV === "development" ? error.message : undefined,
-    });
+    // Notify system owner of new inquiry
+    try {
+      const emailHtml = getContactTemplate(
+        name,
+        email,
+        subject,
+        message,
+        organization,
+        phone,
+        inquiryType,
+      );
+      await sendEmail(
+        process.env.CONTACT_EMAIL || "jhansen.wilson@gmail.com",
+        `New Contact Inquiry: ${subject}`,
+        emailHtml,
+      );
+    } catch (emailError) {
+      console.error("Failed to send inquiry notification email:", emailError);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };

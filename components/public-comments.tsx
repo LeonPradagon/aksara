@@ -1,192 +1,247 @@
-'use client'
+"use client";
 
-import React from "react"
-
-import { useState } from 'react'
-import { User, MessageSquare, Mail } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import React, { useState, useEffect } from "react";
+import { User, MessageSquare, Mail, Loader2, LogIn } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/auth-context";
+import api from "@/lib/api";
+import Swal from "sweetalert2";
+import Link from "next/link";
 
 interface Comment {
-  id: string
-  name: string
-  email?: string
-  comment: string
-  timestamp: string
+  id: string;
+  author_name: string;
+  content: string;
+  created_at: string;
 }
 
 interface PublicCommentsProps {
-  articleTitle: string
+  articleId: string;
+  articleTitle: string;
 }
 
-const dummyComments: Comment[] = [
-  {
-    id: '1',
-    name: 'Dr. Bambang Sutrisno',
-    email: 'bambang@example.com',
-    comment: 'Insightful analysis on the current policy direction. This perspective is crucial for stakeholders in the energy sector.',
-    timestamp: '2 days ago',
-  },
-  {
-    id: '2',
-    name: 'Siti Nurhaliza',
-    email: '',
-    comment: 'The data presented here challenges some conventional wisdom. Would be interested in seeing the methodology section expanded.',
-    timestamp: '1 day ago',
-  },
-  {
-    id: '3',
-    name: 'Prof. Achmad Suryanto',
-    email: 'asuryanto@univ.id',
-    comment: 'Excellent work. This report should be required reading for anyone involved in policy formulation in this sector.',
-    timestamp: '6 hours ago',
-  },
-]
+export function PublicComments({
+  articleId,
+  articleTitle,
+}: PublicCommentsProps) {
+  const { user } = useAuth();
+  const [content, setContent] = useState("");
+  const [guestName, setGuestName] = useState("");
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
-export function PublicComments({ articleTitle }: PublicCommentsProps) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [comment, setComment] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-  const [comments, setComments] = useState<Comment[]>(dummyComments)
+  useEffect(() => {
+    fetchComments();
+  }, [articleId]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const fetchComments = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/comments/article/${articleId}`);
+      setComments(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (!name.trim() || !comment.trim()) {
-      return
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!content.trim()) return;
+
+    const finalAuthorName = user ? user.name : guestName;
+
+    if (!finalAuthorName.trim()) {
+      Swal.fire("Error", "Please provide a name to post a comment.", "error");
+      return;
     }
 
-    const newComment: Comment = {
-      id: String(comments.length + 1),
-      name,
-      email: email || undefined,
-      comment,
-      timestamp: 'Just now',
+    try {
+      setSubmitting(true);
+      const response = await api.post("/comments", {
+        content,
+        article_id: articleId,
+        author_name: finalAuthorName,
+      });
+
+      const newComment: Comment = {
+        id: response.data.id,
+        author_name: finalAuthorName,
+        content: content,
+        created_at: new Date().toISOString(),
+      };
+
+      setComments([...comments, newComment]);
+      setContent("");
+      if (!user) setGuestName("");
+
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Comment posted!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } catch (error: any) {
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Failed to post comment",
+        "error",
+      );
+    } finally {
+      setSubmitting(false);
     }
-
-    setComments([newComment, ...comments])
-    setName('')
-    setEmail('')
-    setComment('')
-    setSubmitted(true)
-
-    setTimeout(() => setSubmitted(false), 3000)
-  }
+  };
 
   return (
-    <section className="py-16 border-t border-border">
+    <section className="py-20 md:py-32 border-t border-border bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl font-bold mb-2">Public Comments</h2>
-        <p className="text-muted-foreground mb-8">
-          Share your thoughts on "{articleTitle}"
-        </p>
+        <header className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+            Research Discussion
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            Collaborative insights on{" "}
+            <span className="text-primary font-bold italic">
+              "{articleTitle}"
+            </span>
+          </p>
+        </header>
 
         {/* Comment Form */}
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-8 mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                Name <span className="text-destructive">*</span>
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        <div className="bg-slate-50 dark:bg-slate-900 rounded-[2rem] p-8 md:p-10 border border-border shadow-sm mb-16">
+          <form onSubmit={handleSubmit}>
+            {!user && (
+              <div className="mb-6">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">
+                  Your Signature Name
+                </label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="text"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    placeholder="e.g. Dr. Jane Smith"
+                    className="w-full pl-12 pr-6 py-4 rounded-2xl border border-border bg-white dark:bg-slate-800 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-medium"
+                    required={!user}
+                  />
+                </div>
+              </div>
+            )}
+
+            {user && (
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-bold">
+                  {user.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="font-bold text-foreground">{user.name}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">
+                    Posting as {user.role}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className="mb-6">
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Analyze or comment on this research..."
+                rows={5}
+                className="w-full px-6 py-4 rounded-2xl border border-border bg-white dark:bg-slate-800 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none leading-relaxed"
                 required
               />
             </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email <span className="text-muted-foreground">(optional)</span>
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-          </div>
 
-          <div className="mb-6">
-            <label htmlFor="comment" className="block text-sm font-medium text-foreground mb-2">
-              Comment <span className="text-destructive">*</span>
-            </label>
-            <textarea
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Share your thoughts..."
-              rows={6}
-              className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-              required
-            />
-          </div>
-
-          {submitted && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-green-800 dark:text-green-200 text-sm">
-              Thank you for your comment! It will be reviewed before posting.
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="inline-flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            <MessageSquare className="w-4 h-4" />
-            Post Comment
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50"
+            >
+              {submitting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <MessageSquare className="w-4 h-4" />
+              )}
+              Post Contribution
+            </button>
+          </form>
+        </div>
 
         {/* Disclaimer */}
-        <div className="bg-muted/50 border border-border rounded-lg p-6 mb-12">
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong>Disclaimer:</strong> The comments posted here represent the personal views of the commenters and do not necessarily reflect the official position, opinions, or policies of Aksara Cakra Research and Consulting (ACRC). ACRC does not endorse or assume responsibility for any comments made by third parties. Comments are moderated and may be edited or removed if they violate community standards.
+        <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 mb-16">
+          <p className="text-[10px] text-slate-500 leading-relaxed uppercase tracking-wider">
+            <strong>Moderation Policy:</strong> Comments represent personal
+            views and not ACRC's official position. We reserve the right to
+            moderate contributions to ensure respectful and professional
+            research discussion.
           </p>
         </div>
 
         {/* Comments List */}
-        <div className="space-y-6">
-          <h3 className="font-bold text-lg text-foreground">
-            Comments ({comments.length})
-          </h3>
+        <div className="space-y-10">
+          <div className="flex items-center gap-3 mb-10">
+            <h3 className="font-serif text-2xl font-bold text-foreground">
+              Contributions
+            </h3>
+            <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-full text-xs font-bold">
+              {comments.length}
+            </span>
+          </div>
 
-          {comments.length === 0 ? (
+          {loading ? (
             <div className="text-center py-12">
-              <MessageSquare className="w-12 h-12 text-muted mx-auto mb-4" />
-              <p className="text-muted-foreground">No comments yet. Be the first to share your thoughts!</p>
+              <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
+              <p className="text-slate-500 italic">Retriving discussions...</p>
+            </div>
+          ) : comments.length === 0 ? (
+            <div className="text-center py-12 bg-slate-50/50 dark:bg-slate-900/10 rounded-[2rem] border border-dashed border-border px-8">
+              <MessageSquare className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+              <p className="text-slate-500 font-medium">
+                No discussions yet. Be the first to analyze this research!
+              </p>
             </div>
           ) : (
-            comments.map((c) => (
-              <div key={c.id} className="border-l-4 border-primary/30 pl-6 py-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                      <User className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground">{c.name}</p>
-                      {c.email && (
-                        <a href={`mailto:${c.email}`} className="text-xs text-primary hover:underline flex items-center gap-1">
-                          <Mail className="w-3 h-3" />
-                          {c.email}
-                        </a>
-                      )}
+            <div className="space-y-8">
+              {comments.map((c) => (
+                <div
+                  key={c.id}
+                  className="relative pl-8 border-l-2 border-primary/20 pb-4 group"
+                >
+                  <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-white dark:bg-slate-950 border-4 border-primary/30 group-hover:border-primary transition-colors"></div>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary text-xs font-bold">
+                        {c.author_name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-900 dark:text-white text-sm">
+                          {c.author_name}
+                        </p>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                          {new Date(c.created_at).toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric", year: "numeric" },
+                          )}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground">{c.timestamp}</span>
+                  <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed bg-white dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm group-hover:border-primary/20 transition-all">
+                    {c.content}
+                  </p>
                 </div>
-                <p className="text-foreground text-sm leading-relaxed">{c.comment}</p>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
     </section>
-  )
+  );
 }

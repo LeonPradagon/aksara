@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { sendContactMessage } from "../controllers/contactController";
+import {
+  getAllInquiries,
+  createInquiry,
+} from "../controllers/contactController";
+import { authenticate, authorize } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.post("/", sendContactMessage);
+router.get("/", authenticate, authorize(["ADMIN"]), getAllInquiries);
+router.post("/", createInquiry);
 
 export default router;

@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-
 import { useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
+import api from "@/lib/api";
 import Swal from "sweetalert2";
 
 export default function ContactPage() {
@@ -18,6 +18,7 @@ export default function ContactPage() {
     phone: "",
     organization: "",
     inquiryType: "",
+    subject: "",
     message: "",
   });
   const [submitting, setSubmitting] = useState(false);
@@ -28,7 +29,16 @@ export default function ContactPage() {
     >,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      const newData = { ...prev, [name]: value };
+
+      // Auto-populate subject if inquiryType changes
+      if (name === "inquiryType" && value) {
+        newData.subject = t(`contact.subject_${value}` as any);
+      }
+
+      return newData;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,20 +56,9 @@ export default function ContactPage() {
     });
 
     try {
-      const response = await fetch("http://localhost:5342/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      await api.post("/contact", formData);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to send message");
-      }
-
-      // Close loading and show success
+      // Show success
       Swal.fire({
         title: "Success!",
         text: t("contact.success_message"),
@@ -73,14 +72,17 @@ export default function ContactPage() {
         phone: "",
         organization: "",
         inquiryType: "",
+        subject: "",
         message: "",
       });
     } catch (err: any) {
       console.error(err);
-      // Close loading and show error
       Swal.fire({
         title: "Error!",
-        text: err.message || "Something went wrong. Please try again later.",
+        text:
+          err.response?.data?.message ||
+          err.message ||
+          "Something went wrong. Please try again later.",
         icon: "error",
         confirmButtonColor: "#01172C",
       });
@@ -327,6 +329,26 @@ export default function ContactPage() {
                         {t("contact.inquiry_other")}
                       </option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
+                      {t("contact.subject_label")}{" "}
+                      <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      id="subject"
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder={t("contact.subject_placeholder")}
+                    />
                   </div>
 
                   <div>

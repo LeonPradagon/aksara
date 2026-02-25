@@ -2,39 +2,53 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { query } from "../config/db";
-
-const JWT_SECRET = process.env.JWT_SECRET || "changeme";
+import { sendEmail, getAdminRegistrationTemplate } from "../utils/sendEmail";
 
 export const register = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
-    // Check if user exists
     const userExists = await query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
-    if (userExists.rowCount && userExists.rowCount > 0) {
+    if (userExists.rowCount !== 0) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
-    const newUser = await query(
-      "INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING id, email, name, role",
-      [email, hashedPassword, name],
+    // Default to ADMIN if no role provided, or ensure any ADMIN request is unapproved
+    const userRole = (role || "ADMIN").toUpperCase();
+    const isApproved = userRole === "ADMIN" ? false : true;
+
+    const result = await query(
+      "INSERT INTO users (name, email, password, role, is_approved) VALUES ($1, $2, $3, $4, $5) RETURNING id, name, email, role, is_approved",
+      [name, email, hashedPassword, userRole, isApproved],
     );
 
-    const user = newUser.rows[0];
+    // Send email to system owner if it's an admin request
+    if (userRole === "ADMIN") {
+      // Notify system owner
+      try {
+        const emailHtml = getAdminRegistrationTemplate(name, email);
+        await sendEmail(
+          process.env.CONTACT_EMAIL || "jhansen.wilson@gmail.com",
+          "New Admin Registration Request",
+          emailHtml,
+        );
+      } catch (emailError) {
+        console.error("Failed to send notification email:", emailError);
+      }
+    }
 
-    // Generate JWT
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: "24h",
+    res.status(201).json({
+      message:
+        userRole === "ADMIN"
+          ? "Admin registration requested. Please wait for approval."
+          : "User registered successfully",
+      user: result.rows[0],
     });
-
-    res.status(201).json({ user, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -46,29 +60,38 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     const result = await query("SELECT * FROM users WHERE email = $1", [email]);
-    if (!result.rowCount || result.rowCount === 0) {
+    if (result.rowCount === 0) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const user = result.rows[0];
+
+    // Check approval status
+    if (!user.is_approved) {
+      return res.status(403).json({
+        message: "Your account is pending approval by the system owner.",
+      });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role, name: user.name },
+      process.env.JWT_SECRET || "secret",
+      { expiresIn: "1d" },
+    );
 
     res.json({
+      token,
       user: {
         id: user.id,
-        email: user.email,
         name: user.name,
+        email: user.email,
         role: user.role,
       },
-      token,
     });
   } catch (error) {
     console.error(error);
