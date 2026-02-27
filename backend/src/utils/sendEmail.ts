@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT || "587"),
+  secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
   family: 4, // Force IPv4
   auth: {
     user: process.env.SMTP_USER,
@@ -51,7 +51,7 @@ const baseTemplate = (content: string) => `
 <body>
   <div class="container">
     <div class="header">
-      <h1>ACRC</h1>
+      <h1>Aksara Cakra Research and Consulting</h1>
     </div>
     <div class="content">
       ${content}

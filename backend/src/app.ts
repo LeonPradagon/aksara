@@ -3,6 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import swaggerUi from "swagger-ui-express";
+import { swaggerDocument } from "./config/swagger";
 import authRoutes from "./routes/authRoutes";
 import articleRoutes from "./routes/articleRoutes";
 import commentRoutes from "./routes/commentRoutes";
@@ -14,7 +16,16 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://aksara-cakra.com",
+      "https://www.aksara-cakra.com",
+    ],
+    credentials: true,
+  }),
+);
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
@@ -30,6 +41,8 @@ app.use(
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);

@@ -98,20 +98,21 @@ export default function AdminUsersPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+      {/* Header */}
+      <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-            <Shield className="w-6 h-6 text-primary" />
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <Shield className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             Access Management
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-xs md:text-sm text-slate-500 mt-1">
             Review and manage administrative access requests for the platform.
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center gap-3">
+          <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl md:rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center gap-3 w-full md:w-auto">
             <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-400">
+            <span className="text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400">
               {pendingUsers.length} Pending Requests
             </span>
           </div>
@@ -119,7 +120,7 @@ export default function AdminUsersPage() {
       </div>
 
       {loading ? (
-        <div className="py-20 flex flex-col items-center justify-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+        <div className="py-20 flex flex-col items-center justify-center bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-800">
           <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
           <p className="text-slate-500 font-medium">Loading user list...</p>
         </div>
@@ -127,40 +128,40 @@ export default function AdminUsersPage() {
         <div className="grid grid-cols-1 gap-8">
           {/* Section: Pending Requests */}
           <div className="space-y-4">
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
+            <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
               Pending Approvals
             </h2>
             {pendingUsers.length === 0 ? (
-              <div className="p-12 text-center bg-white/50 dark:bg-slate-900/50 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-                <Clock className="w-10 h-10 text-slate-300 mx-auto mb-4" />
-                <p className="text-sm font-medium text-slate-500">
+              <div className="p-8 md:p-12 text-center bg-white/50 dark:bg-slate-900/50 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl">
+                <Clock className="w-8 h-8 md:w-10 md:h-10 text-slate-300 mx-auto mb-4" />
+                <p className="text-xs md:text-sm font-medium text-slate-500">
                   No pending access requests at the moment.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {pendingUsers.map((user) => (
                   <div
                     key={user.id}
-                    className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-amber-200 dark:border-amber-900/30 shadow-lg shadow-amber-500/5 group hover:scale-[1.02] transition-all"
+                    className="bg-white dark:bg-slate-900 p-5 md:p-6 rounded-2xl md:rounded-3xl border border-amber-200 dark:border-amber-900/30 shadow-lg shadow-amber-500/5 group hover:scale-[1.01] md:hover:scale-[1.02] transition-all"
                   >
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center text-amber-600">
-                        <UserCheck className="w-6 h-6" />
+                    <div className="flex items-start justify-between mb-4 md:mb-6">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl md:rounded-2xl flex items-center justify-center text-amber-600">
+                        <UserCheck className="w-5 h-5 md:w-6 md:h-6" />
                       </div>
-                      <div className="text-[10px] font-black bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-2 py-1 rounded-md uppercase">
+                      <div className="text-[9px] md:text-[10px] font-black bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-2 py-1 rounded-md uppercase">
                         Pending
                       </div>
                     </div>
-                    <div className="mb-6">
-                      <h3 className="font-bold text-slate-900 dark:text-white truncate">
+                    <div className="mb-4 md:mb-6 min-w-0">
+                      <h3 className="font-bold text-slate-900 dark:text-white truncate text-sm md:text-base">
                         {user.name}
                       </h3>
-                      <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
+                      <p className="text-[10px] md:text-xs text-slate-500 flex items-center gap-1.5 mt-1 truncate">
                         <Mail className="w-3 h-3" />
                         {user.email}
                       </p>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-3 flex items-center gap-1">
+                      <p className="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-3 flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         Requested:{" "}
                         {new Date(user.created_at).toLocaleDateString()}
@@ -169,14 +170,14 @@ export default function AdminUsersPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         onClick={() => handleApprove(user.id, user.name)}
-                        className="py-2.5 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2"
+                        className="py-2.5 bg-green-600 text-white text-[10px] md:text-xs font-bold rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2"
                       >
                         <Check className="w-4 h-4" />
                         Approve
                       </button>
                       <button
                         onClick={() => handleReject(user.id, user.name)}
-                        className="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold rounded-xl hover:bg-red-50 hover:text-red-600 transition-all flex items-center justify-center gap-2"
+                        className="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] md:text-xs font-bold rounded-xl hover:bg-red-50 hover:text-red-600 transition-all flex items-center justify-center gap-2"
                       >
                         <X className="w-4 h-4" />
                         Ignore
@@ -189,25 +190,25 @@ export default function AdminUsersPage() {
           </div>
 
           {/* Section: Approved Users */}
-          <div className="space-y-4">
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
+          <div className="space-y-4 min-w-0">
+            <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">
               Authorized Administrators
             </h2>
-            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-slate-100 dark:border-slate-800">
-                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                      <th className="px-6 md:px-8 py-4 md:py-5 text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         Administrator
                       </th>
-                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                      <th className="px-6 md:px-8 py-4 md:py-5 text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest hidden sm:table-cell">
                         Role
                       </th>
-                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                      <th className="px-6 md:px-8 py-4 md:py-5 text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest hidden md:table-cell">
                         Joined On
                       </th>
-                      <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">
+                      <th className="px-6 md:px-8 py-4 md:py-5 text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">
                         Actions
                       </th>
                     </tr>
@@ -218,39 +219,44 @@ export default function AdminUsersPage() {
                         key={user.id}
                         className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors"
                       >
-                        <td className="px-8 py-5">
+                        <td className="px-6 md:px-8 py-4 md:py-5">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500 uppercase">
+                            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-500 uppercase">
                               {user.name.charAt(0)}
                             </div>
-                            <div>
-                              <p className="text-sm font-bold text-slate-900 dark:text-white">
+                            <div className="min-w-0">
+                              <p className="text-xs md:text-sm font-bold text-slate-900 dark:text-white truncate">
                                 {user.name}
                               </p>
-                              <p className="text-[10px] text-slate-500">
+                              <p className="text-[9px] md:text-[10px] text-slate-500 truncate">
                                 {user.email}
                               </p>
+                              <div className="sm:hidden mt-1">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-primary/5 text-primary text-[8px] font-black rounded uppercase">
+                                  {user.role}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-8 py-5">
+                        <td className="px-6 md:px-8 py-4 md:py-5 hidden sm:table-cell">
                           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary/5 text-primary text-[10px] font-black rounded-lg uppercase">
                             <Shield className="w-3 h-3" />
                             {user.role}
                           </div>
                         </td>
-                        <td className="px-8 py-5">
+                        <td className="px-6 md:px-8 py-4 md:py-5 hidden md:table-cell">
                           <span className="text-xs text-slate-500 font-medium whitespace-nowrap">
                             {new Date(user.created_at).toLocaleDateString()}
                           </span>
                         </td>
-                        <td className="px-8 py-5 text-right">
+                        <td className="px-6 md:px-8 py-4 md:py-5 text-right">
                           <button
                             onClick={() => handleReject(user.id, user.name)}
                             className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
                             title="Revoke Access"
                           >
-                            <UserX className="w-5 h-5" />
+                            <UserX className="w-4 h-4 md:w-5 md:h-5" />
                           </button>
                         </td>
                       </tr>

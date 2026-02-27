@@ -78,38 +78,42 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 md:space-y-10">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-br from-[#01172C] to-[#022a4d] p-10 rounded-3xl text-white shadow-2xl relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#01172C] to-[#022a4d] p-6 md:p-10 rounded-2xl md:rounded-3xl text-white shadow-2xl relative overflow-hidden">
         <div className="relative z-10">
-          <h1 className="text-4xl font-bold mb-3">Welcome back, Admin</h1>
-          <p className="text-white/70 max-w-xl">
+          <h1 className="text-2xl md:text-4xl font-bold mb-3">
+            Welcome back, Admin
+          </h1>
+          <p className="text-white/70 max-w-xl text-sm md:text-base">
             You have total control over the Aksara Cakra Research ecosystem.
             Monitor engagement, moderate discussions, and publish new findings
             from one central hub.
           </p>
         </div>
-        <TrendingUp className="absolute right-[-20px] bottom-[-20px] w-64 h-64 text-white/5 rotate-12" />
+        <TrendingUp className="absolute right-[-20px] bottom-[-20px] w-32 h-32 md:w-64 md:h-64 text-white/5 rotate-12" />
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
         {cards.map((card, idx) => (
           <Link key={idx} href={card.href} className="group">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all h-full bg-card">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 md:p-8 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 transition-all h-full bg-card">
               <div
-                className={`w-14 h-14 ${card.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
+                className={`w-12 h-12 md:w-14 md:h-14 ${card.color} rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform`}
               >
                 {card.icon}
               </div>
-              <h3 className="text-slate-500 text-sm font-bold uppercase tracking-wider mb-2">
+              <h3 className="text-slate-500 text-[10px] md:text-sm font-bold uppercase tracking-wider mb-1 md:mb-2">
                 {card.title}
               </h3>
-              <p className="text-4xl font-black text-slate-900 dark:text-white mb-4">
+              <p className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white mb-2 md:mb-4">
                 {card.value}
               </p>
-              <p className="text-xs text-slate-400 mb-6">{card.description}</p>
-              <div className="flex items-center text-primary text-xs font-bold gap-2 group-hover:gap-3 transition-all">
+              <p className="text-[10px] md:text-xs text-slate-400 mb-4 md:mb-6">
+                {card.description}
+              </p>
+              <div className="flex items-center text-primary text-[10px] md:text-xs font-bold gap-2 group-hover:gap-3 transition-all">
                 MANAGE MODULE <ArrowRight className="w-4 h-4" />
               </div>
             </div>
@@ -118,18 +122,18 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Activity Mock (Optional/Future) */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-bold dark:text-white flex items-center gap-2">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm">
+        <div className="flex items-center justify-between mb-6 md:mb-8">
+          <h2 className="text-lg md:text-xl font-bold dark:text-white flex items-center gap-2">
             <Clock className="w-5 h-5 text-primary" />
             System Overview
           </h2>
         </div>
-        <div className="p-12 text-center rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-200 dark:border-slate-700">
-          <p className="text-slate-400 font-medium">
+        <div className="p-8 md:p-12 text-center rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-200 dark:border-slate-700">
+          <p className="text-slate-400 text-sm md:font-medium">
             System is running optimally.
           </p>
-          <p className="text-xs text-slate-400 mt-2 italic">
+          <p className="text-[10px] md:text-xs text-slate-400 mt-2 italic">
             Detailed activity logs will appear here as the platform scales.
           </p>
         </div>

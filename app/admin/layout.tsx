@@ -26,12 +26,18 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false);
 
   useEffect(() => {
     if (!loading && (!user || user.role !== "ADMIN")) {
       router.push("/admin/login");
     }
   }, [user, loading, router]);
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [pathname]);
 
   if (loading) {
     return (
@@ -65,10 +71,18 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-all duration-300">
+      {/* Mobile Backdrop */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside
-        className={`${
-          isSidebarOpen ? "w-64" : "w-20"
+        className={`${isSidebarOpen ? "w-64" : "w-20"} ${
+          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         } bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 fixed h-screen z-50`}
       >
         <div className="p-6 flex items-center justify-between">
@@ -81,7 +95,7 @@ export default function AdminLayout({
           )}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-primary transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-primary transition-colors hidden lg:block"
           >
             {isSidebarOpen ? (
               <X className="w-4 h-4" />
@@ -89,11 +103,19 @@ export default function AdminLayout({
               <Menu className="w-4 h-4" />
             )}
           </button>
+          <button
+            onClick={() => setIsMobileOpen(false)}
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-primary transition-colors lg:hidden"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 py-4">
+        <nav className="flex-1 px-4 space-y-2 py-4 overflow-y-auto">
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/admin" && pathname.startsWith(item.href));
             return (
               <Link
                 key={item.href}
@@ -107,10 +129,10 @@ export default function AdminLayout({
                 <item.icon
                   className={`w-5 h-5 flex-shrink-0 ${isActive ? "" : "group-hover:scale-110 transition-transform"}`}
                 />
-                {isSidebarOpen && (
+                {(isSidebarOpen || isMobileOpen) && (
                   <span className="font-medium text-sm">{item.title}</span>
                 )}
-                {isActive && isSidebarOpen && (
+                {isActive && (isSidebarOpen || isMobileOpen) && (
                   <ChevronRight className="ml-auto w-4 h-4" />
                 )}
               </Link>
@@ -123,7 +145,7 @@ export default function AdminLayout({
             <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
               <User className="w-5 h-5 text-slate-500" />
             </div>
-            {isSidebarOpen && (
+            {(isSidebarOpen || isMobileOpen) && (
               <div className="overflow-hidden">
                 <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
                   {user.name}
@@ -137,16 +159,31 @@ export default function AdminLayout({
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all font-medium text-sm group"
           >
             <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            {isSidebarOpen && <span>Logout</span>}
+            {(isSidebarOpen || isMobileOpen) && <span>Logout</span>}
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
       <main
-        className={`flex-1 ${isSidebarOpen ? "ml-64" : "ml-20"} transition-all duration-300 min-h-screen`}
+        className={`flex-1 transition-all duration-300 min-h-screen ${
+          isSidebarOpen ? "lg:ml-64" : "lg:ml-20"
+        } ml-0`}
       >
-        <div className="p-8">{children}</div>
+        {/* Mobile Header */}
+        <header className="lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 sticky top-0 z-30 flex items-center justify-between">
+          <span className="font-serif font-bold text-xl text-primary">
+            ACRC Admin
+          </span>
+          <button
+            onClick={() => setIsMobileOpen(true)}
+            className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </header>
+
+        <div className="p-4 md:p-8">{children}</div>
       </main>
     </div>
   );

@@ -69,11 +69,11 @@ export default function AdminCommentsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+      <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
           Comments Moderation
         </h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-xs md:text-sm text-slate-500">
           Monitor and manage user engagement on articles.
         </p>
       </div>
@@ -94,30 +94,37 @@ export default function AdminCommentsPage() {
             {comments.map((comment) => (
               <div
                 key={comment.id}
-                className="p-6 hover:bg-slate-50 transition-colors group"
+                className="p-4 md:p-6 hover:bg-slate-50 transition-colors group"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 text-slate-400">
-                      <User className="w-5 h-5" />
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3 md:gap-4 flex-1 min-w-0">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 text-slate-400">
+                      <User className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-slate-900 dark:text-white">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1">
+                        <span className="font-bold text-slate-900 dark:text-white text-sm md:text-base truncate max-w-[120px] sm:max-w-none">
                           {comment.author_name}
                         </span>
-                        <span className="text-xs text-slate-400">•</span>
-                        <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <span className="text-xs text-slate-400 hidden sm:inline">
+                          •
+                        </span>
+                        <span className="text-[10px] md:text-xs text-slate-500 flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
-                          {new Date(comment.created_at).toLocaleString()}
+                          <span className="sm:hidden">
+                            {new Date(comment.created_at).toLocaleDateString()}
+                          </span>
+                          <span className="hidden sm:inline">
+                            {new Date(comment.created_at).toLocaleString()}
+                          </span>
                         </span>
                       </div>
-                      <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-3">
+                      <p className="text-slate-700 dark:text-slate-300 text-xs md:text-sm leading-relaxed mb-2 break-words">
                         {comment.content}
                       </p>
-                      <div className="flex items-center gap-4 text-xs font-medium">
-                        <span className="text-slate-400 italic">
-                          On Article:{" "}
+                      <div className="flex items-center gap-2 text-[9px] md:text-xs font-medium text-slate-400">
+                        <MessageSquare className="w-3 h-3 flex-shrink-0" />
+                        <span className="italic truncate">
                           {comment.article_title || "Unknown Article"}
                         </span>
                       </div>
@@ -126,9 +133,9 @@ export default function AdminCommentsPage() {
 
                   <button
                     onClick={() => handleDelete(comment.id)}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg md:rounded-xl transition-all flex-shrink-0"
                   >
-                    <Trash2 className="w-5 h-5" />
+                    <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
                 </div>
               </div>
