@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { query } from "../config/db";
+import { v4 as uuidv4 } from "uuid";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { sendEmail, getContactTemplate } from "../utils/sendEmail";
 
@@ -27,9 +28,19 @@ export const createInquiry = async (req: Request, res: Response) => {
   } = req.body;
   const subject = reqSubject || inquiryType; // Use custom subject if provided, otherwise default to inquiryType
   try {
+    const inquiryId = uuidv4();
     const result = await query(
-      "INSERT INTO contact_inquiries (name, email, organization, phone, inquiry_type, subject, message) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [name, email, organization, phone, inquiryType, subject, message],
+      "INSERT INTO contact_inquiries (id, name, email, organization, phone, inquiry_type, subject, message, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *",
+      [
+        inquiryId,
+        name,
+        email,
+        organization,
+        phone,
+        inquiryType,
+        subject,
+        message,
+      ],
     );
     res.status(201).json(result.rows[0]);
 

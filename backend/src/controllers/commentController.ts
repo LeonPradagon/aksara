@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { query } from "../config/db";
+import { v4 as uuidv4 } from "uuid";
 import { AuthRequest } from "../middlewares/authMiddleware";
 
 export const getAllComments = async (req: Request, res: Response) => {
@@ -33,9 +34,10 @@ export const createComment = async (req: AuthRequest, res: Response) => {
   const user_id = req.user?.id || null;
 
   try {
+    const commentId = uuidv4();
     const result = await query(
-      "INSERT INTO comments (article_id, user_id, author_name, content) VALUES ($1, $2, $3, $4) RETURNING *",
-      [article_id, user_id, author_name, content],
+      "INSERT INTO comments (id, article_id, user_id, author_name, content, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING *",
+      [commentId, article_id, user_id, author_name, content],
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {

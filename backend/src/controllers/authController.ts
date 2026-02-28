@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import { query } from "../config/db";
 import { sendEmail, getAdminRegistrationTemplate } from "../utils/sendEmail";
 
@@ -22,9 +23,10 @@ export const register = async (req: Request, res: Response) => {
     const userRole = (role || "ADMIN").toUpperCase();
     const isApproved = userRole === "ADMIN" ? false : true;
 
+    const userId = uuidv4();
     const result = await query(
-      "INSERT INTO users (name, email, password, role, is_approved) VALUES ($1, $2, $3, $4, $5) RETURNING id, name, email, role, is_approved",
-      [name, email, hashedPassword, userRole, isApproved],
+      'INSERT INTO users (id, name, email, password, role, is_approved, created_at, updated_at) VALUES ($1, $2, $3, $4, $5::"Role", $6, NOW(), NOW()) RETURNING id, name, email, role, is_approved',
+      [userId, name, email, hashedPassword, userRole, isApproved],
     );
 
     // Send email to system owner if it's an admin request

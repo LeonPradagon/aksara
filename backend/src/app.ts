@@ -3,6 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import rateLimit from "express-rate-limit";
+import compression from "compression";
+import hpp from "hpp";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "./config/swagger";
 import authRoutes from "./routes/authRoutes";
@@ -31,7 +34,23 @@ app.use(
     crossOriginResourcePolicy: false,
   }),
 );
-app.use(morgan("dev"));
+app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
+app.use(compression());
+app.use(hpp());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    message:
+      "Too many requests from this IP, please try again after 15 minutes",
+  },
+});
+
+app.use("/api/", limiter);
 
 app.use(
   "/uploads",
@@ -50,5 +69,28 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/users", userRoutes);
+
+// Global Error Handler
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+
+    console.error(`[Error] ${statusCode} - ${message}`);
+    if (err.stack) console.error(err.stack);
+
+    res.status(statusCode).json({
+      status: "error",
+      statusCode,
+      message,
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    });
+  },
+);
 
 export default app;

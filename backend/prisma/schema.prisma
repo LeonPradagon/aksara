@@ -13,49 +13,65 @@ enum Role {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  name      String?
-  role      Role      @default(USER)
-  comments  Comment[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id         String    @id @default(uuid()) @db.Uuid
+  email      String    @unique
+  password   String
+  name       String?
+  role       Role      @default(USER)
+  isApproved Boolean   @default(false) @map("is_approved")
+  comments   Comment[]
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Article {
-  id        String    @id @default(uuid())
-  slug      String    @unique
-  title     String
-  content   String?   // Markdown or HTML content
-  excerpt   String?
-  category  String
-  published Boolean   @default(false)
-  comments  Comment[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(uuid()) @db.Uuid
+  slug        String    @unique
+  title       String
+  content     String? // Markdown or HTML content
+  excerpt     String?
+  category    String
+  author      String?
+  pdfUrl      String?   @map("pdf_url")
+  published   Boolean   @default(false)
+  publishedAt DateTime? @map("published_at")
+  comments    Comment[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("articles")
 }
 
 model Comment {
-  id        String   @id @default(uuid())
-  content   String
-  articleId String
-  userId    String
-  parentId  String?  // For threading
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid()) @db.Uuid
+  content    String
+  articleId  String   @map("article_id") @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  parentId   String?  @map("parent_id") @db.Uuid
+  authorName String?  @map("author_name")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
-  article   Article  @relation(fields: [articleId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
-  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id])
-  replies   Comment[] @relation("CommentReplies")
+  article Article  @relation(fields: [articleId], references: [id])
+  user    User?    @relation(fields: [userId], references: [id])
+  parent  Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+
+  @@map("comments")
 }
 
 model ContactInquiry {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  subject   String?
-  message   String
-  createdAt DateTime @default(now())
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String
+  organization String?
+  phone        String?
+  inquiryType  String?  @map("inquiry_type")
+  subject      String?
+  message      String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("contact_inquiries")
 }

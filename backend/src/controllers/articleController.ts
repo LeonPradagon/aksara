@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { query } from "../config/db";
+import { v4 as uuidv4 } from "uuid";
 import { AuthRequest } from "../middlewares/authMiddleware";
 
 export const getAllArticles = async (req: Request, res: Response) => {
@@ -47,9 +48,10 @@ export const createArticle = async (req: AuthRequest, res: Response) => {
     .replace(/[^\w-]+/g, "");
 
   try {
+    const articleId = uuidv4();
     const result = await query(
-      "INSERT INTO articles (slug, title, content, excerpt, category, author, pdf_url) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [slug, title, content, excerpt, category, author, pdf_url],
+      "INSERT INTO articles (id, slug, title, content, excerpt, category, author, pdf_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW()) RETURNING *",
+      [articleId, slug, title, content, excerpt, category, author, pdf_url],
     );
 
     res.status(201).json(result.rows[0]);
