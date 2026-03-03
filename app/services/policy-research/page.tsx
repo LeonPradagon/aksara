@@ -30,7 +30,7 @@ export default function PolicyResearchPage() {
               Services
             </Link>
             <span className="text-muted-foreground">/</span>
-            <span className="text-foreground">Policy Research & Big Data</span>
+            <span className="text-foreground">Policy Research</span>
           </nav>
         </div>
       </div>
@@ -44,7 +44,7 @@ export default function PolicyResearchPage() {
             </div>
           </div>
           <h1 className="font-serif text-5xl md:text-6xl font-bold text-foreground mb-6">
-            Policy Research & Big Data
+            Policy Research
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl leading-relaxed">
             We combine rigorous research methodologies with advanced data
@@ -76,23 +76,12 @@ export default function PolicyResearchPage() {
                 challenges.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { number: "150+", label: "Research projects completed" },
-                { number: "50M+", label: "Data points analyzed" },
-                { number: "30+", label: "Government partnerships" },
-                { number: "15+", label: "Years of expertise" },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="p-6 rounded-lg border border-border bg-card"
-                >
-                  <p className="font-serif text-4xl font-bold text-foreground mb-2">
-                    {stat.number}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
+            <div className="relative h-[400px] w-full rounded-lg overflow-hidden border border-border">
+              <img
+                src="/picture/home-2.jpeg"
+                alt="Evidence-Based Policy Analysis"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>

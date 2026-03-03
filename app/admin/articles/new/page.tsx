@@ -25,8 +25,10 @@ export default function ArticleFormPage() {
     title: "",
     author: "",
     category: "",
+    type: "ACRC Commentaries",
     excerpt: "",
     content: "",
+    published: false,
   });
 
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -46,8 +48,10 @@ export default function ArticleFormPage() {
         title: article.title,
         author: article.author || "",
         category: article.category || "",
+        type: article.type || "ACRC Commentaries",
         excerpt: article.excerpt || "",
         content: article.content || "",
+        published: article.published || false,
       });
       setCurrentPdfUrl(article.pdf_url || null);
     } catch (error) {
@@ -86,8 +90,10 @@ export default function ArticleFormPage() {
     data.append("title", formData.title);
     data.append("author", formData.author);
     data.append("category", formData.category);
+    data.append("type", formData.type);
     data.append("excerpt", formData.excerpt);
     data.append("content", formData.content);
+    data.append("published", String(formData.published));
     if (pdfFile) {
       data.append("pdf", pdfFile);
     }
@@ -300,12 +306,67 @@ export default function ArticleFormPage() {
                   className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
                 >
                   <option value="">Select Category</option>
-                  <option value="Governance">Governance</option>
-                  <option value="Economic">Economic</option>
-                  <option value="Political">Political</option>
-                  <option value="Social">Social</option>
-                  <option value="International">International</option>
+                  <option value="Defence & Security">Defence & Security</option>
+                  <option value="Politics & Governance">
+                    Politics & Governance
+                  </option>
+                  <option value="Economy & Business">Economy & Business</option>
+                  <option value="Elections & Democracy">
+                    Elections & Democracy
+                  </option>
+                  <option value="ESG & Sustainability">
+                    ESG & Sustainability
+                  </option>
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                  Publication Type
+                </label>
+                <select
+                  name="type"
+                  required
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                >
+                  <option value="ACRC's Concern">ACRC's Concern</option>
+                  <option value="ACRC Commentaries">ACRC Commentaries</option>
+                  <option value="ACRC's Working Paper">
+                    ACRC's Working Paper
+                  </option>
+                  <option value="Events & Presentations">
+                    Events & Presentations
+                  </option>
+                  <option value="ACRC's Bulletin">ACRC's Bulletin</option>
+                </select>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                    Published Status
+                  </span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={formData.published}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          published: e.target.checked,
+                        }))
+                      }
+                    />
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  </label>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-2">
+                  When published, this article will be visible on the public
+                  website and home page.
+                </p>
               </div>
 
               <button

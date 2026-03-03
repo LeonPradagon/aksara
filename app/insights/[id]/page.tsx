@@ -88,7 +88,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             className="inline-flex items-center gap-2 text-primary font-medium"
           >
             <ArrowLeft className="w-4 h-4" />
-            {locale === "id" ? "Kembali ke Insights" : "Back to Insights"}
+            {locale === "id" ? "Kembali ke Publikasi" : "Back to Publications"}
           </Link>
         </div>
         <Footer />
@@ -121,7 +121,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             className="inline-flex items-center gap-2 text-primary font-medium mb-10 hover:-translate-x-1 transition-transform"
           >
             <ArrowLeft className="w-4 h-4" />
-            {locale === "id" ? "Kembali ke Insights" : "Back to Insights"}
+            {locale === "id" ? "Kembali ke Publikasi" : "Back to Publications"}
           </Link>
 
           <div className="flex gap-2 mb-6">
@@ -164,14 +164,32 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 <FileText className="w-5 h-5" />
                 {locale === "id" ? "Baca PDF Lengkap" : "Read Full PDF"}
               </a>
-              <a
-                href={pdfLink}
-                download
+              <button
+                onClick={async () => {
+                  try {
+                    const response = await fetch(pdfLink);
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.style.display = "none";
+                    a.href = url;
+                    // Extract filename from URL or use a default
+                    const filename =
+                      article.pdf_url?.split("/").pop() || "publication.pdf";
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                  } catch (error) {
+                    console.error("Error downloading PDF:", error);
+                  }
+                }}
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-border bg-background hover:bg-muted text-foreground rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-100"
               >
                 <Download className="w-5 h-5" />
                 {locale === "id" ? "Unduh PDF" : "Download PDF"}
-              </a>
+              </button>
             </div>
           )}
         </div>
@@ -220,7 +238,9 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             <div className="flex items-end justify-between mb-12">
               <div>
                 <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  {locale === "id" ? "Insight Terkait" : "Related Insights"}
+                  {locale === "id"
+                    ? "Publikasi Terkait"
+                    : "Related Publications"}
                 </h2>
                 <div className="w-20 h-1 bg-primary rounded-full"></div>
               </div>

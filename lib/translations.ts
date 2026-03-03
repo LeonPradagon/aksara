@@ -10,7 +10,7 @@ export const translations = {
       about_values: "Our Values",
       about_how: "How We Work",
       services: "Services",
-      services_policy: "Policy Research & Big Data",
+      services_policy: "Policy Research",
       services_corporate: "Corporate & Public Consulting",
       services_political: "Political & Election Consulting",
       issues: "Issues & Sectors",
@@ -19,11 +19,12 @@ export const translations = {
       issues_economy: "Economy & Business",
       issues_elections: "Elections & Democracy",
       issues_esg: "ESG & Sustainability",
-      insights: "Insights",
+      insights: "Publications",
       insights_concern: "ACRC's Concern",
-      insights_articles: "Articles & Analysis",
-      insights_reports: "Reports & Policy Briefs",
+      insights_articles: "ACRC Commentaries",
+      insights_reports: "ACRC's Working Paper",
       insights_events: "Events & Presentations",
+      insights_bulletin: "ACRC's Bulletin",
       articles: {
         "1": {
           title:
@@ -200,7 +201,7 @@ export const translations = {
         "ACRC brings together researchers and consultants with backgrounds in defence, politics, law, economics, and communications. Based on Jl. Tebet Barat Dalam II No.5, South Jakarta, we combine academic discipline with a practical understanding of how bureaucracy and business actually work in Indonesia.",
       who_btn: "Learn more about ACRC",
       pillars_title: "Three Core Pillars",
-      pillar_policy_title: "Policy Research & Big Data",
+      pillar_policy_title: "Policy Research",
       pillar_policy_desc:
         "Evidence-based analysis of regulations, public opinion, and internal data to answer critical policy questions.",
       pillar_corporate_title: "Corporate & Public Consulting",
@@ -213,7 +214,7 @@ export const translations = {
       issues_desc:
         "Our research and consulting covers five strategic sectors central to Indonesia's future.",
       issues_view_all: "View All Issues & Sectors",
-      insights_title: "Latest Insights",
+      insights_title: "Latest Publications",
       insights_subtitle: "Research, analysis & policy briefs",
       insights_view_all: "View All",
       cta_title: "Ready to Shape Indonesia's Future?",
@@ -277,7 +278,7 @@ export const translations = {
     },
     about: {
       hero_title: "About ACRC",
-      hero_subtitle: "About Aksara Cakra Research and Consulting",
+      hero_subtitle: "Aksara Cakra Research and Consulting",
       who_title: "Who We Are",
       who_p1:
         "Established in early 2025 by a multidisciplinary team of professionals, Aksara Cakra Research and Consulting (ACRC) is aiming to supports decision makers in government and the private sector. ACRC provides reliable, comprehensive information and analysis to explain how geopolitical, geostrategic, and geoeconomic developments shape business decisions and public policy. This work enables clear assessments of risks and opportunities so that policies and strategies are grounded in evidence.",
@@ -804,7 +805,7 @@ export const translations = {
     issues_page: {
       title: "Issues & Sectors We Work On",
       subtitle:
-        "Through our Insights, ACRC shares concise analyses, articles, and summaries of our work to help clients and the wider public understand key developments affecting Indonesia.",
+        "Through our Publications, ACRC shares concise analyses, articles, and summaries of our work to help clients and the wider public understand key developments affecting Indonesia.",
       sectors: {
         defence_security: {
           title: "Defence & Security",
@@ -883,7 +884,7 @@ export const translations = {
       },
     },
     insights_page: {
-      title: "Publication from ACRC",
+      title: "ACRC’s Publications",
       subtitle:
         "Articles and policy analysis to understand key developments affecting Indonesia.",
       filters: {
@@ -933,6 +934,41 @@ export const translations = {
         },
       },
     },
+    careers: {
+      title: "Careers",
+      subtitle: "Join the Team",
+      internship_title: "Internship Opportunities",
+      internship_desc:
+        "Aksara Cakra Research and Consulting (ACRC) is opening internship opportunities for students and early-career professionals who want real exposure to policy research and strategic analysis in Indonesia. Interns will work directly with our researchers on practical tasks—tracking and summarizing current developments, supporting literature reviews, helping build datasets, and assisting the drafting of short commentaries, policy briefs, and working papers across politics, defense and security, economics, and broader public policy. We’re looking for people who are curious, disciplined with sources, and comfortable writing clearly (Bahasa Indonesia and/or English). If you want a serious, hands-on research environment—where you learn how good analysis is built from the ground up—send your CV and a short note on your interests.",
+      opportunities_title: "Career Opportunities",
+      roles: {
+        "1": {
+          title: "Statistician / Survey Coordinator",
+          desc: "ACRC is hiring a Statistician / Survey Coordinator to lead the technical and field coordination side of our research projects. In this role, you will help design survey instruments, plan sampling and fieldwork operations, manage enumerator training and quality control, and oversee data cleaning and statistical analysis for policy-facing outputs. We’re looking for someone who is strong in applied statistics and comfortable working end-to-end—from questionnaire logic and sampling design to analysis and clear reporting. Experience with tools like R, Stata, SPSS, or Python is expected, and prior work coordinating survey teams or vendors is a major plus. If you’re interested, please send your CV and a short cover note describing your survey and statistical experience to ACRC.",
+        },
+      },
+    },
+    career_apply: {
+      title: "Application Form",
+      subtitle: "Submit your application and CV to join our team.",
+      success_title: "Application Submitted Successfully",
+      success_desc:
+        "Thank you for applying. We have received your application and will review it shortly.",
+      back_button: "Back to Careers",
+      form: {
+        name: "Full Name",
+        email: "Email Address",
+        phone: "Phone Number",
+        role: "Position / Role",
+        message: "Cover Letter / Message",
+        cv: "Upload CV",
+        cv_prompt: "Click to upload or drag and drop",
+        cv_types: "PDF, DOC, DOCX up to 10MB",
+        cv_required: "CV file is required",
+        submitting: "Submitting...",
+        submit: "Submit Application",
+      },
+    },
   },
   id: {
     nav: {
@@ -952,11 +988,12 @@ export const translations = {
       issues_economy: "Ekonomi & Bisnis",
       issues_elections: "Pemilu & Demokrasi",
       issues_esg: "ESG & Keberlanjutan",
-      insights: "Wawasan",
+      insights: "Publikasi",
       insights_concern: "Perhatian ACRC",
-      insights_articles: "Artikel & Analisis",
-      insights_reports: "Laporan & Ringkasan Kebijakan",
+      insights_articles: "Komentar ACRC",
+      insights_reports: "Kertas Kerja ACRC",
       insights_events: "Acara & Presentasi",
+      insights_bulletin: "Buletin ACRC",
 
       team: "Tim",
       team_leadership: "Kepemimpinan",
@@ -1124,7 +1161,7 @@ export const translations = {
       issues_desc:
         "Riset dan konsultansi kami mencakup lima sektor strategis yang sentral bagi masa depan Indonesia.",
       issues_view_all: "Lihat Semua Isu & Sektor",
-      insights_title: "Wawasan Terbaru",
+      insights_title: "Publikasi Terbaru",
       insights_subtitle: "Riset, analisis & ringkasan kebijakan",
       insights_view_all: "Lihat Semua",
       cta_title: "Siap Membentuk Masa Depan Indonesia?",
@@ -1188,7 +1225,7 @@ export const translations = {
     },
     about: {
       hero_title: "Tentang ACRC",
-      hero_subtitle: "Tentang Aksara Cakra Research and Consulting",
+      hero_subtitle: "Aksara Cakra Research and Consulting",
       who_title: "Siapa Kami",
       who_p1:
         "Didirikan pada awal 2025 oleh tim profesional multidisiplin, Aksara Cakra Research and Consulting (ACRC) bertujuan untuk mendukung pengambil keputusan di pemerintahan dan sektor swasta. ACRC menyediakan informasi dan analisis yang andal dan komprehensif untuk menjelaskan bagaimana perkembangan geopolitik, geostrategis, dan geoekonomi membentuk keputusan bisnis dan kebijakan publik. Pekerjaan ini memungkinkan penilaian risiko dan peluang yang jelas sehingga kebijakan dan strategi didasarkan pada bukti.",
@@ -1714,7 +1751,7 @@ export const translations = {
     issues_page: {
       title: "Isu & Sektor yang Kami Kerjakan",
       subtitle:
-        "Melalui Wawasan kami, ACRC berbagi analisis ringkas, artikel, dan ringkasan pekerjaan kami untuk membantu klien dan masyarakat luas memahami perkembangan utama yang memengaruhi Indonesia.",
+        "Melalui Publikasi kami, ACRC berbagi analisis ringkas, artikel, dan ringkasan pekerjaan kami untuk membantu klien dan masyarakat luas memahami perkembangan utama yang memengaruhi Indonesia.",
       sectors: {
         defence_security: {
           title: "Pertahanan & Keamanan",
@@ -1793,7 +1830,7 @@ export const translations = {
       },
     },
     insights_page: {
-      title: "Publikasi dari ACRC",
+      title: "Publikasi ACRC",
       subtitle:
         "Artikel dan analisis kebijakan untuk memahami perkembangan utama yang memengaruhi Indonesia.",
       filters: {
@@ -1801,6 +1838,41 @@ export const translations = {
         date: "Filter berdasarkan Tanggal",
         reset: "Atur Ulang",
         no_articles: "Tidak ada artikel ditemukan untuk filter yang dipilih.",
+      },
+    },
+    careers: {
+      title: "Karir",
+      subtitle: "Bergabung bersama kami",
+      internship_title: "Peluang Magang (Internship)",
+      internship_desc:
+        "Aksara Cakra Research and Consulting (ACRC) membuka peluang magang bagi mahasiswa dan profesional muda yang menginginkan eksposur nyata terhadap riset kebijakan dan analisis strategis di Indonesia. Pemagang akan bekerja langsung dengan para peneliti kami dalam tugas-tugas praktis—melacak dan merangkum perkembangan terkini, membantu tinjauan literatur, membangun kumpulan data, dan membantu penyusunan draf komentar singkat, brief kebijakan, serta kertas kerja (working papers) yang mencakup isu-isu politik, pertahanan dan keamanan, ekonomi, serta kebijakan publik secara luas. Kami mencari individu yang penuh rasa ingin tahu, disiplin dengan sumber informasi, dan merasa nyaman menulis dengan jelas (dalam Bahasa Indonesia dan/atau Bahasa Inggris). Jika Anda menginginkan lingkungan penelitian yang serius dan berorientasi praktik—di mana Anda dapat mempelajari bagaimana analisis yang baik dibangun dari dasar—kirimkan CV Anda beserta catatan singkat mengenai minat Anda.",
+      opportunities_title: "Peluang Karir",
+      roles: {
+        "1": {
+          title: "Statistician / Survey Coordinator",
+          desc: "ACRC sedang mencari Statistician / Survey Coordinator untuk memimpin sisi koordinasi teknis dan lapangan dari proyek-proyek penelitian kami. Dalam peran ini, Anda akan membantu merancang instrumen survei, merencanakan operasi sampling dan kerja lapangan, mengelola pelatihan enumerator serta kontrol kualitas, dan mengawasi pembersihan data hingga analisis statistik untuk publikasi berbasis kebijakan. Kami mencari seseorang yang kuat dalam penerapan statistik terapan dan nyaman bekerja dari awal hingga akhir—mulai dari logika kuesioner dan desain sampling hingga analisis dan pelaporan yang jelas. Pengalaman dengan alat seperti R, Stata, SPSS, atau Python sangat diharapkan, dan pengalaman sebelumnya dalam mengoordinasikan tim survei atau vendor adalah nilai tambah yang besar. Jika Anda tertarik, silakan kirimkan CV Anda dan surat pengantar singkat yang menjelaskan pengalaman survei dan statistik Anda ke ACRC.",
+        },
+      },
+    },
+    career_apply: {
+      title: "Formulir Aplikasi",
+      subtitle: "Kirimkan lamaran dan CV Anda untuk bergabung dengan tim kami.",
+      success_title: "Aplikasi Berhasil Dikirim",
+      success_desc:
+        "Terima kasih atas lamaran Anda. Kami telah menerima aplikasi Anda dan akan segera meninjaunya.",
+      back_button: "Kembali ke Karir",
+      form: {
+        name: "Nama Lengkap",
+        email: "Alamat Email",
+        phone: "Nomor Telepon",
+        role: "Posisi / Peran",
+        message: "Surat Lamaran / Pesan",
+        cv: "Unggah CV",
+        cv_prompt: "Klik untuk mengunggah atau seret dan lepas",
+        cv_types: "PDF, DOC, DOCX hingga 10MB",
+        cv_required: "File CV wajib diunggah",
+        submitting: "Mengirim...",
+        submit: "Kirim Lamaran",
       },
     },
   },

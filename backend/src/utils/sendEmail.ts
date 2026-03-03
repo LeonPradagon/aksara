@@ -14,13 +14,19 @@ const transporter = nodemailer.createTransport({
   },
 } as any);
 
-export const sendEmail = async (to: string, subject: string, html: string) => {
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  html: string,
+  attachments?: any[],
+) => {
   try {
     const info = await transporter.sendMail({
       from: `"ACRC System" <${process.env.SMTP_USER}>`,
       to,
       subject,
       html,
+      attachments,
     });
     console.log("Email sent: %s", info.messageId);
     return info;
@@ -140,4 +146,53 @@ export const getStatusUpdateTemplate = (
        <a href="${process.env.FRONTEND_URL || "https://aksaracakra.com"}/admin/login" class="button">Log In Now</a>`
       : `<p>If you believe this is an error, please contact the system administrator.</p>`
   }
+`);
+
+export const getResetPasswordTemplate = (name: string, resetUrl: string) =>
+  baseTemplate(`
+  <h2 style="margin-top: 0;">Password Reset Request</h2>
+  <p>Hello ${name},</p>
+  <p>You are receiving this email because you (or someone else) have requested the reset of the password for your account.</p>
+  <p>Please click on the following button, or paste this into your browser to complete the process within one hour of receiving it:</p>
+  <a href="${resetUrl}" class="button">Reset Password</a>
+  <p style="margin-top: 30px; font-size: 12px; color: #64748b;">If you did not request this, please ignore this email and your password will remain unchanged.</p>
+`);
+
+export const getCareerApplicationTemplate = (
+  name: string,
+  email: string,
+  phone: string,
+  roleTitle: string,
+  message: string,
+  cvFileName: string,
+) =>
+  baseTemplate(`
+  <h2 style="margin-top: 0;">New Career Application</h2>
+  <p>You have received a new application for <strong>${roleTitle}</strong>.</p>
+  <table class="data-table">
+    <tr>
+      <td class="label">Applicant Name</td>
+      <td>${name}</td>
+    </tr>
+    <tr>
+      <td class="label">Email</td>
+      <td><a href="mailto:${email}">${email}</a></td>
+    </tr>
+    <tr>
+      <td class="label">Phone</td>
+      <td>${phone}</td>
+    </tr>
+    <tr>
+      <td class="label">Applying For</td>
+      <td>${roleTitle}</td>
+    </tr>
+    <tr>
+      <td class="label">Cover Letter / Message</td>
+      <td>${message.replace(/\n/g, "<br>")}</td>
+    </tr>
+    <tr>
+      <td class="label">Attached CV</td>
+      <td>${cvFileName}</td>
+    </tr>
+  </table>
 `);

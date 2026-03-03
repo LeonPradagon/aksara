@@ -1,40 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ArticleCard } from "@/components/cards";
+import api from "@/lib/api";
 import { ArrowRight, ArrowLeft, TrendingUp } from "lucide-react";
 
-const relatedInsights = [
-  {
-    title: "Macroeconomic Outlook and Fiscal Policy Challenges in Indonesia",
-    excerpt:
-      "Analysis of Indonesia’s macroeconomic trends, fiscal sustainability, and policy trade-offs amid global uncertainty.",
-    date: "Jan 20, 2025",
-    category: "Economy",
-    href: "/insights/article-1",
-  },
-  {
-    title:
-      "Investment Climate Reform: Regulatory Barriers and Policy Responses",
-    excerpt:
-      "Assessment of regulatory constraints, licensing reforms, and their impact on domestic and foreign investment.",
-    date: "Dec 10, 2024",
-    category: "Business",
-    href: "/insights/article-2",
-  },
-  {
-    title: "Sectoral and Regional Development Opportunities in Indonesia",
-    excerpt:
-      "Examining growth opportunities across key sectors and regions, including infrastructure, manufacturing, and emerging regional hubs.",
-    date: "Nov 25, 2024",
-    category: "Economy",
-    href: "/insights/article-3",
-  },
-];
-
 export default function EconomyBusinessPage() {
+  const [relatedArticles, setRelatedArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await api.get("/articles", {
+          params: { limit: 3, published: true, category: "Economy & Business" },
+        });
+        const publishedArticles = res.data.filter(
+          (article: any) => article.published,
+        );
+        setRelatedArticles(publishedArticles.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArticles();
+  }, []);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -130,7 +125,7 @@ export default function EconomyBusinessPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <h2 className="font-serif text-4xl font-bold text-foreground">
-              Related Insights
+              Related Publications
             </h2>
             <Link
               href="/insights?category=Economy"
@@ -142,9 +137,36 @@ export default function EconomyBusinessPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {relatedInsights.map((insight, i) => (
-              <ArticleCard key={i} {...insight} />
-            ))}
+            {loading ? (
+              [...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl h-64 border border-border"
+                ></div>
+              ))
+            ) : relatedArticles.length > 0 ? (
+              relatedArticles.map((article, i) => (
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  excerpt={article.excerpt}
+                  date={new Date(
+                    article.published_at || article.created_at,
+                  ).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  category={article.category}
+                  href={`/insights/${article.slug || article.id}`}
+                  featured={false}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-muted-foreground py-10">
+                No related publications available yet.
+              </p>
+            )}
           </div>
         </div>
       </section>

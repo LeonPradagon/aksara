@@ -17,6 +17,13 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 
+const publicPages = [
+  "/admin/login",
+  "/admin/register",
+  "/admin/forgot-password",
+  "/admin/reset-password",
+];
+
 export default function AdminLayout({
   children,
 }: {
@@ -28,11 +35,13 @@ export default function AdminLayout({
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
 
+  const isPublicPage = publicPages.includes(pathname);
+
   useEffect(() => {
-    if (!loading && (!user || user.role !== "ADMIN")) {
+    if (!loading && (!user || user.role !== "ADMIN") && !isPublicPage) {
       router.push("/admin/login");
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, isPublicPage]);
 
   // Close mobile sidebar on route change
   useEffect(() => {
@@ -47,8 +56,8 @@ export default function AdminLayout({
     );
   }
 
-  // Hide layout for login and register pages
-  if (pathname === "/admin/login" || pathname === "/admin/register") {
+  // Hide layout for public pages
+  if (isPublicPage) {
     return <>{children}</>;
   }
 
@@ -61,6 +70,7 @@ export default function AdminLayout({
     { title: "Articles", href: "/admin/articles", icon: FileText },
     { title: "Comments", href: "/admin/comments", icon: MessageSquare },
     { title: "Inquiries", href: "/admin/inquiries", icon: Mail },
+    { title: "Applications", href: "/admin/careers", icon: FileText },
     { title: "User Requests", href: "/admin/users", icon: Users },
   ];
 

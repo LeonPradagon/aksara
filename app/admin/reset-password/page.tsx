@@ -1,43 +1,72 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Lock, Mail, Loader2 } from "lucide-react";
-import { useAuth } from "@/contexts/auth-context";
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Lock, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import api from "@/lib/api";
 import Swal from "sweetalert2";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  useEffect(() => {
+    if (!token) {
+      Swal.fire({
+        title: "Invalid Link",
+        text: "The reset password link is invalid or has expired.",
+        icon: "error",
+        confirmButtonColor: "#01172C",
+      });
+      router.push("/admin/login");
+    }
+  }, [token, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      return Swal.fire({
+        title: "Error",
+        text: "Passwords do not match.",
+        icon: "error",
+        confirmButtonColor: "#01172C",
+      });
+    }
+
+    if (password.length < 6) {
+      return Swal.fire({
+        title: "Error",
+        text: "Password must be at least 6 characters long.",
+        icon: "error",
+        confirmButtonColor: "#01172C",
+      });
+    }
+
     setIsSubmitting(true);
 
     try {
-      const response = await api.post("/auth/login", { email, password });
-      const { token, user } = response.data;
-
-      login(token, user);
+      await api.post("/auth/reset-password", { token, password });
 
       Swal.fire({
-        title: "Welcome back!",
-        text: `Logged in as ${user.name}`,
+        title: "Success",
+        text: "Your password has been reset successfully.",
         icon: "success",
-        timer: 1500,
-        showConfirmButton: false,
+        confirmButtonColor: "#01172C",
       });
 
-      router.push("/admin/articles");
+      router.push("/admin/login");
     } catch (error: any) {
-      console.error("Login Error:", error);
+      console.error("Reset Password Error:", error);
       Swal.fire({
-        title: "Login Failed",
-        text: error.response?.data?.message || "Invalid credentials",
+        title: "Error",
+        text:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again.",
         icon: "error",
         confirmButtonColor: "#01172C",
       });
@@ -57,35 +86,16 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-2xl font-bold text-center text-slate-900 dark:text-white mb-2">
-            Admin Access
+            Reset Password
           </h1>
           <p className="text-center text-slate-500 dark:text-slate-400 mb-8">
-            Please enter your credentials to manage ACRC content.
+            Enter your new password below.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                  placeholder="admin@aksaracakra.id"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Password
+                New Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -100,14 +110,24 @@ export default function LoginPage() {
                   placeholder="••••••••"
                 />
               </div>
-              <div className="flex justify-end mt-1">
-                <button
-                  type="button"
-                  onClick={() => router.push("/admin/forgot-password")}
-                  className="text-xs font-medium text-primary hover:underline"
-                >
-                  Forgot Password?
-                </button>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-slate-400" />
+                </div>
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  placeholder="••••••••"
+                />
               </div>
             </div>
 
@@ -119,30 +139,10 @@ export default function LoginPage() {
               {isSubmitting ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
-                "Sign In"
+                "Reset Password"
               )}
             </button>
           </form>
-        </div>
-
-        <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 text-center space-y-3">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">
-            Don't have an account?
-          </p>
-          <button
-            onClick={() => router.push("/admin/register")}
-            className="text-xs font-bold text-primary hover:underline transition-colors"
-          >
-            Request Administrative Access
-          </button>
-          <div className="pt-2">
-            <button
-              onClick={() => router.push("/")}
-              className="text-[10px] text-slate-500 hover:text-primary transition-colors flex items-center justify-center gap-1 mx-auto"
-            >
-              &larr; Return to main website
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -152,9 +152,10 @@ export function Navbar() {
       href: "/insights",
       children: [
         { label: t("nav.insights_concern"), href: "/insights/concern" },
-        { label: t("nav.insights_articles"), href: "/insights?type=article" },
-        { label: t("nav.insights_reports"), href: "/insights?type=report" },
+        { label: t("nav.insights_articles"), href: "/insights/commentaries" },
+        { label: t("nav.insights_reports"), href: "/insights/working-paper" },
         { label: t("nav.insights_events"), href: "/insights?type=event" },
+        { label: t("nav.insights_bulletin"), href: "/insights/bulletin" },
       ],
     },
     {

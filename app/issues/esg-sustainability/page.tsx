@@ -1,40 +1,39 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { ArticleCard } from "@/components/cards";
+import api from "@/lib/api";
 import { ArrowRight, ArrowLeft, Leaf } from "lucide-react";
 
-const relatedInsights = [
-  {
-    title: "Assessing Social and Environmental Impacts of Development Projects",
-    excerpt:
-      "Analysis of environmental and social risks, impact mitigation, and sustainability outcomes of major projects in Indonesia.",
-    date: "Jan 15, 2025",
-    category: "Sustainability",
-    href: "/insights/article-1",
-  },
-  {
-    title: "ESG Standards, Disclosure, and Compliance in Indonesia",
-    excerpt:
-      "Examining evolving ESG standards, regulatory requirements, and compliance challenges for companies and investors.",
-    date: "Dec 20, 2024",
-    category: "ESG",
-    href: "/insights/article-2",
-  },
-  {
-    title:
-      "Community Engagement and Stakeholder Relations in Sustainability Projects",
-    excerpt:
-      "Assessment of stakeholder engagement practices and their role in improving project legitimacy and sustainability outcomes.",
-    date: "Nov 30, 2024",
-    category: "Sustainability",
-    href: "/insights/article-3",
-  },
-];
-
 export default function ESGSustainabilityPage() {
+  const [relatedArticles, setRelatedArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await api.get("/articles", {
+          params: {
+            limit: 3,
+            published: true,
+            category: "ESG & Sustainability",
+          },
+        });
+        const publishedArticles = res.data.filter(
+          (article: any) => article.published,
+        );
+        setRelatedArticles(publishedArticles.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArticles();
+  }, []);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -132,7 +131,7 @@ export default function ESGSustainabilityPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <h2 className="font-serif text-4xl font-bold text-foreground">
-              Related Insights
+              Related Publications
             </h2>
             <Link
               href="/insights?category=Sustainability"
@@ -144,9 +143,36 @@ export default function ESGSustainabilityPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {relatedInsights.map((insight, i) => (
-              <ArticleCard key={i} {...insight} />
-            ))}
+            {loading ? (
+              [...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl h-64 border border-border"
+                ></div>
+              ))
+            ) : relatedArticles.length > 0 ? (
+              relatedArticles.map((article, i) => (
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  excerpt={article.excerpt}
+                  date={new Date(
+                    article.published_at || article.created_at,
+                  ).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  category={article.category}
+                  href={`/insights/${article.slug || article.id}`}
+                  featured={false}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-muted-foreground py-10">
+                No related publications available yet.
+              </p>
+            )}
           </div>
         </div>
       </section>

@@ -24,6 +24,7 @@ interface Article {
   author: string;
   created_at: string;
   pdf_url?: string;
+  published: boolean;
 }
 
 export default function AdminArticlesPage() {
@@ -144,6 +145,9 @@ export default function AdminArticlesPage() {
                     Author
                   </th>
                   <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
+                    Status
+                  </th>
+                  <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
                     Date Created
                   </th>
                   <th className="px-4 md:px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">
@@ -194,6 +198,17 @@ export default function AdminArticlesPage() {
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium hidden md:table-cell">
                       {article.author}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
+                      {article.published ? (
+                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full border border-green-200">
+                          Published
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full border border-slate-200">
+                          Draft
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
                       <div className="flex items-center gap-2">

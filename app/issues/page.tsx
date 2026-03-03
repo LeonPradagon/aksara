@@ -13,14 +13,52 @@ import {
   Leaf,
 } from "lucide-react";
 import { useLocale } from "@/contexts/locale-context";
+import { useState, useEffect } from "react";
+import api from "@/lib/api";
 
 export default function IssuesPage() {
   const { t } = useLocale();
+  const [recentArticles, setRecentArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // ================================
-  // FEATURE FLAGS
-  // ================================
-  const SHOW_RELATED_INSIGHTS = false;
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        // Fetch a bit more to have a higher chance of getting different categories
+        const res = await api.get("/articles?limit=15&published=true");
+        const publishedArticles = res.data.filter(
+          (article: any) => article.published,
+        );
+
+        // Filter to ensure we get distinct categories
+        const distinctCategories = new Set();
+        const variedArticles: any[] = [];
+        for (const article of publishedArticles) {
+          if (!distinctCategories.has(article.category)) {
+            distinctCategories.add(article.category);
+            variedArticles.push(article);
+          }
+          if (variedArticles.length === 3) break;
+        }
+
+        // Fallback: If we couldn't find 3 distinct, just show whatever is available up to 3
+        if (variedArticles.length < 3) {
+          const remaining = 3 - variedArticles.length;
+          const fillerArticles = publishedArticles.filter(
+            (a: any) => !variedArticles.find((v) => v.id === a.id),
+          );
+          variedArticles.push(...fillerArticles.slice(0, remaining));
+        }
+
+        setRecentArticles(variedArticles);
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArticles();
+  }, []);
 
   const sectors = [
     {
@@ -176,89 +214,6 @@ export default function IssuesPage() {
           </div>
         </section>
       ))}
-
-      {/* Cross-Cutting Methods */}
-      {SHOW_RELATED_INSIGHTS && (
-        <section className="py-16 md:py-24 border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
-              {t("issues_page.cross_cutting.title")}
-            </h2>
-            <p className="text-lg text-muted-foreground mb-12 max-w-3xl leading-relaxed">
-              {t("issues_page.cross_cutting.desc")}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {methods.map((method, i) => (
-                <div
-                  key={method.title}
-                  className="p-6 rounded-lg border border-border bg-card"
-                >
-                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold mb-4">
-                    {i + 1}
-                  </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">
-                    {method.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {method.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Related Insights (FEATURE FLAGGED) */}
-      {SHOW_RELATED_INSIGHTS && (
-        <section className="py-16 md:py-24 border-b border-border bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <h2 className="font-serif text-4xl font-bold text-foreground">
-                  Related Insights
-                </h2>
-                <p className="text-muted-foreground mt-2">
-                  Featured analyses across our focus areas
-                </p>
-              </div>
-
-              <Link
-                href="/insights"
-                className="hidden md:inline-flex items-center gap-2 text-primary font-medium hover:underline"
-              >
-                View All Insights
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <ArticleCard
-                title="Maritime Security and Regional Stability in Southeast Asia"
-                excerpt="Analysis of maritime boundary disputes, naval modernization, and implications for Indonesia's strategic interests."
-                date="Jan 18, 2025"
-                category="Defence & Security"
-                href="/insights/maritime-security"
-              />
-              <ArticleCard
-                title="Investment Climate Reforms: Progress and Challenges"
-                excerpt="Assessment of regulatory reforms aimed at improving Indonesia's business environment and attracting foreign investment."
-                date="Jan 12, 2025"
-                category="Economy & Business"
-                href="/insights/investment-climate"
-              />
-              <ArticleCard
-                title="Local Elections 2024: Patterns and Implications"
-                excerpt="Analysis of voter behaviour, campaign strategies, and democratic participation in Indonesia's regional elections."
-                date="Jan 8, 2025"
-                category="Elections & Democracy"
-                href="/insights/local-elections"
-              />
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* CTA */}
       <section className="py-16 md:py-24 border-b border-border">

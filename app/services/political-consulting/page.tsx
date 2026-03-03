@@ -78,23 +78,12 @@ export default function PoliticalConsultingPage() {
                 policy, and business contexts.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { number: "10+", label: "Election cycles analyzed" },
-                { number: "500+", label: "Political risk assessments" },
-                { number: "34", label: "Provinces covered" },
-                { number: "100+", label: "Stakeholder networks" },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="p-6 rounded-lg border border-border bg-card"
-                >
-                  <p className="font-serif text-4xl font-bold text-foreground mb-2">
-                    {stat.number}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
+            <div className="relative h-[400px] w-full rounded-lg overflow-hidden border border-border">
+              <img
+                src="/picture/home-2.jpeg"
+                alt="Understanding Political Dynamics"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -198,7 +187,7 @@ export default function PoliticalConsultingPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-4xl font-bold text-foreground mb-6">
-            Need Political Insights?
+            Need Political Publications?
           </h2>
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
             Partner with ACRC to understand Indonesia's political landscape and

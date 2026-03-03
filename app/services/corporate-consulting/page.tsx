@@ -79,23 +79,12 @@ export default function CorporateConsultingPage() {
                 strategic positioning.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { number: "75+", label: "Corporate clients served" },
-                { number: "40+", label: "SOE engagements" },
-                { number: "25+", label: "Industries covered" },
-                { number: "90%", label: "Client retention rate" },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="p-6 rounded-lg border border-border bg-card"
-                >
-                  <p className="font-serif text-4xl font-bold text-foreground mb-2">
-                    {stat.number}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              ))}
+            <div className="relative h-[400px] w-full rounded-lg overflow-hidden border border-border">
+              <img
+                src="/picture/home-2.jpeg"
+                alt="Navigate Complexity with Confidence"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>

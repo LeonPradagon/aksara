@@ -43,9 +43,10 @@ export function Footer() {
       href: "/insights",
       children: [
         { label: t("nav.insights_concern"), href: "/insights/concern" },
-        { label: t("nav.insights_articles"), href: "/insights?type=article" },
-        { label: t("nav.insights_reports"), href: "/insights?type=report" },
+        { label: t("nav.insights_articles"), href: "/insights/commentaries" },
+        { label: t("nav.insights_reports"), href: "/insights/working-paper" },
         { label: t("nav.insights_events"), href: "/insights?type=event" },
+        { label: t("nav.insights_bulletin"), href: "/insights/bulletin" },
       ],
     },
   ];
@@ -111,12 +112,13 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Secondary Links - Careers, Privacy Policy, Address & Contact */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-              <span
-                className="text-white/60 cursor-not-allowed"
-                title={t("footer.coming_soon")}
+              <NavLink
+                href="/careers"
+                className="text-white/80 hover:text-white transition-colors"
+                title={t("footer.careers")}
               >
                 {t("footer.careers")}
-              </span>
+              </NavLink>
               <NavLink
                 href="/privacy-policy"
                 className="text-white/80 hover:text-white transition-colors"

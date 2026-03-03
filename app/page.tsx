@@ -15,7 +15,6 @@ import { Footer } from "@/components/footer";
 import { ArticleCard, SectorCard } from "@/components/cards";
 import { NavLink } from "@/components/nav-link";
 import { TestimonialsSection } from "@/components/testimonials-section";
-// Import React Hooks untuk logika Carousel
 import { useState, useEffect } from "react";
 import { useLocale } from "@/contexts/locale-context";
 
@@ -24,6 +23,8 @@ export default function HomePage() {
   const slides = ["/picture/home.jpeg", "/picture/home-2.jpeg"];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [latestArticles, setLatestArticles] = useState<any[]>([]);
+  const [loadingArticles, setLoadingArticles] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,6 +33,47 @@ export default function HomePage() {
 
     return () => clearInterval(interval);
   }, [slides.length]);
+
+  useEffect(() => {
+    async function fetchLatest() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}/articles?limit=3&published=true`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setLatestArticles(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch latest articles:", err);
+      } finally {
+        setLoadingArticles(false);
+      }
+    }
+    fetchLatest();
+  }, []);
+
+  const [concernArticles, setConcernArticles] = useState<any[]>([]);
+  const [loadingConcern, setLoadingConcern] = useState(true);
+
+  useEffect(() => {
+    async function fetchConcern() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}/articles?limit=6&published=true&type=${encodeURIComponent("ACRC's Concern")}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setConcernArticles(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch concern articles:", err);
+      } finally {
+        setLoadingConcern(false);
+      }
+    }
+    fetchConcern();
+  }, []);
 
   const issuesWeWorkOn = [
     {
@@ -137,7 +179,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ACRC's Concern */}
+      {/* Publications / ACRC's Concern */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-12">
@@ -149,71 +191,43 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                category: t("home.concern_items.0.category"),
-                question: t("home.concern_items.0.question"),
-                stat: t("home.concern_items.0.stat"),
-                statLabel: t("home.concern_items.0.statLabel"),
-              },
-              {
-                category: t("home.concern_items.1.category"),
-                question: t("home.concern_items.1.question"),
-                stat: t("home.concern_items.1.stat"),
-                statLabel: t("home.concern_items.1.statLabel"),
-              },
-              {
-                category: t("home.concern_items.2.category"),
-                question: t("home.concern_items.2.question"),
-                stat: t("home.concern_items.2.stat"),
-                statLabel: t("home.concern_items.2.statLabel"),
-              },
-              {
-                category: t("home.concern_items.3.category"),
-                question: t("home.concern_items.3.question"),
-                stat: t("home.concern_items.3.stat"),
-                statLabel: t("home.concern_items.3.statLabel"),
-              },
-              {
-                category: t("home.concern_items.4.category"),
-                question: t("home.concern_items.4.question"),
-                stat: t("home.concern_items.4.stat"),
-                statLabel: t("home.concern_items.4.statLabel"),
-              },
-              {
-                category: t("home.concern_items.5.category"),
-                question: t("home.concern_items.5.question"),
-                stat: t("home.concern_items.5.stat"),
-                statLabel: t("home.concern_items.5.statLabel"),
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all group"
-              >
-                <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-4">
-                  {item.category}
-                </span>
-                <p className="text-foreground font-medium leading-relaxed mb-4 group-hover:text-primary transition-colors">
-                  {item.question}
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-serif font-bold text-primary">
-                    {item.stat}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {item.statLabel}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {loadingConcern ? (
+              [...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse bg-slate-200 dark:bg-slate-800 rounded-xl h-64 border border-border"
+                ></div>
+              ))
+            ) : concernArticles.length > 0 ? (
+              concernArticles.map((article, index) => (
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  excerpt={article.excerpt}
+                  date={new Date(
+                    article.published_at || article.created_at,
+                  ).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  category={article.category}
+                  href={`/insights/${article.slug}`}
+                  // We can make the first one featured if desired. Here we just map them identically.
+                  featured={false}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-muted-foreground py-10">
+                No recent publications available.
+              </p>
+            )}
           </div>
-
           <div className="mt-10 text-center">
             <NavLink
               href="/insights/concern"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:text-primary/80 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
             >
               {t("home.concern_btn")}
               <ArrowRight className="w-4 h-4" />
@@ -412,28 +426,36 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ArticleCard
-              title="Reassessing Political Risk in Southeast Asia"
-              excerpt="A comprehensive analysis of evolving political risk factors across Southeast Asian markets and their implications for strategic decision-making."
-              date="Jan 24, 2025"
-              category="Politics"
-              href="/insights/reassessing-political-risk-southeast-asia"
-              featured
-            />
-            <ArticleCard
-              title="What Indonesia's Fiscal Choices Mean for Investors"
-              excerpt="Examining the impact of Indonesia's fiscal policy decisions on investment climate and market opportunities."
-              date="Jan 20, 2025"
-              category="Economy"
-              href="/insights/indonesia-fiscal-choices-investors"
-            />
-            <ArticleCard
-              title="Lessons from Previous Election Cycles Ahead of 2029"
-              excerpt="Drawing insights from Indonesia's electoral history to understand patterns and prepare for the upcoming 2029 elections."
-              date="Jan 15, 2025"
-              category="Elections"
-              href="/insights/lessons-election-cycles-2029"
-            />
+            {loadingArticles ? (
+              [...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl h-64"
+                ></div>
+              ))
+            ) : latestArticles.length > 0 ? (
+              latestArticles.map((article, index) => (
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  excerpt={article.excerpt}
+                  date={new Date(
+                    article.published_at || article.created_at,
+                  ).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  category={article.category}
+                  href={`/insights/${article.slug}`}
+                  featured={index === 0}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-muted-foreground py-10">
+                No recent insights available.
+              </p>
+            )}
           </div>
 
           <div className="mt-10 flex justify-center md:hidden">
@@ -449,6 +471,32 @@ export default function HomePage() {
       </section>
 
       {/* <TestimonialsSection /> */}
+
+      {/* Career Section */}
+      <section className="py-16 md:py-24 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-12">
+            <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
+              {t("careers.title")}
+            </h2>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-8 lg:p-12 shadow-sm">
+            <h3 className="font-serif text-3xl font-semibold mb-6">
+              {t("careers.internship_title")}
+            </h3>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 whitespace-pre-wrap">
+              {t("careers.internship_desc")}
+            </p>
+            <NavLink
+              href="/careers"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
+            >
+              Learn More
+              <ArrowRight className="w-4 h-4" />
+            </NavLink>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">

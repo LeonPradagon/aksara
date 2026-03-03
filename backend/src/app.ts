@@ -14,18 +14,32 @@ import commentRoutes from "./routes/commentRoutes";
 import contactRoutes from "./routes/contactRoutes";
 import statsRoutes from "./routes/statsRoutes";
 import userRoutes from "./routes/userRoutes";
+import careerRoutes from "./routes/careerRoutes";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://aksara-cakra.com",
-      "https://www.aksara-cakra.com",
-    ],
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://aksara-cakra.com",
+        "https://www.aksara-cakra.com",
+      ];
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      // Allow any localhost origin in development
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /^http:\/\/localhost(:\d+)?$/.test(origin)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -57,10 +71,6 @@ app.use(
   express.static(path.join(process.cwd(), "public", "uploads")),
 );
 
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
-});
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/auth", authRoutes);
@@ -69,6 +79,7 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/careers", careerRoutes);
 
 // Global Error Handler
 app.use(
