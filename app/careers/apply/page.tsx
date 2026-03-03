@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { useLocale } from "@/contexts/locale-context";
 import { useSearchParams } from "next/navigation";
 import { Loader2, UploadCloud, CheckCircle } from "lucide-react";
 
-export default function CareerApplyPage() {
+function CareerApplyContent() {
   const { t } = useLocale();
   const searchParams = useSearchParams();
   const roleParam = searchParams.get("role") || "";
@@ -270,5 +270,19 @@ export default function CareerApplyPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CareerApplyPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <CareerApplyContent />
+    </Suspense>
   );
 }
