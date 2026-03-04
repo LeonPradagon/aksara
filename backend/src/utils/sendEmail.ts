@@ -129,7 +129,7 @@ export const getAdminRegistrationTemplate = (name: string, email: string) =>
     </tr>
   </table>
   <p style="margin-top: 30px;">Please log in to the admin dashboard to review and approve this request.</p>
-  <a href="${process.env.FRONTEND_URL || "https://aksaracakra.com"}/admin/login" class="button">Go to Dashboard</a>
+  <a href="${process.env.FRONTEND_URL || "https://aksara-cakra.com"}/admin/login" class="button">Go to Dashboard</a>
 `);
 
 export const getStatusUpdateTemplate = (
@@ -143,7 +143,7 @@ export const getStatusUpdateTemplate = (
   ${
     status === "approved"
       ? `<p>You can now log in to the admin dashboard using your credentials.</p>
-       <a href="${process.env.FRONTEND_URL || "https://aksaracakra.com"}/admin/login" class="button">Log In Now</a>`
+       <a href="${process.env.FRONTEND_URL || "https://aksara-cakra.com"}/admin/login" class="button">Log In Now</a>`
       : `<p>If you believe this is an error, please contact the system administrator.</p>`
   }
 `);

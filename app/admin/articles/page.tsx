@@ -179,7 +179,7 @@ export default function AdminArticlesPage() {
                             </span>
                             {article.pdf_url && (
                               <a
-                                href={`http://localhost:5342${article.pdf_url}`}
+                                href={`${process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, "") || "http://localhost:5342"}${article.pdf_url}`}
                                 target="_blank"
                                 className="text-[10px] text-primary hover:underline flex items-center gap-1"
                               >
