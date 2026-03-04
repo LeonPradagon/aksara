@@ -33,6 +33,8 @@ export default function ArticleFormPage() {
 
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [currentPdfUrl, setCurrentPdfUrl] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   useEffect(() => {
     if (isEdit) {
@@ -82,6 +84,29 @@ export default function ArticleFormPage() {
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type !== "application/pdf") {
+        Swal.fire("Invalid File", "Please upload only PDF files", "warning");
+        return;
+      }
+      setPdfFile(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -102,6 +127,12 @@ export default function ArticleFormPage() {
       if (isEdit) {
         await api.put(`/articles/${params.id}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total || 1),
+            );
+            setUploadProgress(percentCompleted);
+          },
         });
         Swal.fire(
           "Updated!",
@@ -111,6 +142,12 @@ export default function ArticleFormPage() {
       } else {
         await api.post("/articles", data, {
           headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total || 1),
+            );
+            setUploadProgress(percentCompleted);
+          },
         });
         Swal.fire("Created!", "New article has been published.", "success");
       }
@@ -124,6 +161,7 @@ export default function ArticleFormPage() {
       );
     } finally {
       setLoading(false);
+      setTimeout(() => setUploadProgress(null), 1000);
     }
   };
 
@@ -258,10 +296,23 @@ export default function ArticleFormPage() {
                     </label>
                   </div>
                 ) : (
-                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl py-8 px-4 cursor-pointer hover:border-primary/50 hover:bg-slate-50 transition-all group">
-                    <Upload className="w-8 h-8 text-slate-300 group-hover:text-primary transition-colors mb-2" />
+                  <label
+                    className={`flex flex-col items-center justify-center border-2 border-dashed rounded-2xl py-8 px-4 cursor-pointer transition-all group ${
+                      isDragging
+                        ? "border-primary bg-primary/5"
+                        : "border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <Upload
+                      className={`w-8 h-8 transition-colors mb-2 ${isDragging ? "text-primary" : "text-slate-300 group-hover:text-primary"}`}
+                    />
                     <span className="text-xs font-bold text-slate-500">
-                      Upload PDF Publication
+                      {isDragging
+                        ? "Drop PDF here"
+                        : "Drag & Drop or Click to Upload PDF"}
                     </span>
                     <input
                       type="file"
@@ -274,6 +325,19 @@ export default function ArticleFormPage() {
                 <p className="text-[10px] text-slate-400 text-center">
                   Only PDF files are allowed. Max 10MB recommended.
                 </p>
+                {uploadProgress !== null && (
+                  <div className="space-y-2 mt-4">
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
+                      <div
+                        className="bg-primary h-2.5 rounded-full transition-all duration-300 ease-out"
+                        style={{ width: `${uploadProgress}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-center text-slate-500 font-medium">
+                      {uploadProgress}% Uploaded...
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -360,7 +424,7 @@ export default function ArticleFormPage() {
                         }))
                       }
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-200 rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <p className="text-[10px] text-slate-400 mt-2">

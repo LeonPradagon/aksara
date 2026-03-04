@@ -159,8 +159,8 @@ export default function ContactPage() {
                       <h3 className="font-semibold text-foreground mb-1">
                         {t("contact.email")}
                       </h3>
-                      <p className="text-muted-foreground text-sm italic">
-                        {t("contact.to_be_added")}
+                      <p className="text-muted-foreground text-sm font-medium">
+                        admin@aksara-cakra.com
                       </p>
                     </div>
                   </div>

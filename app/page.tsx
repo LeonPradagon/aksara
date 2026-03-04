@@ -472,32 +472,6 @@ export default function HomePage() {
 
       {/* <TestimonialsSection /> */}
 
-      {/* Career Section */}
-      <section className="py-16 md:py-24 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-12">
-            <h2 className="font-serif text-5xl font-bold text-foreground mb-6">
-              {t("careers.title")}
-            </h2>
-          </div>
-          <div className="bg-card border border-border rounded-xl p-8 lg:p-12 shadow-sm">
-            <h3 className="font-serif text-3xl font-semibold mb-6">
-              {t("careers.internship_title")}
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8 whitespace-pre-wrap">
-              {t("careers.internship_desc")}
-            </p>
-            <NavLink
-              href="/careers"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
-            >
-              Learn More
-              <ArrowRight className="w-4 h-4" />
-            </NavLink>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-16 md:py-24 border-b border-border bg-muted/30">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
