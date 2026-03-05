@@ -71,6 +71,11 @@ app.use(
   express.static(path.join(process.cwd(), "public", "uploads")),
 );
 
+app.use(
+  "/api/uploads",
+  express.static(path.join(process.cwd(), "public", "uploads")),
+);
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/auth", authRoutes);

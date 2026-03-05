@@ -105,14 +105,9 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
     },
   ).format(new Date(article.created_at));
 
-  const getBaseUrl = () => {
-    return (
-      process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, "") ||
-      "http://localhost:5342"
-    );
-  };
-
-  const pdfLink = article.pdf_url ? `${getBaseUrl()}${article.pdf_url}` : null;
+  const pdfLink = article.pdf_url
+    ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${article.pdf_url}`
+    : null;
 
   return (
     <div className="min-h-screen bg-background">
