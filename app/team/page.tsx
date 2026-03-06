@@ -93,6 +93,12 @@ export default function TeamPage() {
       photo: "/tim/Picture9.png",
       bio: t("team.members.arif_rahmat.bio"),
     },
+    {
+      name: t("team.members.imamati_zikra.name"),
+      title: t("team.members.imamati_zikra.title"),
+      photo: "/tim/Imamati.jpg",
+      bio: t("team.members.imamati_zikra.bio"),
+    },
   ];
 
   return (
