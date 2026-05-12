@@ -14,7 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ACRC | Navigator of Nusantara's Policy Direction",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://aksara-cakra.com"),
+  title: {
+    default: "ACRC | Navigator of Nusantara's Policy Direction",
+    template: "%s | ACRC",
+  },
   description:
     "Aksara Cakra Research and Consulting - Jakarta-based research and consulting firm supporting government, SOEs, and private sector leaders in shaping policy, business, and political strategies.",
   generator: "Next.js",
@@ -28,6 +32,13 @@ export const metadata: Metadata = {
     "politics",
     "business",
   ],
+  authors: [{ name: "ACRC" }],
+  creator: "ACRC",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: "/picture/Aksara Cakra.png",
     apple: "/picture/Aksara Cakra.png",
@@ -36,7 +47,26 @@ export const metadata: Metadata = {
     title: "ACRC | Navigator of Nusantara's Policy Direction",
     description:
       "Research and consulting firm shaping policy and business strategy in Indonesia",
+    url: "/",
+    siteName: "Aksara Cakra Research and Consulting",
+    images: [
+      {
+        url: "/picture/Aksara Cakra.png",
+        width: 800,
+        height: 600,
+        alt: "ACRC Logo",
+      },
+    ],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ACRC | Navigator of Nusantara's Policy Direction",
+    description: "Research and consulting firm shaping policy and business strategy in Indonesia",
+    images: ["/picture/Aksara Cakra.png"],
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
 };
 
