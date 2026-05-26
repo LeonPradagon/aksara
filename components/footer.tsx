@@ -164,12 +164,23 @@ export function Footer() {
             <p className="text-xs text-white/60">
               © {currentYear} {t("footer.rights")}
             </p>
-            <NavLink
-              href="/admin"
-              className="text-[10px] text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest font-bold"
-            >
-              Admin Access
-            </NavLink>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://webmail.aksara-cakra.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest font-bold"
+              >
+                Mailbox
+              </a>
+              <span className="text-[10px] text-white/10 select-none">|</span>
+              <NavLink
+                href="/admin"
+                className="text-[10px] text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest font-bold"
+              >
+                Admin Access
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>
