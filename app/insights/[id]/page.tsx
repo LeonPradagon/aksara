@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PublicComments } from "@/components/public-comments";
 import { ArrowLeft, Calendar, FileText, Download, Loader2 } from "lucide-react";
+import "react-quill-new/dist/quill.snow.css"; // Required for Quill styles
 import { useLocale } from "@/contexts/locale-context";
 import api from "@/lib/api";
 
@@ -209,8 +210,11 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
 
           {article.content && (
             <div className="mt-12 pt-12 border-t border-border">
-              <div className="prose dark:prose-invert max-w-none text-muted-foreground leading-extra-relaxed">
-                {article.content}
+              <div className="ql-snow">
+                <div 
+                  className="frontend-quill ql-editor p-0 prose dark:prose-invert max-w-none text-muted-foreground leading-extra-relaxed break-words prose-img:max-w-full prose-img:rounded-xl prose-video:max-w-full"
+                  dangerouslySetInnerHTML={{ __html: article.content }}
+                />
               </div>
             </div>
           )}

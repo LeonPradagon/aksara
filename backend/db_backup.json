@@ -1,0 +1,151 @@
+{
+  "users": [
+    {
+      "id": "4d0ca14f-8380-4ccc-b543-b55326816aba",
+      "email": "admin@aksara-cakra.com",
+      "password": "$2b$10$O9iRW/OpCFr8U0UgIGnSuu65v4/6p1E/IFUhh2njbwAVs/wAlm24u",
+      "name": "Admin ACRC",
+      "createdAt": "2026-02-28T15:46:00.812Z",
+      "updatedAt": "2026-02-28T15:52:02.739Z",
+      "isApproved": true,
+      "role": "ADMIN",
+      "resetPasswordToken": null,
+      "resetPasswordExpires": null
+    },
+    {
+      "id": "365cfe80-d048-4e1b-99b3-381af9a2fa87",
+      "email": "jhansen.wilson@gmail.com",
+      "password": "$2b$10$kY3iGc7z6LSDKVW7IH8RwOKqK0J6xjxTHhHPjT//sTW0RCuRJIgWq",
+      "name": "Jhansen Wilson",
+      "createdAt": "2026-02-28T14:12:54.955Z",
+      "updatedAt": "2026-02-28T14:14:00.821Z",
+      "isApproved": true,
+      "role": "ADMIN",
+      "resetPasswordToken": null,
+      "resetPasswordExpires": null
+    }
+  ],
+  "articles": [
+    {
+      "id": "e4ff6daf-0b9c-4682-acc5-525b9c5a7e97",
+      "slug": "bakamlas-2045-force-posture-opportunities--constraints-and-the-real-market-test",
+      "title": "Bakamla’s 2045 Force Posture: Opportunities,  Constraints, and the Real Market Test",
+      "content": "",
+      "excerpt": "Bakamla’s 2045 force posture, often reduced to a headline figure of 274 vessels, should be read as a long-term capability signal, not a single procurement list. For industry, the most credible opportunities sit in the operational foundations: NMSS surveillance \r\ninfrastructure, integration, interoperability, maintenance, training, and governance-ready support systems that sustain readiness. ",
+      "category": "Defence & Security",
+      "type": "ACRC Commentaries",
+      "published": true,
+      "createdAt": "2026-02-24T13:08:39.489Z",
+      "updatedAt": "2026-03-02T14:38:59.032Z",
+      "pdfUrl": "/uploads/pdfs/pdf-1771913319332-547203816.pdf",
+      "author": "Adri Wanto",
+      "publishedAt": "2026-03-02T11:26:23.380Z"
+    },
+    {
+      "id": "5ea38d41-460c-4426-b9b1-92c825db7a94",
+      "slug": "when-counterterrorism-meets-the-reform-era-boundary-rethinking-the--draft-perpres-on-tni-involvement",
+      "title": "When Counterterrorism Meets the Reform-Era Boundary: Rethinking the  Draft Perpres on TNI Involvement",
+      "content": "",
+      "excerpt": "Indonesia does not need persuasion that terrorism is a serious and persistent security \r\nproblem. Episodes of violence, disrupted plots, and the long social consequences of fear and \r\ntrauma have repeatedly placed public pressure on the state to respond quickly and decisively. \r\nIn such contexts, proposals to mobilize all available state capabilities, including military \r\ncapabilities, often gain intuitive appeal. Yet in Indonesia, the question of TNI involvement in \r\ncounterterrorism is not merely operational. It is inseparable from the country’s post-1998 \r\ninstitutional settlement, which sought to demarcate “defense” from “domestic security,” \r\nembed civilian supremacy, and strengthen accountability mechanisms after decades in which \r\ncoercive authority was frequently concentrated and weakly supervised. \r\nThe leaked draft Presidential Regulation (Perpres) concerning the involvement of the \r\nIndonesian National Armed Forces (TNI) in addressing terrorism has therefore reactivated a \r\nfamiliar but unresolved dilemma: how to enhance state effectiveness against extraordinary \r\nthreats without eroding the rule-of-law foundations and democratic safeguards established \r\nduring the reform era. In this debate, the central issue is not the legitimacy of \r\ncounterterrorism as a policy goal. Rather, it is the governance design of counterterrorism: the \r\ninstitutional division of labor, the legal basis for the deployment of armed force in civilian \r\nspace, the clarity of thresholds for military engagement, and the robustness of oversight and \r\naccountability mechanisms.",
+      "category": "Defence & Security",
+      "type": "ACRC Commentaries",
+      "published": true,
+      "createdAt": "2026-03-02T11:27:26.405Z",
+      "updatedAt": "2026-03-02T14:38:50.482Z",
+      "pdfUrl": "/uploads/pdfs/1772425646364-ACRC Concern No. 01-17022026.pdf",
+      "author": "Adri Wanto",
+      "publishedAt": "2026-03-02T11:27:26.373Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "71f69df9-9343-45fc-a1b1-857bc2840a82",
+      "content": "First comment",
+      "articleId": "e4ff6daf-0b9c-4682-acc5-525b9c5a7e97",
+      "userId": null,
+      "parentId": null,
+      "createdAt": "2026-02-24T14:35:27.485Z",
+      "updatedAt": "2026-02-24T14:35:27.485Z",
+      "authorName": "Andel"
+    },
+    {
+      "id": "3f1fee94-77d3-4379-b10d-be8a22c694f7",
+      "content": "Bagus",
+      "articleId": "e4ff6daf-0b9c-4682-acc5-525b9c5a7e97",
+      "userId": null,
+      "parentId": null,
+      "createdAt": "2026-02-25T15:11:12.541Z",
+      "updatedAt": "2026-02-25T15:11:12.541Z",
+      "authorName": "Gita"
+    }
+  ],
+  "contactInquiries": [
+    {
+      "id": "b9391d74-7cd3-4322-a888-62c67a84e8a7",
+      "name": "Tes",
+      "email": "admin@aksara-cakra.com",
+      "subject": "Inquiry regarding SOEs / BUMN",
+      "message": "tes",
+      "createdAt": "2026-02-27T15:02:35.147Z",
+      "phone": "08490283091",
+      "organization": "PT Asia Sistem Indonehea",
+      "inquiryType": "soes"
+    },
+    {
+      "id": "7cea16eb-4bb3-4d2d-b1c2-79f520f945f0",
+      "name": "STAGINGDB",
+      "email": "admin@aksara-cakra.com",
+      "subject": "contact.subject_international",
+      "message": "tes",
+      "createdAt": "2026-02-27T15:04:53.806Z",
+      "phone": "09472883",
+      "organization": "Binus University",
+      "inquiryType": "international"
+    },
+    {
+      "id": "56aa8dc0-fed1-43e4-a3ec-f89a0348d52f",
+      "name": "STAGINGDB",
+      "email": "admin@aksara-cakra.com",
+      "subject": "Inquiry regarding Private Sector",
+      "message": "tes",
+      "createdAt": "2026-02-27T15:08:04.286Z",
+      "phone": "09847929",
+      "organization": "PT ALALALALA",
+      "inquiryType": "private"
+    },
+    {
+      "id": "58fc0b67-b719-4c31-abfc-dc8714419118",
+      "name": "Tester",
+      "email": "tester@test.com",
+      "subject": "Integration Test",
+      "message": "Hello from integration test!",
+      "createdAt": "2026-02-28T15:28:44.386Z",
+      "phone": null,
+      "organization": null,
+      "inquiryType": null
+    },
+    {
+      "id": "e60dafa0-f2f0-4e48-ad30-e4081e64ae8d",
+      "name": "Tester",
+      "email": "tester@test.com",
+      "subject": "Test",
+      "message": "Hello!",
+      "createdAt": "2026-02-28T15:44:06.808Z",
+      "phone": null,
+      "organization": null,
+      "inquiryType": null
+    },
+    {
+      "id": "60154872-82d2-4691-92a6-ca44a5328c11",
+      "name": "tes",
+      "email": "tes@gmail.com",
+      "subject": "contact.subject_government",
+      "message": "tes",
+      "createdAt": "2026-02-28T15:52:37.763Z",
+      "phone": "084389723",
+      "organization": "tes",
+      "inquiryType": "government"
+    }
+  ],
+  "careerApplications": []
+}

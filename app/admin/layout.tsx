@@ -14,6 +14,8 @@ import {
   Menu,
   X,
   Users,
+  Settings,
+  Briefcase,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 
@@ -67,7 +69,10 @@ export default function AdminLayout({
 
   const navItems = [
     { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { title: "Site Settings", href: "/admin/settings", icon: Settings },
     { title: "Articles", href: "/admin/articles", icon: FileText },
+    { title: "Team", href: "/admin/team", icon: Users },
+    { title: "Jobs", href: "/admin/jobs", icon: Briefcase },
     { title: "Comments", href: "/admin/comments", icon: MessageSquare },
     { title: "Inquiries", href: "/admin/inquiries", icon: Mail },
     { title: "Applications", href: "/admin/careers", icon: FileText },

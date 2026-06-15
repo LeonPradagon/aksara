@@ -20,11 +20,40 @@ import { useLocale } from "@/contexts/locale-context";
 
 export default function HomePage() {
   const { t } = useLocale();
-  const slides = ["/picture/home.jpeg", "/picture/home-2.jpeg"];
+  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [slides, setSlides] = useState(["/picture/home.jpeg", "/picture/home-2.jpeg"]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [latestArticles, setLatestArticles] = useState<any[]>([]);
   const [loadingArticles, setLoadingArticles] = useState(true);
+
+  // Fetch settings for dynamic hero images
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}/settings`);
+        if (response.ok) {
+          const data = await response.json();
+          setSettings(data);
+          
+          const dynamicSlides = [];
+          if (data.home_hero_image_1) {
+            dynamicSlides.push(data.home_hero_image_1.startsWith("http") || data.home_hero_image_1.startsWith("/picture/") || data.home_hero_image_1.startsWith("/tim/") ? data.home_hero_image_1 : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${data.home_hero_image_1}`);
+          }
+          if (data.home_hero_image_2) {
+            dynamicSlides.push(data.home_hero_image_2.startsWith("http") || data.home_hero_image_2.startsWith("/picture/") || data.home_hero_image_2.startsWith("/tim/") ? data.home_hero_image_2 : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${data.home_hero_image_2}`);
+          }
+
+          if (dynamicSlides.length > 0) {
+            setSlides(dynamicSlides);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch settings:", err);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

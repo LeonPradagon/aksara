@@ -1,11 +1,31 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { useLocale } from "@/contexts/locale-context";
+import { Loader2 } from "lucide-react";
+import "react-quill-new/dist/quill.snow.css"; // Required for Quill styles (align, indent, etc)
+import api from "@/lib/api";
 
 export default function CareersPage() {
   const { t } = useLocale();
+  const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await api.get("/jobs?activeOnly=true");
+        setJobs(response.data);
+      } catch (err) {
+        console.error("Failed to fetch jobs:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJobs();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -19,50 +39,60 @@ export default function CareersPage() {
           {t("careers.subtitle")}
         </p>
 
-        {/* Internship Section */}
-        <section className="mb-20">
-          <h2 className="font-serif text-3xl font-semibold mb-6">
-            {t("careers.internship_title")}
-          </h2>
-          <div className="bg-card border border-border rounded-xl p-8 lg:p-10 shadow-sm">
-            <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap mb-8">
-              {t("careers.internship_desc")}
+        {loading ? (
+          <div className="py-24 flex flex-col items-center justify-center text-muted-foreground">
+            <Loader2 className="w-10 h-10 animate-spin mb-4" />
+            <p className="font-medium">Loading opportunities...</p>
+          </div>
+        ) : jobs.length === 0 ? (
+          <div className="bg-muted border border-border rounded-xl p-10 text-center">
+            <h3 className="font-serif text-2xl font-bold mb-3">No Open Positions</h3>
+            <p className="text-muted-foreground">
+              We currently do not have any open positions. Please check back later or follow our social media for updates.
             </p>
-            <div>
-              <a
-                href="/careers/apply?role=internship"
-                className="inline-flex justify-center items-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
-              >
-                Apply for Internship
-              </a>
-            </div>
           </div>
-        </section>
+        ) : (
+          <div className="space-y-12">
+            {jobs.map((job) => (
+              <section key={job.id} className="bg-card border border-border rounded-xl p-8 lg:p-10 shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="font-serif text-3xl font-bold mb-2">
+                      {job.title}
+                    </h2>
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                      <span className="font-semibold px-3 py-1 bg-primary/10 text-primary rounded-full">
+                        {job.type || "Full-time"}
+                      </span>
+                      {job.location && (
+                        <>
+                          <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                          <span>{job.location}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-        {/* Career Opportunities */}
-        <section>
-          <h2 className="font-serif text-3xl font-semibold mb-6">
-            {t("careers.opportunities_title")}
-          </h2>
-          <div className="space-y-8">
-            <div className="bg-card border border-border rounded-xl p-8 lg:p-10 shadow-sm">
-              <h3 className="font-serif text-2xl font-bold mb-4">
-                {t("careers.roles.1.title")}
-              </h3>
-              <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap mb-8">
-                {t("careers.roles.1.desc")}
-              </p>
-              <div>
-                <a
-                  href={`/careers/apply?role=${encodeURIComponent(t("careers.roles.1.title") || "Statistician Coordinator")}`}
-                  className="inline-flex justify-center items-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
-                >
-                  Apply Now
-                </a>
-              </div>
-            </div>
+                <div className="ql-snow">
+                  <div 
+                    className="frontend-quill ql-editor p-0 prose dark:prose-invert max-w-none text-muted-foreground mb-8 break-words prose-img:max-w-full prose-img:rounded-xl prose-video:max-w-full"
+                    dangerouslySetInnerHTML={{ __html: job.description || "" }}
+                  />
+                </div>
+
+                <div>
+                  <a
+                    href={`/careers/apply?role=${encodeURIComponent(job.title)}`}
+                    className="inline-flex justify-center items-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity"
+                  >
+                    Apply Now
+                  </a>
+                </div>
+              </section>
+            ))}
           </div>
-        </section>
+        )}
       </main>
 
       <Footer />

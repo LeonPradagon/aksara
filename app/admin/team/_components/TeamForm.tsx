@@ -1,74 +1,71 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import {
-  ArrowLeft,
-  Save,
-  Upload,
-  X,
-  FileIcon,
-  Loader2,
-  Trash2,
-} from "lucide-react";
+import { ArrowLeft, Save, Upload, X, Loader2, Image as ImageIcon } from "lucide-react";
 import Swal from "sweetalert2";
-import RichTextEditor from "../../_components/RichTextEditor";
+import Image from "next/image";
 
-export default function ArticleFormPage() {
+interface TeamFormProps {
+  memberId?: string; // If provided, it's edit mode
+}
+
+export default function TeamForm({ memberId }: TeamFormProps) {
   const router = useRouter();
-  const params = useParams();
-  const isEdit = !!params.id;
+  const isEdit = !!memberId;
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEdit);
 
   const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    category: "",
-    type: "ACRC Commentaries",
-    excerpt: "",
-    content: "",
-    published: false,
+    name: "",
+    titleEn: "",
+    titleId: "",
+    shortBioEn: "",
+    shortBioId: "",
+    bioEn: "",
+    bioId: "",
+    type: "ASSOCIATE",
+    order: 0,
   });
 
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [currentPdfUrl, setCurrentPdfUrl] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [currentPhotoUrl, setCurrentPhotoUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
   useEffect(() => {
     if (isEdit) {
-      fetchArticle();
+      fetchMember();
     }
   }, [isEdit]);
 
-  const fetchArticle = async () => {
+  const fetchMember = async () => {
     try {
-      const response = await api.get(`/articles/${params.id}`);
-      const article = response.data;
+      const response = await api.get(`/team/${memberId}`);
+      const member = response.data;
       setFormData({
-        title: article.title,
-        author: article.author || "",
-        category: article.category || "",
-        type: article.type || "ACRC Commentaries",
-        excerpt: article.excerpt || "",
-        content: article.content || "",
-        published: article.published || false,
+        name: member.name,
+        titleEn: member.title_en || "",
+        titleId: member.title_id || "",
+        shortBioEn: member.short_bio_en || "",
+        shortBioId: member.short_bio_id || "",
+        bioEn: member.bio_en || "",
+        bioId: member.bio_id || "",
+        type: member.type || "ASSOCIATE",
+        order: member.order || 0,
       });
-      setCurrentPdfUrl(article.pdf_url || null);
+      setCurrentPhotoUrl(member.photo_url || null);
     } catch (error) {
-      Swal.fire("Error", "Could not fetch article details", "error");
-      router.push("/admin/articles");
+      Swal.fire("Error", "Could not fetch team member details", "error");
+      router.push("/admin/team");
     } finally {
       setInitialLoading(false);
     }
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -77,11 +74,11 @@ export default function ArticleFormPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      if (file.type !== "application/pdf") {
-        Swal.fire("Invalid File", "Please upload only PDF files", "warning");
+      if (!file.type.startsWith("image/")) {
+        Swal.fire("Invalid File", "Please upload only image files", "warning");
         return;
       }
-      setPdfFile(file);
+      setPhotoFile(file);
     }
   };
 
@@ -100,11 +97,11 @@ export default function ArticleFormPage() {
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
-      if (file.type !== "application/pdf") {
-        Swal.fire("Invalid File", "Please upload only PDF files", "warning");
+      if (!file.type.startsWith("image/")) {
+        Swal.fire("Invalid File", "Please upload only image files", "warning");
         return;
       }
-      setPdfFile(file);
+      setPhotoFile(file);
     }
   };
 
@@ -113,20 +110,23 @@ export default function ArticleFormPage() {
     setLoading(true);
 
     const data = new FormData();
-    data.append("title", formData.title);
-    data.append("author", formData.author);
-    data.append("category", formData.category);
+    data.append("name", formData.name);
+    data.append("titleEn", formData.titleEn);
+    data.append("titleId", formData.titleId);
+    data.append("shortBioEn", formData.shortBioEn);
+    data.append("shortBioId", formData.shortBioId);
+    data.append("bioEn", formData.bioEn);
+    data.append("bioId", formData.bioId);
     data.append("type", formData.type);
-    data.append("excerpt", formData.excerpt);
-    data.append("content", formData.content);
-    data.append("published", String(formData.published));
-    if (pdfFile) {
-      data.append("pdf", pdfFile);
+    data.append("order", String(formData.order));
+    
+    if (photoFile) {
+      data.append("photo", photoFile);
     }
 
     try {
       if (isEdit) {
-        await api.put(`/articles/${params.id}`, data, {
+        await api.put(`/team/${memberId}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
@@ -135,13 +135,9 @@ export default function ArticleFormPage() {
             setUploadProgress(percentCompleted);
           },
         });
-        Swal.fire(
-          "Updated!",
-          "Article has been successfully updated.",
-          "success",
-        );
+        Swal.fire("Updated!", "Team member has been successfully updated.", "success");
       } else {
-        await api.post("/articles", data, {
+        await api.post("/team", data, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
@@ -150,16 +146,12 @@ export default function ArticleFormPage() {
             setUploadProgress(percentCompleted);
           },
         });
-        Swal.fire("Created!", "New article has been published.", "success");
+        Swal.fire("Created!", "New team member has been added.", "success");
       }
-      router.push("/admin/articles");
+      router.push("/admin/team");
     } catch (error: any) {
       console.error("Submit Error:", error);
-      Swal.fire(
-        "Error",
-        error.response?.data?.message || "Failed to save article",
-        "error",
-      );
+      Swal.fire("Error", error.response?.data?.message || "Failed to save team member", "error");
     } finally {
       setLoading(false);
       setTimeout(() => setUploadProgress(null), 1000);
@@ -170,13 +162,13 @@ export default function ArticleFormPage() {
     return (
       <div className="min-h-[50vh] flex flex-col items-center justify-center">
         <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
-        <p className="text-slate-500 font-medium">Loading article data...</p>
+        <p className="text-slate-500 font-medium">Loading team member data...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8">
       {/* Top Nav */}
       <div className="flex items-center gap-4">
         <button
@@ -187,12 +179,10 @@ export default function ArticleFormPage() {
         </button>
         <div>
           <h1 className="text-2xl font-bold dark:text-white">
-            {isEdit ? "Edit Article" : "Create New Publication"}
+            {isEdit ? "Edit Team Member" : "Add Team Member"}
           </h1>
           <p className="text-sm text-slate-500">
-            {isEdit
-              ? `Modifying ${formData.title}`
-              : "Add a new research finding to the insights section"}
+            {isEdit ? `Modifying ${formData.name}` : "Add a new member to the team roster"}
           </p>
         </div>
       </div>
@@ -202,98 +192,171 @@ export default function ArticleFormPage() {
           {/* Main Info */}
           <div className="md:col-span-2 space-y-6">
             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+              
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                  Article Title
+                  Full Name
                 </label>
                 <input
                   type="text"
-                  name="title"
+                  name="name"
                   required
-                  value={formData.title}
+                  value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all font-medium"
-                  placeholder="The Nusantara Policy: A Strategic Update"
+                  placeholder="Dr. John Doe"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                  Abstract / Summary (Excerpt)
-                </label>
-                <textarea
-                  name="excerpt"
-                  required
-                  rows={4}
-                  value={formData.excerpt}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
-                  placeholder="Provide a brief summary of the research..."
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                  Full Content (Optional)
-                </label>
-                <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all">
-                  <RichTextEditor
-                    value={formData.content}
-                    onChange={(val) => setFormData((prev) => ({ ...prev, content: val }))}
-                    placeholder="Detailed article content if not only using PDF..."
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Title (English)
+                  </label>
+                  <input
+                    type="text"
+                    name="titleEn"
+                    required
+                    value={formData.titleEn}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                    placeholder="Research Associate"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Title (Indonesian)
+                  </label>
+                  <input
+                    type="text"
+                    name="titleId"
+                    required
+                    value={formData.titleId}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                    placeholder="Peneliti Madya"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Short Bio (English)
+                  </label>
+                  <textarea
+                    name="shortBioEn"
+                    rows={3}
+                    value={formData.shortBioEn}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none text-sm"
+                    placeholder="Brief summary..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Short Bio (Indonesian)
+                  </label>
+                  <textarea
+                    name="shortBioId"
+                    rows={3}
+                    value={formData.shortBioId}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none text-sm"
+                    placeholder="Ringkasan singkat..."
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                  Full Bio (English)
+                </label>
+                <textarea
+                  name="bioEn"
+                  required
+                  rows={6}
+                  value={formData.bioEn}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                  Full Bio (Indonesian)
+                </label>
+                <textarea
+                  name="bioId"
+                  required
+                  rows={6}
+                  value={formData.bioId}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                />
               </div>
             </div>
           </div>
 
           {/* Sidebar / Options */}
           <div className="space-y-6">
-            {/* PDF Upload */}
+            {/* Photo Upload */}
             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
               <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Upload className="w-4 h-4 text-primary" />
-                PDF Attachment
+                Profile Photo
               </h3>
 
               <div className="space-y-3">
-                {pdfFile ? (
+                {photoFile ? (
                   <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl flex items-center justify-between">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <FileIcon className="w-8 h-8 text-primary flex-shrink-0" />
+                      <ImageIcon className="w-8 h-8 text-primary flex-shrink-0" />
                       <div className="overflow-hidden">
                         <p className="text-xs font-bold text-primary truncate">
-                          {pdfFile.name}
+                          {photoFile.name}
                         </p>
                         <p className="text-[10px] text-slate-500">
-                          {(pdfFile.size / 1024 / 1024).toFixed(2)} MB
+                          {(photoFile.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                     </div>
                     <button
-                      onClick={() => setPdfFile(null)}
+                      type="button"
+                      onClick={() => setPhotoFile(null)}
                       className="p-1.5 hover:bg-white rounded-lg transition-colors"
                     >
                       <X className="w-4 h-4 text-red-500" />
                     </button>
                   </div>
-                ) : currentPdfUrl ? (
-                  <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <FileIcon className="w-8 h-8 text-slate-400" />
-                      <span className="text-xs font-medium text-slate-600 dark:text-slate-300 italic">
-                        Current PDF exists
-                      </span>
-                    </div>
-                    <label className="cursor-pointer text-xs font-bold text-primary hover:underline">
-                      Change
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="application/pdf"
-                        onChange={handleFileChange}
+                ) : currentPhotoUrl ? (
+                  <div className="space-y-4">
+                    <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                      <Image
+                        src={
+                          currentPhotoUrl.startsWith("http") || currentPhotoUrl.startsWith("/tim/")
+                            ? currentPhotoUrl 
+                            : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${currentPhotoUrl}`
+                        }
+                        alt="Current Profile Photo"
+                        fill
+                        className="object-cover"
                       />
-                    </label>
+                    </div>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between">
+                      <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+                        Current photo
+                      </span>
+                      <label className="cursor-pointer text-xs font-bold text-primary hover:underline">
+                        Change
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
                   </div>
                 ) : (
                   <label
@@ -306,25 +369,22 @@ export default function ArticleFormPage() {
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                   >
-                    <Upload
+                    <ImageIcon
                       className={`w-8 h-8 transition-colors mb-2 ${isDragging ? "text-primary" : "text-slate-300 group-hover:text-primary"}`}
                     />
-                    <span className="text-xs font-bold text-slate-500">
+                    <span className="text-xs font-bold text-slate-500 text-center">
                       {isDragging
-                        ? "Drop PDF here"
-                        : "Drag & Drop or Click to Upload PDF"}
+                        ? "Drop image here"
+                        : "Drag & Drop or Click to Upload Photo"}
                     </span>
                     <input
                       type="file"
                       className="hidden"
-                      accept="application/pdf"
+                      accept="image/*"
                       onChange={handleFileChange}
                     />
                   </label>
                 )}
-                <p className="text-[10px] text-slate-400 text-center">
-                  Only PDF files are allowed. Max 10MB recommended.
-                </p>
                 {uploadProgress !== null && (
                   <div className="space-y-2 mt-4">
                     <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
@@ -345,48 +405,7 @@ export default function ArticleFormPage() {
             <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                  Author
-                </label>
-                <input
-                  type="text"
-                  name="author"
-                  required
-                  value={formData.author}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
-                  placeholder="Researcher Name"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                   Category
-                </label>
-                <select
-                  name="category"
-                  required
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
-                >
-                  <option value="">Select Category</option>
-                  <option value="Defence & Security">Defence & Security</option>
-                  <option value="Politics & Governance">
-                    Politics & Governance
-                  </option>
-                  <option value="Economy & Business">Economy & Business</option>
-                  <option value="Elections & Democracy">
-                    Elections & Democracy
-                  </option>
-                  <option value="ESG & Sustainability">
-                    ESG & Sustainability
-                  </option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
-                  Publication Type
                 </label>
                 <select
                   name="type"
@@ -395,41 +414,27 @@ export default function ArticleFormPage() {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
                 >
-                  <option value="ACRC's Concern">ACRC's Concern</option>
-                  <option value="ACRC Commentaries">ACRC Commentaries</option>
-                  <option value="ACRC's Working Paper">
-                    ACRC's Working Paper
-                  </option>
-                  <option value="Events & Presentations">
-                    Events & Presentations
-                  </option>
-                  <option value="ACRC's Bulletin">ACRC's Bulletin</option>
+                  <option value="CEO">CEO / Leadership</option>
+                  <option value="ASSOCIATE">Associate Research</option>
+                  <option value="ADVISORY_BOARD">Advisory Board</option>
                 </select>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                    Published Status
-                  </span>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={formData.published}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          published: e.target.checked,
-                        }))
-                      }
-                    />
-                    <div className="w-11 h-6 bg-slate-200 rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                  </label>
-                </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
+                  Display Order
+                </label>
+                <input
+                  type="number"
+                  name="order"
+                  required
+                  value={formData.order}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
+                  placeholder="0"
+                />
                 <p className="text-[10px] text-slate-400 mt-2">
-                  When published, this article will be visible on the public
-                  website and home page.
+                  Lower numbers appear first.
                 </p>
               </div>
 
@@ -443,7 +448,7 @@ export default function ArticleFormPage() {
                 ) : (
                   <Save className="w-5 h-5" />
                 )}
-                {isEdit ? "Update Publication" : "Publish Article"}
+                {isEdit ? "Update Member" : "Save Member"}
               </button>
             </div>
           </div>

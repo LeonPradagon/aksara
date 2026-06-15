@@ -15,6 +15,9 @@ import contactRoutes from "./routes/contactRoutes";
 import statsRoutes from "./routes/statsRoutes";
 import userRoutes from "./routes/userRoutes";
 import careerRoutes from "./routes/careerRoutes";
+import teamRoutes from "./routes/teamRoutes";
+import settingsRoutes from "./routes/settingsRoutes";
+import jobRoutes from "./routes/jobRoutes";
 
 const app = express();
 
@@ -85,6 +88,9 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/careers", careerRoutes);
+app.use("/api/team", teamRoutes);
+app.use("/api/settings", settingsRoutes);
+app.use("/api/jobs", jobRoutes);
 
 // Global Error Handler
 app.use(

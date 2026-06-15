@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -16,6 +16,25 @@ import { useLocale } from "@/contexts/locale-context";
 export default function AboutPage() {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useLocale();
+  const [whoWeAreImage, setWhoWeAreImage] = useState("/picture/ilustrasi-keadilan.jpg");
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}/settings`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.about_who_we_are_image) {
+            const url = data.about_who_we_are_image;
+            setWhoWeAreImage(url.startsWith("http") || url.startsWith("/picture/") || url.startsWith("/tim/") ? url : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${url}`);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch settings:", err);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,7 +85,7 @@ export default function AboutPage() {
             <div
               className="rounded-lg border border-border w-full aspect-[3/2] bg-cover bg-center"
               style={{
-                backgroundImage: "url('/picture/ilustrasi-keadilan.jpg')",
+                backgroundImage: `url('${whoWeAreImage}')`,
               }}
             >
               {/* <div className="text-center bg-black/40 backdrop-blur-sm rounded-lg p-6">
