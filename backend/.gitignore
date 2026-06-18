@@ -3,3 +3,18 @@ node_modules
 .env
 
 /src/generated/prisma
+
+# Compiled output
+dist/
+build/
+
+# Uploads
+public/uploads/
+
+# Ad-hoc test scripts and backups
+test_*.js
+backup.js
+migrate.js
+
+# Logs
+*.log

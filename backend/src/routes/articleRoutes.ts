@@ -5,6 +5,7 @@ import {
   createArticle,
   updateArticle,
   deleteArticle,
+  reorderArticles,
 } from "../controllers/articleController";
 import { authenticate, authorize } from "../middlewares/authMiddleware";
 import { uploadPdf } from "../middlewares/uploadMiddleware";
@@ -22,6 +23,14 @@ router.post(
   uploadPdf.single("pdf"),
   createArticle,
 );
+
+router.put(
+  "/reorder",
+  authenticate,
+  authorize(["ADMIN"]),
+  reorderArticles
+);
+
 router.put(
   "/:id",
   authenticate,

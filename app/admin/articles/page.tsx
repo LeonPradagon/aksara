@@ -14,8 +14,26 @@ import {
   Calendar,
   MoreVertical,
   Loader2,
+  GripVertical,
 } from "lucide-react";
 import Swal from "sweetalert2";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface Article {
   id: string;
@@ -25,7 +43,107 @@ interface Article {
   created_at: string;
   pdf_url?: string;
   published: boolean;
+  order_index?: number;
 }
+
+const SortableRow = ({ article, handleDelete }: { article: Article; handleDelete: (id: string) => void }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: article.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group bg-white dark:bg-slate-900"
+    >
+      <td className="px-2 py-4 w-10">
+        <button
+          className="cursor-grab text-slate-400 hover:text-slate-600 active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="w-5 h-5" />
+        </button>
+      </td>
+      <td className="px-4 md:px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/5 flex items-center justify-center flex-shrink-0">
+            <FileText className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+          </div>
+          <div className="min-w-0 max-w-[150px] sm:max-w-xs md:max-w-sm">
+            <p className="font-bold text-slate-900 dark:text-white truncate text-sm md:text-base">
+              {article.title}
+            </p>
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              <span className="sm:hidden px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] font-bold rounded uppercase">
+                {article.category}
+              </span>
+              <span className="md:hidden text-[10px] text-slate-400 font-medium">
+                By {article.author}
+              </span>
+              {article.pdf_url && (
+                <a
+                  href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${article.pdf_url}`}
+                  target="_blank"
+                  className="text-[10px] text-primary hover:underline flex items-center gap-1"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  PDF
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </td>
+      <td className="px-6 py-4 hidden sm:table-cell">
+        <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold rounded-full border border-slate-200 dark:border-slate-700">
+          {article.category}
+        </span>
+      </td>
+      <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium hidden md:table-cell">
+        {article.author}
+      </td>
+      <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
+        {article.published ? (
+          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full border border-green-200">
+            Published
+          </span>
+        ) : (
+          <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full border border-slate-200">
+            Draft
+          </span>
+        )}
+      </td>
+      <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4" />
+          {new Date(article.created_at).toLocaleDateString()}
+        </div>
+      </td>
+      <td className="px-4 md:px-6 py-4 text-right">
+        <div className="flex items-center justify-end gap-1 md:gap-2">
+          <Link
+            href={`/admin/articles/edit/${article.id}`}
+            className="p-1.5 md:p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all"
+          >
+            <Edit2 className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={() => handleDelete(article.id)}
+            className="p-1.5 md:p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+};
 
 export default function AdminArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -75,6 +193,37 @@ export default function AdminArticlesPage() {
       a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       a.author.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      setArticles((items) => {
+        const oldIndex = items.findIndex((i) => i.id === active.id);
+        const newIndex = items.findIndex((i) => i.id === over?.id);
+        
+        const newItems = arrayMove(items, oldIndex, newIndex);
+        
+        // Prepare payload with new order indices
+        const payload = newItems.map((item, index) => ({
+          id: item.id,
+          order_index: index,
+        }));
+        
+        // Fire API call asynchronously
+        api.put("/articles/reorder", { items: payload }).catch(console.error);
+
+        return newItems;
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -132,9 +281,15 @@ export default function AdminArticlesPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                  <th className="px-2 py-4 w-10"></th>
                   <th className="px-4 md:px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">
                     Article Title
                   </th>
@@ -155,87 +310,18 @@ export default function AdminArticlesPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {filteredArticles.map((article) => (
-                  <tr
-                    key={article.id}
-                    className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group"
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <SortableContext
+                    items={filteredArticles}
+                    strategy={verticalListSortingStrategy}
                   >
-                    <td className="px-4 md:px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/5 flex items-center justify-center flex-shrink-0">
-                          <FileText className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                        </div>
-                        <div className="min-w-0 max-w-[150px] sm:max-w-xs md:max-w-sm">
-                          <p className="font-bold text-slate-900 dark:text-white truncate text-sm md:text-base">
-                            {article.title}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
-                            <span className="sm:hidden px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 text-[9px] font-bold rounded uppercase">
-                              {article.category}
-                            </span>
-                            <span className="md:hidden text-[10px] text-slate-400 font-medium">
-                              By {article.author}
-                            </span>
-                            {article.pdf_url && (
-                              <a
-                                href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5342/api"}${article.pdf_url}`}
-                                target="_blank"
-                                className="text-[10px] text-primary hover:underline flex items-center gap-1"
-                              >
-                                <ExternalLink className="w-3 h-3" />
-                                PDF
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold rounded-full border border-slate-200 dark:border-slate-700">
-                        {article.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400 font-medium hidden md:table-cell">
-                      {article.author}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
-                      {article.published ? (
-                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold rounded-full border border-green-200">
-                          Published
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full border border-slate-200">
-                          Draft
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-500 font-medium hidden lg:table-cell">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        {new Date(article.created_at).toLocaleDateString()}
-                      </div>
-                    </td>
-                    <td className="px-4 md:px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-1 md:gap-2">
-                        <Link
-                          href={`/admin/articles/edit/${article.id}`}
-                          className="p-1.5 md:p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(article.id)}
-                          className="p-1.5 md:p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    {filteredArticles.map((article) => (
+                      <SortableRow key={article.id} article={article} handleDelete={handleDelete} />
+                    ))}
+                  </SortableContext>
+                </tbody>
+              </table>
+            </DndContext>
           </div>
         )}
       </div>

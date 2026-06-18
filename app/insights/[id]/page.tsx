@@ -6,7 +6,6 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PublicComments } from "@/components/public-comments";
 import { ArrowLeft, Calendar, FileText, Download, Loader2 } from "lucide-react";
-import "react-quill-new/dist/quill.snow.css"; // Required for Quill styles
 import { useLocale } from "@/contexts/locale-context";
 import api from "@/lib/api";
 
@@ -136,7 +135,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
             </span>
           </div>
 
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-foreground">
+          <h1 className="font-sans text-3xl md:text-4xl font-bold mb-8 leading-tight text-foreground">
             {article.title}
           </h1>
 
@@ -210,12 +209,10 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
 
           {article.content && (
             <div className="mt-12 pt-12 border-t border-border">
-              <div className="ql-snow">
-                <div 
-                  className="frontend-quill ql-editor p-0 prose dark:prose-invert max-w-none text-muted-foreground leading-extra-relaxed break-words prose-img:max-w-full prose-img:rounded-xl prose-video:max-w-full"
-                  dangerouslySetInnerHTML={{ __html: article.content }}
-                />
-              </div>
+              <div 
+                className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-headings:font-bold prose-h1:text-4xl md:prose-h1:text-5xl prose-h2:text-3xl md:prose-h2:text-4xl prose-h3:text-2xl prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary hover:prose-a:text-primary/80 prose-li:text-muted-foreground prose-img:rounded-2xl prose-img:mx-auto prose-img:shadow-xl marker:text-primary"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              />
             </div>
           )}
 

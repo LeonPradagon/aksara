@@ -34,7 +34,12 @@ export default function ContactPage() {
 
       // Auto-populate subject if inquiryType changes
       if (name === "inquiryType" && value) {
-        newData.subject = t(`contact.subject_${value}` as any);
+        const keyMap: Record<string, string> = {
+          government: "gov",
+          international: "intl",
+        };
+        const suffix = keyMap[value] || value;
+        newData.subject = t(`contact.subject_${suffix}` as any);
       }
 
       return newData;

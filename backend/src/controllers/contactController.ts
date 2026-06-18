@@ -68,3 +68,20 @@ export const createInquiry = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const deleteInquiry = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await query(
+      "DELETE FROM contact_inquiries WHERE id = $1 RETURNING *",
+      [id],
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Inquiry not found" });
+    }
+    res.json({ message: "Inquiry deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

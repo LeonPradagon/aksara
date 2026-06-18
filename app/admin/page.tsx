@@ -19,21 +19,35 @@ interface Stats {
   inquiries: number;
 }
 
+interface AuditLog {
+  id: string;
+  action: string;
+  entity_type: string;
+  user_name: string;
+  details: string;
+  created_at: string;
+}
+
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStats();
+    fetchData();
   }, []);
 
-  const fetchStats = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await api.get("/stats");
-      setStats(response.data);
+      const [statsRes, logsRes] = await Promise.all([
+        api.get("/stats"),
+        api.get("/audit-logs").catch(() => ({ data: [] })), // Fallback if no logs
+      ]);
+      setStats(statsRes.data);
+      setLogs(logsRes.data || []);
     } catch (error) {
-      console.error("Stats Error:", error);
+      console.error("Dashboard Error:", error);
     } finally {
       setLoading(false);
     }
@@ -126,17 +140,39 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between mb-6 md:mb-8">
           <h2 className="text-lg md:text-xl font-bold dark:text-white flex items-center gap-2">
             <Clock className="w-5 h-5 text-primary" />
-            System Overview
+            Audit Trail
           </h2>
         </div>
-        <div className="p-8 md:p-12 text-center rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-200 dark:border-slate-700">
-          <p className="text-slate-400 text-sm md:font-medium">
-            System is running optimally.
-          </p>
-          <p className="text-[10px] md:text-xs text-slate-400 mt-2 italic">
-            Detailed activity logs will appear here as the platform scales.
-          </p>
-        </div>
+        {logs.length === 0 ? (
+          <div className="p-8 md:p-12 text-center rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-dashed border-slate-200 dark:border-slate-700">
+            <p className="text-slate-400 text-sm md:font-medium">
+              System is running optimally.
+            </p>
+            <p className="text-[10px] md:text-xs text-slate-400 mt-2 italic">
+              Detailed activity logs will appear here soon.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {logs.map((log) => (
+              <div
+                key={log.id}
+                className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border border-transparent hover:border-slate-100 dark:hover:border-slate-800"
+              >
+                <div className="w-2 h-2 mt-2 rounded-full bg-primary flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                    {log.user_name} <span className="font-normal text-slate-500">{log.action.toLowerCase()}</span>
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1 truncate">{log.details}</p>
+                </div>
+                <div className="text-[10px] text-slate-400 font-medium whitespace-nowrap">
+                  {new Date(log.created_at).toLocaleString()}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

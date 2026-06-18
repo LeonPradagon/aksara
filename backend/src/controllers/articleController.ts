@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { query } from "../config/db";
 import { v4 as uuidv4 } from "uuid";
 import { AuthRequest } from "../middlewares/authMiddleware";
+import { logAction } from "../utils/auditLogger";
 
 export const getAllArticles = async (req: Request, res: Response) => {
   const { limit, published, category, type } = req.query;
@@ -29,7 +30,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
       queryStr += " WHERE " + conditions.join(" AND ");
     }
 
-    queryStr += " ORDER BY created_at DESC";
+    queryStr += " ORDER BY order_index ASC, created_at DESC";
 
     if (limit) {
       queryStr += " LIMIT $" + (params.length + 1);
@@ -97,6 +98,7 @@ export const createArticle = async (req: AuthRequest, res: Response) => {
       ],
     );
 
+    await logAction("Created Article", "Article", articleId, "Admin", `Title: ${title}`);
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
@@ -156,6 +158,7 @@ export const updateArticle = async (req: AuthRequest, res: Response) => {
       ],
     );
 
+    await logAction("Updated Article", "Article", id as string, "Admin", `Title: ${title}`);
     res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
@@ -174,9 +177,37 @@ export const deleteArticle = async (req: AuthRequest, res: Response) => {
     if (result.rowCount === 0) {
       return res.status(404).json({ message: "Article not found" });
     }
+    await logAction("Deleted Article", "Article", id as string, "Admin", `Deleted article ID: ${id}`);
     res.json({ message: "Article deleted" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const reorderArticles = async (req: AuthRequest, res: Response) => {
+  const { items } = req.body; // Expects [{ id, order_index }]
+  if (!Array.isArray(items)) {
+    return res.status(400).json({ message: "Invalid payload" });
+  }
+
+  try {
+    for (const item of items) {
+      await query("UPDATE articles SET order_index = $1 WHERE id = $2", [
+        item.order_index,
+        item.id,
+      ]);
+    }
+    await logAction(
+      "Reordered Articles",
+      "Article",
+      "bulk",
+      "Admin",
+      `Reordered ${items.length} articles`
+    );
+    res.json({ message: "Articles reordered successfully" });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ message: error.message, stack: error.stack });
   }
 };

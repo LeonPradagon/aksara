@@ -75,7 +75,7 @@ export default function AdminCareersPage() {
 
   const API_URL =
     process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
-  const BASE_URL = API_URL.replace("/api", ""); // Gets just the host origin for the CV path
+  const BASE_URL = API_URL; // Keep the /api prefix to ensure downloads are proxied to the backend
 
   return (
     <div className="space-y-8">
